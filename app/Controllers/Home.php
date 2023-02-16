@@ -4,8 +4,17 @@ namespace App\Controllers;
 
 class Home extends BaseController
 {
-    public function index()
-    {
-        return view('welcome_message');
+    public function index(){
+
+        $header['title']='Home';    
+
+        //if user if not logged in
+        return view('templates/header', $header)
+            . view('templates/welcome')
+            . view('templates/footer');
+
+        
     }
+
+    
 }
