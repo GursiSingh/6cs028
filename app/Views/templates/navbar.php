@@ -83,25 +83,14 @@
                             </div>
                         </ul>
                     </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Fantasy
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark">
-                            <li><a class="dropdown-item" href="../HTML/SignUp.html">Fantasy Football</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown ">
                         <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Account
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg-end dropdown-menu-dark">
-                            <li><a class="dropdown-item" href="../HTML/SignUp.html">Sign Up</a></li>
-                            <li><a class="dropdown-item" href="../HTML/LogIn.html">Log In</a></li>
                             <li><a class="dropdown-item" href="#">My Account</a></li>
                             <li><a class="dropdown-item" href="../HTML/fantasyIndex.html">My Fantasy</a></li>
-                            <li><a class="dropdown-item" href="#">Log out</a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('logout')?>">Log out</a></li>
                         </ul>
                     </li>
                 </li>

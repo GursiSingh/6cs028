@@ -32,7 +32,9 @@ $routes->set404Override();
 $routes->get('/', 'Home::index');
 
 //Login Route
-$routes->get('/login', 'Account::login');
+$routes->match(['get', 'post'],'/login', 'User::login');
+$routes->match(['get', 'post'], '/signUp', 'User::signUp');
+$routes->get('/logout', 'User::logout');
 
 /*
  * --------------------------------------------------------------------

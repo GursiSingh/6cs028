@@ -22,5 +22,13 @@
         <title><?= esc($title) ?></title>
     </head>
     <body class="d-flex flex-column vh-100">
-        <?php echo view("templates/navbar"); ?>
+        <div class="contianer">
+            <?php if($user != null){
+                echo view("templates/navbar", $user);
+            }
+            else{
+                echo view("templates/navbar1");
+            }?>
+
+        
         
