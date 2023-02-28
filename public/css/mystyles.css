@@ -1,0 +1,27 @@
+
+.dropList{
+    position: absolute;
+    background-color: rgb(49, 49, 49);
+    z-index: 1;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.dropList div {
+    color: white;
+    padding: 5px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.dropList div img{
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    left: 10px;
+}
+
+.dropList-item:hover{
+    background-color: rgb(37, 37, 37);
+}

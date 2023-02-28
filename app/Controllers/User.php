@@ -37,13 +37,19 @@ class User extends BaseController
             }
             
         }
+
+        return view('templates/header', $header)
+                . view('user/login')
+                . view('templates/footer');
     }
 
     public function signUp(){
 
         helper('form');
+        $session = session();
 
-        $header['title']='Sign Up';  
+        $header['title']='Sign Up';
+        $header['user']= null;    
 
         // Checks whether the form is submitted.
         if (!$this->request->is('post')) {
@@ -53,11 +59,10 @@ class User extends BaseController
                 . view('user/signup')
                 . view('templates/footer');
         }
+        $user = $this->request->getPost(['username', 'email', 'password', 'password1', 'football_team', 'f1_team']);
         //If form is submitted
         //Get Data form the form
-        $user = $this->request->getPost(['username', 'email', 'password', 'password1', 'football_team', 'f1_team']);
         
-
         //Validate Data
         $isValid = True;
 
@@ -74,6 +79,7 @@ class User extends BaseController
         //Check if the userName is present in the database
         if($model->getUser($user['username']) != null){
             $isValid = False;
+            
         }
 
         if($model->checkEmail($user['email']) > 0){
@@ -82,22 +88,16 @@ class User extends BaseController
 
         if($isValid){
             $pass = $this->encryptPassword($user);
-            
 
-            $model->save([
-                'username' => $user['username'],
-                'email'  => $user['email'],
-                'password'  => $pass,
-                'football_team'  => $user['football_team'],
-                'f1_team'  => $user['f1_team'],
-                'last_login'  => getdate(),
-            ]);
+            $model->setUser($user, $pass);
+            $session->set('user',$user);
+            return redirect('/');
         }
 
         //if data is not valid
         return view('templates/header', $header)
-        . view('user/signup')
-        . view('templates/footer');
+            . view('user/signup')
+            . view('templates/footer');
         
     }
 

@@ -1,6 +1,8 @@
 <?php
 
 namespace Config;
+use App\Controllers\Ajax;
+use App\Controllers\API;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
@@ -30,11 +32,15 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->match(['get', 'post'], '/load/(:segment)', [API::class, 'loadCompetition']);
 
 //Login Route
 $routes->match(['get', 'post'],'/login', 'User::login');
 $routes->match(['get', 'post'], '/signUp', 'User::signUp');
 $routes->get('/logout', 'User::logout');
+
+//F1
+$routes->get('/f1/searchF1Teams/(:segment)', [Ajax::class,'searchF1Teams']);
 
 /*
  * --------------------------------------------------------------------

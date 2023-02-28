@@ -1,3 +1,62 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
+
+    // // Creating a cookie after the document is ready
+    // $(document).ready(function () {
+    //     createCookie("gfg", "GeeksforGeeks", "10");
+    // });
+    // var myHeaders = new Headers();
+    // myHeaders.append("x-rapidapi-key", "c6e2eba6888143bbe4a8e8ae1160a59a");
+    // myHeaders.append("x-rapidapi-host", "v1.formula-1.api-sports.io");
+
+    // var requestOptions = {
+    // method: 'GET',
+    // headers: myHeaders,
+    // redirect: 'follow'
+    // };
+
+    // fetch("https://v1.formula-1.api-sports.io/rankings/teams?season=2022", requestOptions)
+    //     .then(response => response.json())
+    //     .then(response =>setTeams(response['response']))
+    //     .catch(error => console.log('error', error));
+
+
+
+    
+    // function setTeams(response){
+
+    //     for(let i = 0; i < response.length; i++){
+
+    //     }
+    //     document.cookies = response;
+    // }
+    // var i = 22;
+
+    // var settings = {
+    //     "url": "https://v1.formula-1.api-sports.io/rankings/teams?season=2022",
+    //     "method": "GET",
+    //     "timeout": 0,
+    //     "headers": {
+    //         "x-rapidapi-key": "c6e2eba6888143bbe4a8e8ae1160a59a",
+    //         "x-rapidapi-host": "v1.formula-1.api-sports.io"
+    //     },
+    // };
+    
+    // $.ajax(settings).done(function (response) {
+    //     $.ajax({
+    //             type: "POST",
+    //             data: {"data":response["response"]},
+    //             url: "?= base_url('/load') ?>",
+    //             success: function(data)
+    //             {
+    //               alert(data);
+
+    //             }
+    //         });
+    // });
+
+</script>
+
 <div class="container-fluid text-center vh-100 text-bg-dark" >
     <div class="position-relative m-auto" style="height:100%">
         <main class="position-absolute top-50 start-50 translate-middle">
@@ -238,3 +297,5 @@
         </div>
     </div>
 </div>
+
+

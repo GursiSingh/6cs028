@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use CodeIgniter\Model;
+use CodeIgniter\Database\RawSql;
 
 class UserModel extends Model
 {
@@ -10,8 +11,18 @@ class UserModel extends Model
 
     protected $allowedFields = ['username', 'email', 'password','football_team', 'f1_team', 'last_login'];
 
-    public function setUser($user){
-        
+    public function setUser($user, $pass){
+
+        $data = [
+            'username' => $user['username'],
+            'email'  => $user['email'],
+            'password'  => $pass,
+            'football_team'  => $user['football_team'],
+            'f1_team'  => $user['f1_team'],
+            'last_login'  => new RawSql('CURRENT_TIMESTAMP()'),
+        ];
+
+        return $this->save($data);
     }
     
     public function getUser($username)
