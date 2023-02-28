@@ -31,13 +31,13 @@
             </div>
             <div class="col-md-6">
                 <label for="inputFootballClub" class="form-label">Favorite Football Club</label>
-                <input type="text" class="form-control" id="inputFootballClub" name="football_team" value="<?= set_value('football_team')?>" required>
+                <input type="text" class="form-control" id="inputFootballClub" name="football_team" onkeyup="getSearchDataF1(this)" value="<?= set_value('football_team')?>" required>
             </div>
             <div class="col-md-6">
                 <label for="inputF1Team" class="form-label">Favorite F1 Team</label>
-                <input type="text" class="form-control inputF1Team" id="inputF1Team" onkeyup="getSearchDataF1(this)" name="f1_team" value="<?= set_value('f1_team')?>" required>
+                <input type="text" class="form-control inputF1Team" id="inputF1Team" onkeyup="getSearchDataF1(this)" autocomplete="on" value="<?= set_value('f1_team')?>" required>
                 
-                <div class="dropList" id="f1TeamList">
+                <div class="dropList invisible" id="f1TeamList">
                 </div>
             </div>
             <div class="col-12">
