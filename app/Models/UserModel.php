@@ -12,7 +12,7 @@ class UserModel extends Model
     protected $allowedFields = ['username', 'email', 'password','football_team', 'f1_team', 'last_login'];
 
     public function setUser($user, $pass){
-
+        echo "SETTING USER";
         $data = [
             'username' => $user['username'],
             'email'  => $user['email'],
@@ -22,7 +22,7 @@ class UserModel extends Model
             'last_login'  => new RawSql('CURRENT_TIMESTAMP()'),
         ];
 
-        return $this->save($data);
+        return $this->upsert($data);
     }
     
     public function getUser($username)

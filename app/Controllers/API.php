@@ -27,37 +27,37 @@
             //     'image'  => $venue->image,
             // ]);
 
-            // $client = \Config\Services::curlrequest();
+            $client = \Config\Services::curlrequest();
 
-            // $response = $client->request('GET', 'https://v3.football.api-sports.io/standings?league='.$id.'&season=2022', [
-            //     'headers' => [
-            //         'x-rapidapi-key' => ' c6e2eba6888143bbe4a8e8ae1160a59a',
-            //         'x-rapidapi-host' => 'v3.football.api-sports.io',
-            //     ], 'delay' => 2000,
-            // ]);
-            // $result = json_decode($response->getBody());
+            $response = $client->request('GET', 'https://v3.football.api-sports.io/standings?league='.$id.'&season=2022', [
+                'headers' => [
+                    'x-rapidapi-key' => ' c6e2eba6888143bbe4a8e8ae1160a59a',
+                    'x-rapidapi-host' => 'v3.football.api-sports.io',
+                ], 'delay' => 2000,
+            ]);
+            $result = json_decode($response->getBody());
 
-            // echo '<pre>';
-            // print_r($result);
-            // echo '</pre>';
+            echo '<pre>';
+            print_r($result);
+            echo '</pre>';
             
-            // if(sizeof($result->response) == 1){
-            //     $competition = $result->response[0]->league;
+            if(sizeof($result->response) == 1){
+                $competition = $result->response[0]->league;
             
-            //     //Load Competition to DB
-            //     $competitionModel = model(FootballCompetitionModel::class);
+                //Load Competition to DB
+                $competitionModel = model(FootballCompetitionModel::class);
 
-            //     $competitionModel->setCompetition($competition);
+                $competitionModel->setCompetition($competition);
 
-            //     $standings = $competition->standings[0];
+                $standings = $competition->standings[0];
 
-            //     for($x = 0; $x < sizeof($standings); $x++){
-            //         $teamName = $standings[$x]->team->id;
-            //         $points = $standings[$x]->points;
+                for($x = 0; $x <= sizeof($standings); $x++){
+                    $teamName = $standings[$x]->team->id;
+                    $points = $standings[$x]->points;
 
-            //         $this->loadTeam($teamName, $id, $points);
-            //     }
-            // }
+                    $this->loadTeam($teamName, $id, $points);
+                }
+            }
             
             
         }
@@ -86,6 +86,8 @@
                 $venueModel = model(FootballVenueModel::class);
     
                 $venueModel->setVenue($venue);
+
+                sleep(3);
     
                 //store team
                 //id, name, code, league_competition, logo, founded, points, venue

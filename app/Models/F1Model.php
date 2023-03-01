@@ -37,8 +37,17 @@ class F1Model extends Model{
     }
 
 
-    public function getTeams($slug){
-        return $this->like('name', $slug)->findAll();
+    public function getTeams($name){
+        return $this->like('name', $name)->findAll();
         
+    }
+
+
+    public function getStanding(){
+        return $this->findAll();
+    }
+
+    public function getTeam($id){
+        return $this->where('id', $id)->findAll();
     }
 }

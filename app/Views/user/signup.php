@@ -3,6 +3,13 @@
 
 
 <div class="container mx-auto" style="max-width: 800px">
+
+    <?php if($error != null):?>
+        <div class="error">
+            ERROR: <?=$error?>
+        </div>
+    
+    <?php endif ?>
     <div class="card my-4">  
 
         <div class="card-header">
@@ -23,20 +30,23 @@
             </div>
             <div class="col-md-6">
                 <label for="inputPassword" class="form-label">Password</label>
-                <input type="password" class="form-control" id="inputPassword" name="password" value="<?= set_value('password')?>" required>
+                <input type="password" class="form-control" id="inputPassword"  autocomplete="off" name="password" value="<?= set_value('password')?>" required>
             </div>
             <div class="col-md-6">
                 <label for="inputPasswordConfirm" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="inputPasswordConfirm" name="password1" value="<?= set_value('password1')?>" required>
+                <input type="password" class="form-control" id="inputPasswordConfirm"  autocomplete="off" name="password1" value="<?= set_value('password1')?>" required>
             </div>
             <div class="col-md-6">
                 <label for="inputFootballClub" class="form-label">Favorite Football Club</label>
-                <input type="text" class="form-control" id="inputFootballClub" name="football_team" onkeyup="getSearchDataF1(this)" value="<?= set_value('football_team')?>" required>
+                <input type="text" class="form-control" id="inputFootballClub"  autocomplete="off" name="football_team" onkeyup="getSearchDataFootball(this)" value="<?= set_value('football_team')?>" required>
+
+                <div class="dropList invisible" id="footballTeamList">
+                </div>
             </div>
             <div class="col-md-6">
                 <label for="inputF1Team" class="form-label">Favorite F1 Team</label>
-                <input type="text" class="form-control inputF1Team" id="inputF1Team" onkeyup="getSearchDataF1(this)" autocomplete="on" value="<?= set_value('f1_team')?>" required>
-                
+                <input type="text" class="form-control inputF1Team" id="inputF1Team"  autocomplete="off" name="f1_team" onkeyup="getSearchDataF1(this)" value="<?= set_value('f1_team')?>" required>
+
                 <div class="dropList invisible" id="f1TeamList">
                 </div>
             </div>

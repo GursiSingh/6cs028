@@ -1,32 +1,41 @@
 
-const inputF1El = document.getElementById('inputF1Team');
+
 // inputF1El.addEventListener ("focus", displayF1Hints, false);
 // inputF1El.addEventListener ("focusout", hideF1Hints, false);
 //inputF1El.addEventListener ("keyup", getSearchDataF1(inputF1El.textContent), false);
 console.log("My SCRIPT");
 
-function displayF1Hints(){
+const footballTableStandingEl = document.getElementById("footballStandingTable");
+const constructorTableStandingEl = document.getElementById("constructorStandingTable");
 
-    const f1TeamList = document.getElementById('f1TeamList');
-
-    f1TeamList.classList.remove("invisible");
-}
-
-function hideF1Hints(){
-
-    const f1TeamList = document.getElementById('f1TeamList');
-
-    f1TeamList.classList.add("invisible");
+if(footballTableStandingEl){
+    footballTableStandingEl.addEventListener("load", setFootballStanding(135));
+    constructorTableStandingEl.addEventListener("load", setF1Standing());
 }
 
 
-function getSearchDataF1(slug){
+//Display Element
+function displayHints(el){
 
-    document.getElementById("f1TeamList").innerHTML = "";
+    el.classList.remove("invisible");
+}
 
-    if(slug.value.length >= 3){
+//Hide Element
+function hideHints(el){
+
+
+    el.classList.add("invisible");
+}
+
+//get football team data from the Databse  
+function getSearchDataF1(inputEl){
+
+    const f1TeamList = document.getElementById("f1TeamList");
+    f1TeamList.innerHTML = "";
+
+    if(inputEl.value.length >= 3){
         // Fetch data
-        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/searchF1Teams/' + slug.value)
+        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/searchF1Teams/' + inputEl.value)
             
         // Convert response string to json object
         .then(response => response.json())
@@ -36,16 +45,16 @@ function getSearchDataF1(slug){
             console.log(response.length);
             for(let i = 0; i < response.length; i++){
                 // Copy one element of response to our HTML paragraph
-                document.getElementById("f1TeamList").innerHTML += 
+                f1TeamList.innerHTML += 
                 `
-                <div class="dropList-item" value="`+response[i].id +`" name="`+ response[i].name +`">
+                <div class="dropList-item f1" value="`+response[i].id +`" name="`+ response[i].name +`">
                     <img src="`+response[i].logo +`"/>`+response[i].name +`
                 </div>
                 `;
             }
-            var dropList = document.getElementsByClassName("dropList-item");
-            for(var i = 0; i < dropList.length; i++) {
-                dropList[i].onclick = function(){ setTeamF1(this)};
+            var dropList = document.getElementsByClassName("dropList-item f1");
+            for(let i = 0; i < dropList.length; i++) {
+                dropList[i].onclick = function(){ setTeam(this, inputEl, f1TeamList, 0)};
             }
         })
         .catch(err => {
@@ -53,99 +62,139 @@ function getSearchDataF1(slug){
         // Display errors in console    
         console.log(err);
         });
-        displayF1Hints();
+        displayHints(f1TeamList);
 
     }else{
-        document.getElementById("f1TeamList").innerHTML = "";
-        hideF1Hints();
+        f1TeamList.innerHTML = "";
+        hideHints(f1TeamList);
     }
 }
 
-
-function setTeamF1(el){
-    name = el.attributes["name"].value;
-    id = el.attributes["value"].value;
-    console.log("Clicked: " + name);
-    inputF1El.value = name;
-    hideF1Hints();
+//Set Team name in the element
+function setTeam(selectedEl, inputEl, listEl, type){
+    name = selectedEl.attributes["name"].value;
+    id = selectedEl.attributes["value"].value;
+    console.log("Clicked: " + id);
+    inputEl.title = name;
+    
+    inputEl.value = id;
+    hideHints(listEl);
 }
 
-
-//document.onload(loadCompetition(135));
-
-function loadCompetition(id){
-    var myHeaders = new Headers();
-    myHeaders.append("x-rapidapi-key", "c6e2eba6888143bbe4a8e8ae1160a59a");
-    myHeaders.append("x-rapidapi-host", "v3.football.api-sports.io");
-
-    var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-    };
-
-    fetch("https://v3.football.api-sports.io/standings?league="+id+"&season=2022", requestOptions)
-    .then(response => response.json())
-    .then(result => {
-        
-        console.log(result)
-
-        competition = result["response"][0].league;
-        standings = competition.standings;
-
-
-        //store competition into phpMyAdmin
-        //id, name, country, logo, flag
-
-
-        //store team
-        //i->team.id -> points
-        for(let i = 0; i < standings.length;i++){
-            //loadTeam(standings[i].team.id,standings[i].points, id);
-        }
-
-        console.log(competition);
-        console.log(standings);
+//get football team data from the Databse  
+function getSearchDataFootball(inputEl){
     
-    
-    })
-    .catch(error => console.log('error', error));
-}
+    const footballTeamList = document.getElementById("footballTeamList");
+    footballTeamList.innerHTML = "";
 
-
-function loadTeam(id, points, competitionId){
-
-    //IF team not in ci_teams
-
-    var myHeaders = new Headers();
-    myHeaders.append("x-rapidapi-key", "c6e2eba6888143bbe4a8e8ae1160a59a");
-    myHeaders.append("x-rapidapi-host", "v3.football.api-sports.io");
-
-    var requestOptions = {
-    method: 'GET',
-    headers: myHeaders,
-    redirect: 'follow'
-    };
-
-    fetch("https://v3.football.api-sports.io/teams?id="+id, requestOptions)
-    .then(response => response.json())
-    .then(result => {
-        
-        console.log(result)
-
-        team = result["response"][0].team;
-        venue = result["response"][0].team;
-
-        venueId = venue.id;
-
-        //store venue
-        //id, name, address, city, capacity, image
-
-
-        //store team
-        //id, name, code, league_competition, logo, founded, points, venue
+    if(inputEl.value.length >= 3){
+        // Fetch data
+        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/searchTeams/' + inputEl.value)
             
-    
+        // Convert response string to json object
+        .then(response => response.json())
+        .then(response => { 
+            
+            console.log(response);
+            console.log(response.length);
+            for(let i = 0; i < response.length; i++){
+                // Copy one element of response to our HTML paragraph
+                footballTeamList.innerHTML += 
+                `
+                <div class="dropList-item football" value="`+response[i].id +`" name="`+ response[i].name +`">
+                    <img src="`+response[i].logo +`"/>`+response[i].name +`
+                </div>
+                `;
+            }
+            var dropList = document.getElementsByClassName("dropList-item football");
+            for(let i = 0; i < dropList.length; i++) {
+                dropList[i].onclick = function(){ setTeam(this, inputEl, footballTeamList ,1)};
+            }
+        })
+        .catch(err => {
+        
+        // Display errors in console    
+        console.log(err);
+        });
+        displayHints(footballTeamList);
+
+    }else{
+        footballTeamList.innerHTML = "";
+        hideHints(footballTeamList);
+    }
+
+}
+
+//get football standings data from the Databse  
+function setFootballStanding(competitionId){
+
+    // Fetch data
+    fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/standing/' + competitionId)
+            
+    // Convert response string to json object
+    .then(response => response.json())
+    .then(response => { 
+        
+        for(let i = 0; i < response.length; i++){
+            // Copy one element of response to our HTML paragraph
+            footballTableStandingEl.innerHTML += 
+            `
+            <tr class="table-item football" id="`+response[i].id+`">
+                <th scope+"row">`+(i+1)+`</th>
+                <td><img src="`+response[i].logo+`" style="width: 20px; height: 20px;">`+ response[i].name+`</td>
+                <td>`+response[i].points+`</td>
+            </tr>
+            `;
+        }
+        var tableItems = document.getElementsByClassName("table-item football");
+        console.log(tableItems[0].id);
+
+        for(let i = 0; i < tableItems.length; i++) {
+            tableItems[i].onclick = function(){ console.log(i + " - " + tableItems[i].id)};
+        }
     })
-    .catch(error => console.log('error', error));
+    .catch(err => {
+    
+    // Display errors in console    
+    console.log(err);
+    });
+}
+
+//get f1 construct standings data from the Databse  
+function setF1Standing(){
+
+    // Fetch data
+    fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/standing/constructor')
+            
+    // Convert response string to json object
+    .then(response => response.json())
+    .then(response => { 
+        
+        for(let i = 0; i < response.length; i++){
+            // Copy one element of response to our HTML paragraph
+            constructorTableStandingEl.innerHTML += 
+            `
+            <tr class="table-item f1" id="`+response[i].id+`">
+                <th scope+"row">`+(i+1)+`</th>
+                <td><img src="`+response[i].logo+`" style="width: 30px; height: 30px; object-fit: contain;">`+ response[i].name+`</td>
+                <td>`+response[i].points+`</td>
+            </tr>
+            `;
+        }
+        var tableItems = document.getElementsByClassName("table-item f1");
+        console.log(tableItems[0].id);
+
+        for(let i = 0; i < tableItems.length; i++) {
+            tableItems[i].onclick = function(){ console.log(i + " - " + tableItems[i].id)};
+        }
+    })
+    .catch(err => {
+    
+    // Display errors in console    
+    console.log(err);
+    });
+}
+
+function setDriverStanding(){
+
 }

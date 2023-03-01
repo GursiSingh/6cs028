@@ -80,143 +80,17 @@
                     </nav>
                 </div>
                 <div class="card-body overflow-auto">
-                    <div class="table-responsive">
+                    <div class="table-responsive" >
                         <table class="table table-dark table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Logo</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Points</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
+                            <tbody id="footballStandingTable">
+                                
                             </tbody>
 
                         </table>
@@ -236,36 +110,17 @@
                         </li>
                     </ul>
                 </div>
-                <div class="card-body">
+                <div class="card-body overflow-auto">
                     <div class="table-responsive">
                         <table class="table table-dark table-striped table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Logo</th>
+                                    <th scope="col">#</th>  
                                     <th scope="col">Name</th>
                                     <th scope="col">Points</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Team Logo</td>
-                                    <td>Team Name</td>
-                                    <td>Team Poits</td>
-                                </tr>
+                            <tbody id="constructorStandingTable">
                             </tbody>
 
                         </table>
