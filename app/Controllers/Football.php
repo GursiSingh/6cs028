@@ -2,16 +2,33 @@
 
     namespace App\Controllers;
     use App\Models\FootballTeamModel;
+    use App\Models\FootballCompetitionModel;
+    use App\Models\FootballVenueModel;
 
     class Football extends BaseController
     {
         public function displayTeam($id){
+            $session = session();
+        
+            $header['title']='Team';
+            $header['user']=$session->get('user');
 
-            $model = model(FootballTeamModel::class);
-            $team = $model->getTeam($id);
-    
+            $teamModel = model(FootballTeamModel::class);
+            $competitionModel = model(FootballCompetitionModel::class);
+            $venueModel = model(FootballVenueModel::class);
+            
+            $data['team'] = $teamModel->getTeam($id)[0];
+            print_r($data['team']);
+            $compId = $data['team']['league_competition'];
+            $venueId = $data['team']['venue'];
+            echo $compId;
+            $data['position'] = $teamModel->getTeamPosition($compId, $id);
+
+            $data['competition'] = $competitionModel->getCompetition($compId)[0];
+            $data['venue'] = $venueModel->getVenue($venueId)[0];
+
             return view('templates/header', $header)
-                . view('football/team')
+                . view('football/team', $data)
                 . view('templates/footer');
         }
     }

@@ -22,7 +22,7 @@
             ];
             return $this->upsert($data);
         }
-        
+
         public function getTeams($name){
             return $this->like('name', $name)->findAll();
         }
@@ -33,6 +33,16 @@
 
         public function getStanding($competitionId){
             return $this->like('league_competition', $competitionId)->orderBy('points', 'DESC')->findAll();
+        }
+
+        public function getTeamPosition($competitionId, $teamId){
+            $standing = $this->getStanding($competitionId);
+            
+            for($i = 0; $i < sizeof($standing); $i++){
+                if($standing[$i]['id'] === $teamId){
+                    return $i+1;
+                }
+            }
         }
 
 

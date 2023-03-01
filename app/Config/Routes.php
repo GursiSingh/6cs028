@@ -3,6 +3,7 @@
 namespace Config;
 use App\Controllers\Ajax;
 use App\Controllers\API;
+use App\Controllers\Football;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
@@ -46,6 +47,7 @@ $routes->get('/f1/standing/constructor', 'Ajax::getConstructorStandings');
 //Football
 $routes->get('/football/searchTeams/(:segment)', [Ajax::class,'searchFootballTeams']);
 $routes->get('/football/standing/(:segment)', [Ajax::class,'getCompetitionStandings']);
+$routes->get('/football/team/(:segment)', [Football::class,'displayTeam']);
 
 /*
  * --------------------------------------------------------------------

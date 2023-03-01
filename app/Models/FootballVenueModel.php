@@ -21,5 +21,9 @@
             return $this->upsert($data);
         }
 
+        public function getVenue($id){
+            return $this->where('id', $id)->findAll();
+        }
+
     }
 ?>

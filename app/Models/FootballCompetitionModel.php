@@ -21,5 +21,9 @@
             return $this->upsert($data);
         }
 
+        public function getCompetition($id){
+            return $this->where('id', $id)->findAll();
+        }
+
     }
 ?>
