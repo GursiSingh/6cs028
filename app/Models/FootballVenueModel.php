@@ -25,5 +25,5 @@
             return $this->where('id', $id)->findAll();
         }
 
-    }
+    }   
 ?>

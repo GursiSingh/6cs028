@@ -15,6 +15,10 @@
 
         <!-- JQUERY -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+        <!-- SET GLOBAL BASE URL -->
+        <script>var base_url = '<?php echo base_url() ?>';</script>
+
         
         <!-- CSS -->
         <link rel="stylesheet" href="<?= base_url('/css/mystyles.css');?>" />      
@@ -25,14 +29,14 @@
         <!--Page Title-->
         <title><?= esc($title) ?></title>
     </head>
-    <body class="d-flex flex-column vh-100">
-        <div class="contianer">
-            <?php if($user != null){
-                echo view("templates/navbar", $user);
-            }
-            else{
-                echo view("templates/navbar1");
-            }?>
+    <body class="d-flex flex-column vh-100 bg-dark">
+        <?php if($user != null){
+            echo view("templates/navbar", $user);
+        }
+        else{
+            echo view("templates/navbar1");
+        }?>
+        <div class="bg-dark bg-gradient">
 
         
         

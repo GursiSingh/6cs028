@@ -65,19 +65,19 @@
         </main>
         
     </div>
-    <div class="row row-cols-1 row-cols-md-2 g-4 pb-5 text-bg-dark">
-        <div class="col ">
-            <div class="card pb-3" style=" height: 30rem;">
+    <div class="row row-cols-1 row-cols-md-2 g-4 pb-5">
+        <div class="col">
+            <div class="card pb-3 border-light text-bg-dark" style=" height: 30rem;">
                 <div class="card-header container">
-                    <nav class="navbar">
+                    <div class="">
                         <div class="container-fluid">
                             <a class="navbar-brand">Competition Name Standing</a>
-                            <form class="d-flex" role="search">
+                            <form class="d-flex " role="search">
                             <input class="form-control me-2" type="search" placeholder="Search Competition" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                             </form>
                         </div>
-                    </nav>
+                    </div>
                 </div>
                 <div class="card-body overflow-auto">
                     <div class="table-responsive" >
@@ -99,7 +99,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card pb-3" style=" height: 30rem;">
+            <div class="card pb-3 border-light text-bg-dark" style=" height: 30rem;">
                 <div class="card-header container">
                     <ul class="nav nav-tabs nav-fill card-header-tabs">
                         <li class="nav-item">
@@ -129,7 +129,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card h-100">
+            <div class="card h-100 border-light text-bg-dark">
                 <div class="card-header container">
                     <h5 class="card-title">Card title</h5>
                 </div>
@@ -140,7 +140,7 @@
             </div>
         </div>
         <div class="col">
-            <div class="card h-100">
+            <div class="card h-100 border-light text-bg-dark">
                 <div class="card-header" container>
                     <h5 class="card-title">Card title</h5>
                 </div>

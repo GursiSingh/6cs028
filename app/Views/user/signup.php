@@ -10,7 +10,7 @@
         </div>
     
     <?php endif ?>
-    <div class="card my-4">  
+    <div class="card my-4 bg-dark text-white">  
 
         <div class="card-header">
             <h5 class="card-title">Sign Up</h5>
@@ -18,7 +18,7 @@
 
         <div class="card-body">
 
-        <form class="row g-3" action="<?= base_url('/signUp')?>" method="post">
+        <form class="row g-3 " action="<?= base_url('/signUp')?>" method="post">
             <?= csrf_field() ?>
             <div class="col-12">
                 <label for="inputUsername" class="form-label">Username</label>

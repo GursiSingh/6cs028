@@ -4,11 +4,12 @@
     use App\Models\FootballCompetitionModel;
     use App\Models\FootballVenueModel;
     use App\Models\FootballTeamModel;
+    use App\Models\FootballPlayerModel;
 
     class API extends BaseController{
 
 
-
+        //fetch Competition and store it into the database, and fetch data of all teams in the competitions 
         public function loadCompetition($id)
         {
             
@@ -62,7 +63,7 @@
             
         }
 
-
+        //fetch team and store it into the database
         public function loadTeam($id, $competitionId, $points){
 
             $client = \Config\Services::curlrequest();
@@ -98,6 +99,34 @@
             
 
 
+        }
+
+        //Fetch players of a team and store them in the database
+        public function loadTeamPlayers($teamId){
+            $client = \Config\Services::curlrequest();
+
+            $response = $client->request('GET', 'https://v3.football.api-sports.io/players/squads?team='.$teamId, [
+                'headers' => [
+                    'x-rapidapi-key' => ' c6e2eba6888143bbe4a8e8ae1160a59a',
+                    'x-rapidapi-host' => 'v3.football.api-sports.io',
+                ]
+            ]);
+
+            $result = json_decode($response->getBody());
+            if(sizeof($result->response) == 1){
+
+                $players = $result->response[0]->players;
+
+                echo "Number of Players: ".sizeOf($players);
+                //Load Player to DB
+                $playerModel = model(FootballPlayerModel::class);
+
+                for($i = 0; $i < sizeOf($players); $i++){
+
+                    $playerModel->setPlayer($players[$i], $teamId);
+                }
+                
+            }
         }
     }
 ?>

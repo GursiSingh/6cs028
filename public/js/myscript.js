@@ -7,10 +7,16 @@ console.log("My SCRIPT");
 
 const footballTableStandingEl = document.getElementById("footballStandingTable");
 const constructorTableStandingEl = document.getElementById("constructorStandingTable");
+const footballSquadEl = document.getElementById("footballSquad");
 
 if(footballTableStandingEl){
     footballTableStandingEl.addEventListener("load", setFootballStanding(135));
     constructorTableStandingEl.addEventListener("load", setF1Standing());
+}
+
+if(footballSquadEl){
+    let teamId = footballSquadEl.getAttribute("name"); 
+    footballSquadEl.addEventListener("load", getTeamSquad(teamId));
 }
 
 
@@ -139,7 +145,7 @@ function setFootballStanding(competitionId){
             // Copy one element of response to our HTML paragraph
             footballTableStandingEl.innerHTML += 
             `
-            <tr class="table-item football" id="`+response[i].id+`">
+            <tr class="table-item football" id = "`+response[i].id+`">
                 <th scope+"row">`+(i+1)+`</th>
                 <td><img src="`+response[i].logo+`" style="width: 20px; height: 20px;">`+ response[i].name+`</td>
                 <td>`+response[i].points+`</td>
@@ -150,7 +156,7 @@ function setFootballStanding(competitionId){
         console.log(tableItems[0].id);
 
         for(let i = 0; i < tableItems.length; i++) {
-            tableItems[i].onclick = function(){ console.log(i + " - " + tableItems[i].id)};
+            tableItems[i].onclick = function(){ window.location.href = base_url + "/football/team/"+ tableItems[i].id;};
         }
     })
     .catch(err => {
@@ -198,3 +204,82 @@ function setF1Standing(){
 function setDriverStanding(){
 
 }
+
+//Get Players of a team from the database
+function getTeamSquad(teamsId){
+    const playersEl = document.getElementById("players-container");
+    // Fetch data
+    fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/team/' + teamsId +'/players')
+            
+    // Convert response string to json object
+    .then(response => response.json())
+    .then(response => { 
+        
+        for(let i = 0; i < response.length; i++){
+            // Copy one element of response to our HTML paragraph
+            var number; 
+            var position;
+            var name;
+            if(!response[i].number)
+                number = "NA";
+            else{
+                number = "#"+ response[i].number;
+            }
+
+            switch(response[i].position) {
+                case "Attacker":
+                    position = "st";
+                    break;
+                case "Midfielder":
+                    position = "m";
+                    break;
+                case "Defender":
+                    position = "d";
+                    break;
+                default:
+                    position = "gk";
+                  
+            }
+
+            if(response[i].name.length >= 16){
+                name = response[i].name.split(" ").reverse()[1] + " " +response[i].name.split(" ").reverse()[0];
+                if(name.length >= 16){
+                    name = response[i].name.split(" ").reverse()[0];
+                }
+            }else{
+                name = response[i].name;
+            }
+                
+            playersEl.innerHTML += 
+            `
+            <div class="badge" data-tilt data-tilt-glare="true" id="`+response[i].id+`">
+                <img class="badge-logo" src="`+ response[i].image +`">
+                <div class="badge-name">`+ name +`</div>
+                
+                <div class="badge-bottom d-flex">
+                    <div class="badge-position `+ position +`"><p class="center">`+position.toUpperCase()+`</p></div>
+                    <div class="badge-number"><p class="center">`+ number +`</p></div>
+                </div>
+            </div>
+            `;
+            
+        }
+
+        //Refresh Tilt.js Script
+        var badges = document.querySelectorAll(".badge");
+        VanillaTilt.init(badges);
+        
+    })
+    .catch(err => {
+    
+    // Display errors in console    
+        console.log(err);
+        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/player/load/' + teamsId)
+            .then(getTeamSquad(teamsId))
+            .catch(err => {
+        });
+    });
+}
+
+//Coundown
+//https://codepen.io/AllThingsSmitty/pen/JJavZN
