@@ -274,7 +274,7 @@ function getTeamSquad(teamsId){
     
     // Display errors in console    
         console.log(err);
-        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/player/load/' + teamsId)
+        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/load/player/' + teamsId)
             .then(getTeamSquad(teamsId))
             .catch(err => {
         });

@@ -33,8 +33,11 @@
     // We get a performance increase by specifying the default
     // route since we don't have to scan directories.
     $routes->get('/', 'Home::index');
-    $routes->match(['get', 'post'], '/football/load/(:segment)', [API::class, 'loadCompetition']);
-    $routes->match(['get', 'post'], '/football/player/load/(:segment)', [API::class, 'loadTeamPlayers']);
+
+    // API Calls
+    $routes->match(['get', 'post'], '/football/load/competition/(:segment)', [API::class, 'loadCompetition']);
+    $routes->match(['get', 'post'], '/football/load/player/(:segment)', [API::class, 'loadTeamPlayers']);
+    $routes->match(['get', 'post'], '/football/load/competition/(:segment)/fixtures', [API::class, 'loadFixtures']);
 
     //Login Route
     $routes->match(['get', 'post'],'/login', 'User::login');
