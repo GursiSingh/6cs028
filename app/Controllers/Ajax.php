@@ -5,6 +5,7 @@
 	use App\Models\F1Model;
 	use App\Models\FootballTeamModel;
     use App\Models\FootballPlayerModel;
+    use App\Models\FootballFixtureModel;
 
 	class Ajax extends BaseController
 	{
@@ -33,12 +34,29 @@
 			print(json_encode($data));
 		}
 
-		//Get constructor standing
-		public function getConstructorStandings(){
-			$model = model(F1Model::class);
-			$data = $model->getStanding();
+		//get competition round
+		public function	getFootballRound($competitionId, $round = null){
+			if($round == null){
+				//get current round
+				$fixtureModel = model(FootballFixtureModel::class);
+				$teamModel = model(FootballTeamModel::class);
+				$venueModel = model(FootballVenueModel::class);
+				$data = $fixtureModel->getCurrentRound($competitionId, $round);
 
-			print(json_encode($data));
+				for($i = 0; $i < sizeOf($data); $i++){
+					
+					$data[$i]['homeName'] = $teamModel->getTeam($data[$i]['home'])[0]['name'];
+					$data[$i]['homeLogo'] = $teamModel->getTeam($data[$i]['home'])[0]['logo'];
+					$data[$i]['awayName'] = $teamModel->getTeam($data[$i]['away'])[0]['name'];
+					$data[$i]['awayLogo'] = $teamModel->getTeam($data[$i]['away'])[0]['logo'];
+					$data[$i]['venueLogo'] = $venueModel->getVenue($data[$i]['venueId'])[0]['image'];
+					$data[$i]['venueName'] = $venueModel->getVenue($data[$i]['venueId'])[0]['name'];
+				}
+				print(json_encode($data));
+			}else{
+				//get the round asked by the user
+
+			}
 		}
 
 		//Get players based on the teams Id
@@ -56,6 +74,14 @@
 				get(base_url('/football/player/load/'.$teamId));
 				$data = $playerModel->getSquad($teamId, $order);
 			}
+
+			print(json_encode($data));
+		}
+		
+		//Get constructor standing
+		public function getConstructorStandings(){
+			$model = model(F1Model::class);
+			$data = $model->getStanding();
 
 			print(json_encode($data));
 		}

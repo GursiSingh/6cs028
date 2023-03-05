@@ -53,6 +53,7 @@
     $routes->get('/football/standing/(:segment)', [Ajax::class,'getCompetitionStandings']);
     $routes->get('/football/team/(:segment)', [Football::class,'displayTeam']);
     $routes->get('/football/team/(:segment)/players', [Ajax::class,'getTeamSquad']);
+    $routes->get('/football/competition/(:segment)/round', [Ajax::class,'getFootballRound']);
 
     /*
     * --------------------------------------------------------------------

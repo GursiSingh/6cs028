@@ -27,6 +27,10 @@
             ];
             return $this->where('competitionId',$competitionId)->where('round',$round)->set($current)->update();
         }
+
+        public function getCurrentRound($competitionId){
+            return $this->where('competitionId',$competitionId)->where('current', '1')->findAll();
+        }
     }
 
 ?>

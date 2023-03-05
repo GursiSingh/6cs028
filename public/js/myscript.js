@@ -5,12 +5,18 @@
 //inputF1El.addEventListener ("keyup", getSearchDataF1(inputF1El.textContent), false);
 console.log("My SCRIPT");
 
+//HOME
 const footballTableStandingEl = document.getElementById("footballStandingTable");
+const footballFixturesTable = document.getElementById("footballFixturesTable");
+
 const constructorTableStandingEl = document.getElementById("constructorStandingTable");
+
+//FOOTBALL TEAM
 const footballSquadEl = document.getElementById("footballSquad");
 
 if(footballTableStandingEl){
     footballTableStandingEl.addEventListener("load", setFootballStanding(135));
+    footballFixturesTable.addEventListener("load", setFootballFixtures(135));
     constructorTableStandingEl.addEventListener("load", setF1Standing());
 }
 
@@ -147,7 +153,7 @@ function setFootballStanding(competitionId){
             `
             <tr class="table-item football" id = "`+response[i].id+`">
                 <th scope+"row">`+(i+1)+`</th>
-                <td><img src="`+response[i].logo+`" style="width: 20px; height: 20px;">`+ response[i].name+`</td>
+                <td ><img class="table-logo" src="`+response[i].logo+`">`+ response[i].name+`</td>
                 <td>`+response[i].points+`</td>
             </tr>
             `;
@@ -166,6 +172,76 @@ function setFootballStanding(competitionId){
     });
 }
 
+//get football competition fixtures
+function setFootballFixtures(competitionId, round=null){
+
+    if(round == null){
+        
+        
+        footballFixturesTable.innerHTML = '';
+        // Fetch data
+        if(round == null)
+        {
+            fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/competition/' + competitionId +'/round')
+                // Convert response string to json object
+                .then(response => response.json())
+                .then(response => { 
+                    
+                    for(let i = 0; i < response.length; i++){
+                        
+                        var goalHome;
+                        var goalAway;
+
+                        if(response[i].goal_home == null){
+                            goalHome= "";
+                        }else{
+                            goalHome= response[i].goal_home;
+                        }
+
+                        if(response[i].goal_away == null){
+                            goalAway= "";
+                        }else{
+                            goalAway= response[i].goal_away;
+                        }
+
+                        footballFixturesTable.innerHTML += 
+                        `
+                            <tr class="table-item fixture">
+                                <td><img class="table-logo" src="`+response[i].homeLogo+`">`+ response[i].homeName+`</td>
+                                <td>`+ goalHome+` - `+ goalAway+`</td>
+                                <td><img class="table-logo" src="`+response[i].awayLogo+`">`+ response[i].awayName+`</td>
+                                <td>`+ response[i].date+`</td>
+                            </tr>
+                        `;
+                        
+                    }
+                });
+        }
+        else
+        {
+            fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/competition/' + competitionId +'/round/'+round)
+                // Convert response string to json object
+                .then(response => response.json())
+                .then(response => { 
+                    
+                    for(let i = 0; i < response.length; i++){
+                        // Copy one element of response to our HTML paragraph
+                        var number; 
+                        var position;
+                        var name;
+                        if(!response[i].number)
+                            number = "NA";
+                        else{
+                            number = "#"+ response[i].number;
+                        }
+                    }
+                });
+
+        }
+        
+    }
+}
+
 //get f1 construct standings data from the Databse  
 function setF1Standing(){
 
@@ -181,8 +257,8 @@ function setF1Standing(){
             constructorTableStandingEl.innerHTML += 
             `
             <tr class="table-item f1" id="`+response[i].id+`">
-                <th scope+"row">`+(i+1)+`</th>
-                <td><img src="`+response[i].logo+`" style="width: 30px; height: 30px; object-fit: contain;">`+ response[i].name+`</td>
+                <th scope="row">`+(i+1)+`</th>
+                <td><img class="table-logo" src="`+response[i].logo+`">`+ response[i].name+`</td>
                 <td>`+response[i].points+`</td>
             </tr>
             `;
