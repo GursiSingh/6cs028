@@ -45,6 +45,10 @@
             }
         }
 
+        public function updateTeamPoints($competitionId, $teamId, $points){
+            return $this->where('id', $teamId)->where('league_competition', $competitionId)->set('points', $points)->update();
+        }
+
 
     }
 ?>

@@ -1,62 +1,3 @@
-
-<script>
-
-    // // Creating a cookie after the document is ready
-    // $(document).ready(function () {
-    //     createCookie("gfg", "GeeksforGeeks", "10");
-    // });
-    // var myHeaders = new Headers();
-    // myHeaders.append("x-rapidapi-key", "c6e2eba6888143bbe4a8e8ae1160a59a");
-    // myHeaders.append("x-rapidapi-host", "v1.formula-1.api-sports.io");
-
-    // var requestOptions = {
-    // method: 'GET',
-    // headers: myHeaders,
-    // redirect: 'follow'
-    // };
-
-    // fetch("https://v1.formula-1.api-sports.io/rankings/teams?season=2022", requestOptions)
-    //     .then(response => response.json())
-    //     .then(response =>setTeams(response['response']))
-    //     .catch(error => console.log('error', error));
-
-
-
-    
-    // function setTeams(response){
-
-    //     for(let i = 0; i < response.length; i++){
-
-    //     }
-    //     document.cookies = response;
-    // }
-    // var i = 22;
-
-    // var settings = {
-    //     "url": "https://v1.formula-1.api-sports.io/rankings/teams?season=2022",
-    //     "method": "GET",
-    //     "timeout": 0,
-    //     "headers": {
-    //         "x-rapidapi-key": "c6e2eba6888143bbe4a8e8ae1160a59a",
-    //         "x-rapidapi-host": "v1.formula-1.api-sports.io"
-    //     },
-    // };
-    
-    // $.ajax(settings).done(function (response) {
-    //     $.ajax({
-    //             type: "POST",
-    //             data: {"data":response["response"]},
-    //             url: "?= base_url('/load') ?>",
-    //             success: function(data)
-    //             {
-    //               alert(data);
-
-    //             }
-    //         });
-    // });
-
-</script>
-
 <div class="container-fluid text-center vh-100 text-bg-dark" >
     <div class="position-relative m-auto" style="height:100%">
         <main class="position-absolute top-50 start-50 translate-middle">
@@ -69,14 +10,14 @@
         <div class="col">
             <div class="card pb-3 border-light text-bg-dark" style=" height: 30rem;">
                 <div class="card-header d-flex">
-                    <div class="">
-                        <div class="container-fluid">
-                            <a class="navbar-brand">Competition Name Standing</a>
-                            <form class="d-flex " role="search">
-                                <input class="form-control me-2" type="search" placeholder="Search Competition" aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Search</button>
-                            </form>
-                        </div>
+                    <img class="header-logo" id="competitionLogoHeader"/>
+                    <h1 class="header-title" id="competitionNameHeader"></h1>
+                    <div class="btn-group" id="competitionGroup">
+                        <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Competitions
+                        </button>
+                        <ul class="dropdown-menu overflow-auto" style="max-height: 25rem;"id="competitionList">
+                        </ul>
                     </div>
                 </div>
                 <div class="card-body overflow-auto">
@@ -101,17 +42,12 @@
         <div class="col">
             <div class="card pb-3 border-light text-bg-dark" style=" height: 30rem;">
                 <div class="card-header d-flex">
-                    <div class="title-card" id="footballRound">Round: 25</div>
-                    <div class="btn-group">
+                    <h1 class="title-card" id="footballRoundHeader"></h1>
+                    <div class="btn-group" id="roundGroup">
                         <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Action
+                            Rounds
                         </button>
-                        <ul class="dropdown-menu" id="fixturesRounds">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        <ul class="dropdown-menu overflow-auto" style="height:25rem;"id="roundList">
                         </ul>
                     </div>
                 </div>
@@ -127,12 +63,7 @@
                                 </tr>
                             </thead>
                             <tbody id="footballFixturesTable">
-                                <tr class="table-item fixture">
-                                    <td><img class="table-logo" src="`+response[i].logo+`">`+ response[i].name+`</td>
-                                    <td> - </td>
-                                    <td><img class="table-logo" src="`+response[i].logo+`">`+ response[i].name+`</td>
-                                    <td>05/03/2023 18:30</td>
-                                </tr>
+                                
                             </tbody>
 
                         </table>

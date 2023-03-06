@@ -1,7 +1,7 @@
 <!--NAVIGATION-->
 <nav class ="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="<?=base_url()?>">
             <img src="#"/>
             My Sports
         </a>

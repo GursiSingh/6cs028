@@ -1,7 +1,7 @@
 
 <?php if(!empty($team)):?>
 
-<div class="mx-auto  mb-5 team-container" id="footballSquad" name="<?=$team['id']?>">
+<div class="mb-5 team-container"  id="footballSquad" name="<?=$team['id']?>" title="<?= $competition['id']?>">
 
     <div class="d-flex align-items-center">
         <div class="logo-team">
@@ -12,26 +12,24 @@
             <div class="text-center" id="teamFootballPosition" title="<?=$team['points']?> points"><h2>#<?=$position?></h2></div>
         </div>
         <div class="comp-info mx-auto align-items-center">
-            <div class="next-match text-center">
+            <div class="next-match text-center" id="counter">
                 <h3> Next match in: </h3>
-                <div class="counter">
+                <div class="counter" >
                     <ul>
-                        <li><span id="days">31</span>DAYS</li>
-                        <li><span id="hours">24</span>HRS</li>
-                        <li><span id="minutes">59</span>MINS</li>
-                        <li><span id="seconds">59</span>SECS</li>
+                        <li><span id="daysMatch"></span>DAYS</li>
+                        <li><span id="hoursMatch"></span>HRS</li>
+                        <li><span id="minutesMatch"></span>MINS</li>
+                        <li><span id="secondsMatch"></span>SECS</li>
                     </ul>
                 </div>
                 <div class="btn-group" role="group" aria-label="Default button group">
                     <button class="btn btn-outline-light" id="matchHome">
-                        <img src="<?=$team['logo']?>">JUV
+                        
                     </button>
-                    <button class="btn btn-outline-light" > - </button>
+                    <button class="btn btn-outline-light" id="matchResult"> - </button>
                     <button class="btn btn-outline-light" id="matchAway">
-                        <img src="<?=$team['logo']?>">MIL
                     </button>
-                    <button class="btn btn-light" id="matchCompetition" title="<?=$competition['name']?>">
-                        <img class="logo-competition" id="compFootballLogo" src="<?=$competition['logo']?>">
+                    <button class="btn btn-light" id="matchCompetition">
                     </button>
                 </div>
                 
@@ -51,33 +49,67 @@
     </div>
     
     <hr>
-    <h3>Players</h3>
-    <div class="input-group mt-5">
-        <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
-        <select class="form-select hidden" id="inputGroupSelect01">
-            <option selected>Choose Position...</option>
-            <option value="1">Striker</option>
-            <option value="2">Midfielder</option>
-            <option value="3">Defender</option>
-            <option value="4">Goalkeeper</option>
-        </select>
-        <button type="button" class="btn btn-outline-light">Search</button>
-        <button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-            <span class="visually-hidden">Search</span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Name</a></li>
-            <li><a class="dropdown-item" href="#">Number</a></li>
-            <li><a class="dropdown-item" href="#">Position</a></li>
-        </ul>
+    
+    <div class="btn-group w-100" role="group">
+
+        <input type="radio" class="btn-check " name="btnradio" id="playerHeader" autocomplete="off" checked>
+        <label class="btn btn-outline-light" for="playerHeader">Players</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="infoHeader" autocomplete="off">
+        <label class="btn btn-outline-light" for="infoHeader">Information</label>
+
+        <input type="radio" class="btn-check" name="btnradio" id="matchesHeader" autocomplete="off">
+        <label class="btn btn-outline-light" for="matchesHeader">Matches</label>
+
     </div>
 
-    <div class="text-center" id="players-container">
-        
+    <div id="playersSection" >
+        <div class="input-group mt-5">
+            <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
+            <select class="form-select hidden" id="inputGroupSelect01">
+                <option selected>Choose Position...</option>
+                <option value="1">Striker</option>
+                <option value="2">Midfielder</option>
+                <option value="3">Defender</option>
+                <option value="4">Goalkeeper</option>
+            </select>
+            <button type="button" class="btn btn-outline-light">Search</button>
+            <button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="visually-hidden">Search</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#">Name</a></li>
+                <li><a class="dropdown-item" href="#">Number</a></li>
+                <li><a class="dropdown-item" href="#">Position</a></li>
+            </ul>
+        </div>
+
+        <div class="text-center" id="players-container">
+            
+
+        </div>
+    </div>
+    
+    <div class="d-none" id="infoSection">
 
     </div>
     
+    <div class="d-none" id="matchesSection">
+        <table class="table table-dark table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Home</th>  
+                    <th scope="col">Result</th>
+                    <th scope="col">Away</th>
+                    <th scope="col">Round</th>
+                </tr>
+            </thead>
+            <tbody id="teamMatchesTable">
+                
+            </tbody>
 
+        </table>
+    </div>
 </div>
 
 <?php else: ?>

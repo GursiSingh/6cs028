@@ -34,10 +34,17 @@
     // route since we don't have to scan directories.
     $routes->get('/', 'Home::index');
 
-    // API Calls
+    // API Calls - Football
     $routes->match(['get', 'post'], '/football/load/competition/(:segment)', [API::class, 'loadCompetition']);
     $routes->match(['get', 'post'], '/football/load/player/(:segment)', [API::class, 'loadTeamPlayers']);
     $routes->match(['get', 'post'], '/football/load/competition/(:segment)/fixtures', [API::class, 'loadFixtures']);
+    $routes->match(['get', 'post'], '/football/load/competition/(:segment)/team/(:segment)/(:segment)', [API::class, 'loadTeam']);
+    $routes->match(['get', 'post'], '/football/update/competition/(:segment)', [API::class, 'updateFootball']);
+    
+    // API Calls - F1
+    $routes->match(['get', 'post'], '/f1/load/', [API::class, 'loadF1']);
+    
+
 
     //Login Route
     $routes->match(['get', 'post'],'/login', 'User::login');
@@ -53,7 +60,13 @@
     $routes->get('/football/standing/(:segment)', [Ajax::class,'getCompetitionStandings']);
     $routes->get('/football/team/(:segment)', [Football::class,'displayTeam']);
     $routes->get('/football/team/(:segment)/players', [Ajax::class,'getTeamSquad']);
+    $routes->get('/football/team/(:segment)/matches', [Ajax::class,'getTeamMatches']);
+    $routes->get('/football/team/(:segment)/next', [Ajax::class,'getNextMatch']);
+    $routes->get('/football/competition/(:segment)', [Ajax::class,'getCompetition']);
+    $routes->get('/football/competition', 'Ajax::getAllCompetitions');
     $routes->get('/football/competition/(:segment)/round', [Ajax::class,'getFootballRound']);
+    $routes->get('/football/competition/(:segment)/round/(:segment)', [Ajax::class,'getFootballRound']);
+    $routes->get('/football/competition/(:segment)/round/name/all', [Ajax::class,'getAllFootballRounds']);
 
     /*
     * --------------------------------------------------------------------

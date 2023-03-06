@@ -20,7 +20,7 @@
                 'current' => '0',
             ];
             
-            $this->where('competitionId',$competitionId)->where('current','1')->set($current)->update();
+            $this->where('competitionId',$competitionId)->where('current','1')->set($previous)->update();
 
             $current = [
                 'current' => '1',
@@ -29,7 +29,27 @@
         }
 
         public function getCurrentRound($competitionId){
-            return $this->where('competitionId',$competitionId)->where('current', '1')->findAll();
+            return $this->where('competitionId',$competitionId)->where('current', '1')->orderBy('date','ASC')->findAll();
+        }
+
+        public function getRound($competitionId, $round){
+            return $this->where('competitionId',$competitionId)->where('round', $round)->orderBy('date','ASC')->findAll();
+        }
+
+        public function getAllRounds($competitionId){
+            return $this->select('round, current')->distinct('round')->where('competitionId',$competitionId)->findAll();
+        }
+
+        public function getTeamMatches($teamId){
+            
+            return $this->where('home', $teamId)->orWhere('away', $teamId)->orderBy('date', 'ASC')->findAll();
+        }
+
+        public function getNextMatch( $teamId){
+            $where="status != 'FT' AND home=".$teamId." OR status != 'FT' AND away=".$teamId." ";
+
+            return $this->where($where)->orderBy('date','ASC')->first();
+        
         }
     }
 

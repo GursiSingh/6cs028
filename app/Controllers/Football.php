@@ -15,15 +15,13 @@
 
             $teamModel = model(FootballTeamModel::class);
             $competitionModel = model(FootballCompetitionModel::class);
+            $fixtureModel = model(FootballFixtureModel::class);
             $venueModel = model(FootballVenueModel::class);
             
             $data['team'] = $teamModel->getTeam($id)[0];
-            print_r($data['team']);
             $compId = $data['team']['league_competition'];
             $venueId = $data['team']['venue'];
-            echo $compId;
             $data['position'] = $teamModel->getTeamPosition($compId, $id);
-
             $data['competition'] = $competitionModel->getCompetition($compId)[0];
             $data['venue'] = $venueModel->getVenue($venueId)[0];
 
