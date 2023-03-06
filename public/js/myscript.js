@@ -458,6 +458,8 @@ const playersSectionEl = document.getElementById('playersSection');
 const infoSectionEl = document.getElementById('infoSection');
 const matchesSectionEl = document.getElementById('matchesSection');
 
+
+//If on team page
 if(footballSquadEl){
     let teamId = footballSquadEl.getAttribute("name"); 
     let competitionId = footballSquadEl.getAttribute("title"); 
@@ -546,7 +548,7 @@ function getTeamSquad(teamId){
     });
 }
 
-//Get Team Matches
+//Get All Team Matches
 function getTeamMatches(teamId){
     const matchesEl = document.getElementById("teamMatchesTable");
     // Fetch data

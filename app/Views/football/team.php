@@ -1,4 +1,3 @@
-
 <?php if(!empty($team)):?>
 
 <div class="mb-5 team-container"  id="footballSquad" name="<?=$team['id']?>" title="<?= $competition['id']?>">
