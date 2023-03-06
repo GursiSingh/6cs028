@@ -277,7 +277,7 @@
 
 
         /***** UPDATE *****/
-        //if more than 12 hours has passed from the last update
+        //Update the competition if more than 12 hours has passed from the last update
         public function updateFootball($competitionId){
             //https://stackoverflow.com/questions/15228832/php-string-in-a-date-format-add-12-hours
             $competitionModel = model(FootballCompetitionModel::class);
