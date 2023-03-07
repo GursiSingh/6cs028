@@ -27,8 +27,8 @@ class User extends BaseController
         //Check if the userName is present in the database
         $user = $model->getUser($userInput['username']);
         
-        
-        if($user['username'] != null){
+        print_r($user);
+        if(!empty($user)){
             if($this->encryptPassword($userInput) == $user['password']){
                 //log in
                 

@@ -19,13 +19,14 @@ if(footballTableStandingEl){
     constructorTableStandingEl.addEventListener("load", setF1Standing());
 }
 
-
+//Update the details of the competition
 function updateFootball(competitionId){
     fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/update/competition/' + competitionId)
         .then()
         .catch(err => {
     });
 }
+
 //Display Element
 function displayHints(el){
 

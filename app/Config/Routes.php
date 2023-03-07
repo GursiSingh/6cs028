@@ -42,7 +42,10 @@
     $routes->match(['get', 'post'], '/football/update/competition/(:segment)', [API::class, 'updateFootball']);
     
     // API Calls - F1
-    $routes->match(['get', 'post'], '/f1/load/', [API::class, 'loadF1']);
+    $routes->match(['get', 'post'], '/f1/load/teams', [API::class, 'loadF1Teams']);
+    $routes->match(['get', 'post'], '/f1/load/drivers', [API::class, 'loadF1Drivers']);
+    $routes->match(['get', 'post'], '/f1/load/races', [API::class, 'loadF1Races']);
+    $routes->match(['get', 'post'], '/f1/load/race/(:segment)/ranking', [API::class, 'loadF1RaceRanking']);
     
 
 

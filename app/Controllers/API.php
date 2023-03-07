@@ -8,6 +8,10 @@
     use App\Models\FootballFixtureModel;
     
     use App\Models\F1Model;
+    use App\Models\F1DriverModel;
+    use App\Models\F1EventModel;
+    use App\Models\F1CircuitModel;
+    use App\Models\F1RankingModel;
 
     class API extends BaseController{
 
@@ -48,6 +52,7 @@
                     $this->loadTeam($teamName, $id, $points);
                 }
             }
+            return;
             
             
         }
@@ -94,6 +99,7 @@
                 //Update Team Points
                 $teamModel->updateTeamPoints($competitionId, $id, $points);
             }
+            return;
         }
 
         //Fetch players of a team and store them in the database -Twice a Year
@@ -122,6 +128,7 @@
                 }
                 
             }
+            return;
         }
 
         //Load Footaball Fixtures - Daily
@@ -185,6 +192,7 @@
                 
             }          
             $this->setCurrentRound($competitionId);
+            return;
         }
 
         //Set Current Fixtures Round - Daily   
@@ -203,17 +211,14 @@
             //id, home, away, time, venue, status, goalHome, goalAway, winnerId, round, current, competitionId
             $fixtureModel = model(FootballFixtureModel::class);
             $fixtureModel->setCurrentRound($competitionId, $result->response[0]);
+            return;
                     
         }
 
         /*==== F1 ====*/
-        //Constructors Names
-        public function loadF1()
+        //Load F1 Teams
+        public function loadF1Teams()
         {
-            
-            // Check if the competition is in the database if not load it 
-            
-
             $client = \Config\Services::curlrequest();
 
             $response = $client->request('GET', 'https://v1.formula-1.api-sports.io/rankings/teams?season=2023', [
@@ -228,53 +233,202 @@
             
             $model = model(F1Model::class);
             for($i = 0; $i <= $result->results; $i++){
+
                 $id = $result->response[$i]->team->id;
+                $f1Team = $model->getTeam($id);
                 
-                $name = $result->response[$i]->team->name;
-                $logo = $result->response[$i]->team->logo;
-                $points = $result->response[$i]->points;
+                if(!empty($f1Team)){
 
-                $teamResponse = $client->request('GET', 'https://v1.formula-1.api-sports.io/teams?id='.$id, [
-                    'headers' => [
-                        'x-rapidapi-key' => ' c6e2eba6888143bbe4a8e8ae1160a59a',
-                        'x-rapidapi-host' => 'v3.football.api-sports.io',
-                    ]
-                ]);
+                    $name = $result->response[$i]->team->name;
+                    $logo = $result->response[$i]->team->logo;
+                    $points = $result->response[$i]->points;
 
-
-                $teamResult = json_decode($teamResponse->getBody());
-                echo '<h1>'.$name.' '.$id.'</h1>'.'<br>';
-                $worldChampionships = $teamResult->response[0]->world_championships;
-                $base = $teamResult->response[0]->base;
-                $firstEntry = $teamResult->response[0]->first_team_entry;
-                $president = $teamResult->response[0]->president;
-                $director = $teamResult->response[0]->director;
-                $chassis = $teamResult->response[0]->chassis;
+                    $teamResponse = $client->request('GET', 'https://v1.formula-1.api-sports.io/teams?id='.$id, [
+                        'headers' => [
+                            'x-rapidapi-key' => ' c6e2eba6888143bbe4a8e8ae1160a59a',
+                            'x-rapidapi-host' => 'v1.formula-1.api-sports.io',
+                        ]
+                    ]);
 
 
-                $team = [
+                    $teamResult = json_decode($teamResponse->getBody());
+                    $worldChampionships = $teamResult->response[0]->world_championships;
+                    $base = $teamResult->response[0]->base;
+                    $firstEntry = $teamResult->response[0]->first_team_entry;
+                    $president = $teamResult->response[0]->president;
+                    $director = $teamResult->response[0]->director;
+                    $chassis = $teamResult->response[0]->chassis;
 
-                    'id'    =>  $id,
-                    'name'  =>  $name,
-                    'logo'  =>  $logo,
-                    'world_championships'   =>  $worldChampionships,
-                    'base'  =>  $base,
-                    'first_entry'    => $firstEntry,
-                    'president'  => $president,
-                    'director'  =>  $director,
-                    'chassis'   =>  $chassis,
-                    'points'    =>  $points,
 
-                ];
-                $model->setTeam($team);
+                    $team = [
 
+                        'id'    =>  $id,
+                        'name'  =>  $name,
+                        'logo'  =>  $logo,
+                        'world_championships'   =>  $worldChampionships,
+                        'base'  =>  $base,
+                        'first_entry'    => $firstEntry,
+                        'president'  => $president,
+                        'director'  =>  $director,
+                        'chassis'   =>  $chassis,
+                        'points'    =>  $points,
+
+                    ];
+                    $model->setTeam($team);
+
+                }
+                
 
             }
                    
         }
 
+        // Load F1 Drivers
+        public function loadF1Drivers(){
+            $client = \Config\Services::curlrequest();
+
+            $response = $client->request('GET', 'https://v1.formula-1.api-sports.io/rankings/drivers?season=2023', [
+                'headers' => [
+                    'x-rapidapi-key' => ' c6e2eba6888143bbe4a8e8ae1160a59a',
+                    'x-rapidapi-host' => 'v1.formula-1.api-sports.io',
+                ]
+            ]);
+            $result = json_decode($response->getBody());
+
+            $driverModel = model(F1DriverModel::class);
+            for($i = 0; $i < $result->results; $i++){
+                
+                $response = $result->response[$i];
+                $points = $response->points;
+                if($points == null){
+                    $points = 0;
+                }
+                $driver = [
+
+                    'id'    =>  $response->driver->id,
+                    'name'  =>  $response->driver->name,
+                    'abbr'  =>  $response->driver->abbr,
+                    'image'   =>  $response->driver->image,
+                    'number'  =>  $response->driver->number,
+                    'team'    => $response->team->id,
+                    'points'    =>  $points,
+
+                ];
+
+                $driverModel->setDriver($driver);
+            }
+        }
+
+        // Load F1 Circuits
+        public function loadF1Races(){
+            $client = \Config\Services::curlrequest();
+
+            $response = $client->request('GET', 'https://v1.formula-1.api-sports.io/races?season=2023', [
+                'headers' => [
+                    'x-rapidapi-key' => ' c6e2eba6888143bbe4a8e8ae1160a59a',
+                    'x-rapidapi-host' => 'v1.formula-1.api-sports.io',
+                ]
+            ]);
+            $result = json_decode($response->getBody());
+
+            $circuitModel = model(F1CircuitModel::class);
+            $eventModel = model(F1EventModel::class);
+
+            for($i = 0; $i < $result->results; $i++){
+                
+                $response = $result->response[$i];
+                $circuitId = $response->circuit->id;
+
+                $circuit = $circuitModel->getCircuit($circuitId);
+                if(empty($circuit)){
+
+                    $circuit = [
+                        'id'    =>  $circuitId,
+                        'name'  =>  $response->circuit->name,
+                        'country'  =>  $response->competition->location->country,
+                        'image'   =>  $response->circuit->image,
+                        'distance'   =>  $response->distance,
+                    ];
+
+                    $circuitModel->setCircuit($circuit);
+
+                }
+            }
+
+            for($i = 0; $i < $result->results; $i++){
+                
+                $response = $result->response[$i];
+                $circuitId = $response->circuit->id;
+
+                $event = [
+                    'id'    =>  $response->id,
+                    'circuitId'  =>  $circuitId,
+                    'season'  =>  $response->season,
+                    'type'   =>  $response->type,
+                    'laps'   =>  $response->laps->total,
+                    'date'   =>  $response->date,
+                    'status'   =>  $response->status,
+
+                ];
+                $eventModel->setEvent($event);
+            }
+        }
+
+        // Load F1 Race Rankings
+        public function loadF1RaceRanking($raceId){
+            $client = \Config\Services::curlrequest();
+
+            $response = $client->request('GET', 'https://v1.formula-1.api-sports.io/rankings/races?race='.$raceId, [
+                'headers' => [
+                    'x-rapidapi-key' => ' c6e2eba6888143bbe4a8e8ae1160a59a',
+                    'x-rapidapi-host' => 'v1.formula-1.api-sports.io',
+                ]
+            ]);
+            $result = json_decode($response->getBody());
+
+            $rankingModel = model(F1RankingModel::class);
+            $driverModel = model(F1DriverModel::class);
+            for($i = 0; $i < $result->results; $i++){
+
+                $response = $result->response[$i];
+                $driverId = $response->driver->id;
+
+                //Check if driver is stored
+                $driver = $driverModel->getDriver($driverId);
+                if(empty($driver)){
+                    
+                    $driver = [
+                        'id'    =>  $response->driver->id,
+                        'name'  =>  $response->driver->name,
+                        'abbr'  =>  $response->driver->abbr,
+                        'image'   =>  $response->driver->image,
+                        'number'  =>  $response->driver->number,
+                        'team'    => $response->team->id,
+                        'points'    =>  0,
+    
+                    ];
+
+                    $driverModel->setDriver($driver);
+                }
+
+                $rank = [
+
+                    'race_id'    =>  $response->race->id,
+                    'driver_id'  =>  $response->driver->id,
+                    'team_id'  =>  $response->team->id,
+                    'position'   =>  $response->position,
+                    'time'  =>  $response->time,
+                    'laps'    => $response->laps,
+                    'pits'    =>  $response->pits,
+                    'grid'    =>  $response->grid,
+                ];
+
+                $rankingModel->setRanking($rank);
+
+            }
 
 
+        }
 
         /***** UPDATE *****/
         //Update the competition if more than 12 hours has passed from the last update
@@ -282,15 +436,16 @@
             //https://stackoverflow.com/questions/15228832/php-string-in-a-date-format-add-12-hours
             $competitionModel = model(FootballCompetitionModel::class);
             $date = new \DateTime($competitionModel->getLastUpdate($competitionId)['last_update']);
-            $date->modify("+12 hours");
+            $date->modify("+1 minutes");
             $now = new \DateTime();
             
             if($now >= $date)
             {
                 //Update Standings
-                $this->loadCompetition($competitionId);
-                //Update Fixtures
-                $this->loadFixtures($competitionId);
+                echo "updating";
+                // $this->loadCompetition($competitionId);
+                // //Update Fixtures
+                // $this->loadFixtures($competitionId);
             }
         }
     }
