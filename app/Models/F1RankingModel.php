@@ -9,11 +9,13 @@
         protected $table = 'ci_f1ranking';
         protected $allowedFields = ['race_id', 'driver_id', 'team_id','position', 'time', 'laps', 'pits', 'grid'];
 
+        //Set Ranking of a race
         public function setRanking($rank)
         {
             $this->upsert($rank);
         }
 
+        //Get Ranking of a race
         public function getRaceRanking($raceId){
             return $this->where('race_id', $raceId)->orderBy('position', 'DESC')->findAll();
         }

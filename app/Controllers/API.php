@@ -374,7 +374,7 @@
             }
         }
 
-        // Load F1 Race Rankings
+        // Load Rankings of a F1 Race 
         public function loadF1RaceRanking($raceId){
             $client = \Config\Services::curlrequest();
 
