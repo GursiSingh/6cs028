@@ -143,14 +143,6 @@
 
 			print(json_encode($data));
 		}
-
-		//Get constructor standing
-		public function getConstructorStandings(){
-			$model = model(F1Model::class);
-			$data = $model->getStanding();
-
-			print(json_encode($data));
-		}
 		
 	}
 ?>

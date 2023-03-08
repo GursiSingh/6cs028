@@ -4,19 +4,26 @@
 // inputF1El.addEventListener ("focusout", hideF1Hints, false);
 //inputF1El.addEventListener ("keyup", getSearchDataF1(inputF1El.textContent), false);
 
-//HOME
+/*++++ HOME ++++*/
+
+//Football
 const footballTableStandingEl = document.getElementById("footballStandingTable");
 const footballFixturesTable = document.getElementById("footballFixturesTable");
 
-const constructorTableStandingEl = document.getElementById("constructorStandingTable");
-
+//F1
+const constructorHeaderEl = document.getElementById('constructorHeader');
+const driverHeaderEl = document.getElementById('driverHeader');
+const constructorSectionEl = document.getElementById('constructor-section');
+const driversSectionEl = document.getElementById('drivers-section');
 
 
 if(footballTableStandingEl){
     footballTableStandingEl.addEventListener("load", updateFootball(135));
     footballTableStandingEl.addEventListener("load", setFootballStanding(135));
     footballFixturesTable.addEventListener("load", setFootballFixtures(135));
-    constructorTableStandingEl.addEventListener("load", setF1Standing());
+
+    constructorHeaderEl.addEventListener("click", showConstructorsSection);
+    driverHeaderEl.addEventListener("click", showDriversSection);
 }
 
 //Update the details of the competition
@@ -407,38 +414,16 @@ function setFootballFixtures(competitionId, round=null){
     
 }
 
-//get f1 construct standings data from the Databse  
-function setF1Standing(){
+//Show Constructor Standing Section
+function showConstructorsSection(){
+    constructorSectionEl.classList.remove("d-none");
+    driversSectionEl.classList.add("d-none");
+}
 
-    // Fetch data
-    fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/standing/constructor')
-            
-    // Convert response string to json object
-    .then(response => response.json())
-    .then(response => { 
-        
-        for(let i = 0; i < response.length; i++){
-            // Copy one element of response to our HTML paragraph
-            constructorTableStandingEl.innerHTML += 
-            `
-            <tr class="table-item f1" id="`+response[i].id+`">
-                <th scope="row">`+(i+1)+`</th>
-                <td><img class="table-logo" src="`+response[i].logo+`">`+ response[i].name+`</td>
-                <td>`+response[i].points+`</td>
-            </tr>
-            `;
-        }
-        var tableItems = document.getElementsByClassName("table-item f1");
-
-        for(let i = 0; i < tableItems.length; i++) {
-            tableItems[i].onclick = function(){ console.log(i + " - " + tableItems[i].id)};
-        }
-    })
-    .catch(err => {
-    
-    // Display errors in console    
-    console.log(err);
-    });
+//Show Driver Standing Section
+function showDriversSection(){
+    constructorSectionEl.classList.add("d-none");
+    driversSectionEl.classList.remove("d-none");
 }
 
 function setDriverStanding(){

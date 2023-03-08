@@ -56,7 +56,6 @@
 
     //F1
     $routes->get('/f1/searchF1Teams/(:segment)', [Ajax::class,'searchF1Teams']);
-    $routes->get('/f1/standing/constructor', 'Ajax::getConstructorStandings');
 
     //Football
     $routes->get('/football/searchTeams/(:segment)', [Ajax::class,'searchFootballTeams']);
