@@ -1,4 +1,6 @@
 /* GLOBAL */
+ul {list-style-type: none;}
+
 .center{
     margin: 0;
     position: absolute;
@@ -6,6 +8,14 @@
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+
+.left{
+    text-align: left;
+}
+
+.clickable{
+    cursor: pointer;
 }
 
 /* SIGN UP */
@@ -50,10 +60,6 @@
     margin-left: auto;
 }
 
-.table-item td:first-of-type{
-    text-align: left;
-}
-
 .table-logo{
     margin-right: 5px;
     width: 25px;
@@ -61,6 +67,102 @@
     object-fit: scale-down;
     border-radius: 10px 12px;
 }
+
+/* MY TEAM */
+.my-card{
+    width: 20rem; 
+    height: 15rem;
+}
+
+.my-logo{
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+}
+
+/* ----- CALENDAR ----- */
+/* https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_calendar */
+
+.month {
+    padding: 20px 25px;
+    width: 100%;
+    background: #1abc9c;
+    text-align: center;
+  }
+  
+  .month ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .month ul li {
+    color: white;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+  }
+  
+  .month .prev {
+    float: left;
+    padding-top: 10px;
+    cursor: pointer;
+  }
+  
+  .month .next {
+    float: right;
+    padding-top: 10px;
+    cursor: pointer;
+  }
+
+  
+  
+  .weekdays {
+    margin: 0;
+    padding:  0;
+    background-color: #282626;
+  }
+  
+  .weekdays li {
+    display: inline-block;
+    width: 13.6%;
+    color: white;
+    text-align: center;
+  }
+  
+  .days {
+    padding: 10px 0px;
+    background: #393939;
+    margin: 0;
+  }
+  
+  .days li {
+    list-style-type: none;
+    display: inline-block;
+    width: 13.6%;
+    height: 100px;
+    text-align: center;
+    margin-bottom: 5px;
+    font-size:12px;
+    
+    color: white;
+  }
+
+  .days li ul{
+    text-align: center;
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .football-event{
+    display: flex;
+    justify-content: center;
+  }
+  
+  .days .active {
+    padding: 5px;
+    background: #1abc9c;
+    color: white !important
+  }
 
 /* FOOTBALL TEAM */
 
@@ -278,3 +380,19 @@
     }
 
 }
+
+
+/* CALENDAR MEDIA */
+/* Add media queries for smaller screens */
+@media screen and (max-width:720px) {
+    .weekdays li, .days li {width: 12.8%;}
+  }
+  
+  @media screen and (max-width: 420px) {
+    .weekdays li, .days li {width: 12.5%;}
+    .days li .active {padding: 2px;}
+  }
+  
+  @media screen and (max-width: 290px) {
+    .weekdays li, .days li {width: 12.2%;}
+  }

@@ -56,13 +56,15 @@
 
     //F1
     $routes->get('/f1/searchF1Teams/(:segment)', [Ajax::class,'searchF1Teams']);
+    $routes->get('/f1/event/month/(:segment)/year/(:segment)', [Ajax::class,'getMonthRaces']);
 
     //Football
     $routes->get('/football/searchTeams/(:segment)', [Ajax::class,'searchFootballTeams']);
     $routes->get('/football/standing/(:segment)', [Ajax::class,'getCompetitionStandings']);
     $routes->get('/football/team/(:segment)', [Football::class,'displayTeam']);
     $routes->get('/football/team/(:segment)/players', [Ajax::class,'getTeamSquad']);
-    $routes->get('/football/team/(:segment)/matches', [Ajax::class,'getTeamMatches']);
+    $routes->get('/football/team/(:segment)/matches', [Ajax::class,'getAllTeamMatches']);
+    $routes->get('/football/team/(:segment)/month/(:segment)/year/(:segment)', [Ajax::class,'getTeamMonthMatches']);
     $routes->get('/football/team/(:segment)/next', [Ajax::class,'getNextMatch']);
     $routes->get('/football/competition/(:segment)', [Ajax::class,'getCompetition']);
     $routes->get('/football/competition', 'Ajax::getAllCompetitions');

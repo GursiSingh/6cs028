@@ -7,6 +7,8 @@
 	use App\Models\FootballTeamModel;
     use App\Models\FootballPlayerModel;
     use App\Models\FootballFixtureModel;
+	
+    use App\Models\F1EventModel;
 
 	class Ajax extends BaseController
 	{
@@ -108,11 +110,11 @@
 		}
 
 		//Get all Matches of a Team
-		public function getTeamMatches($teamId){
+		public function getAllTeamMatches($teamId){
 			$fixtureModel = model(FootballFixtureModel::class);
 			$teamModel = model(FootballTeamModel::class);
 
-			$data = $fixtureModel->getTeamMatches($teamId);
+			$data = $fixtureModel->getAllTeamMatches($teamId);
 
 			for($i = 0; $i < sizeOf($data); $i++){
 					
@@ -127,7 +129,26 @@
 			print(json_encode($data));
 		}
 		
-		//Get all Matches of a Team
+		//Get matches in a month of a team
+		public function getTeamMonthMatches($teamId, $month, $year){
+			$fixtureModel = model(FootballFixtureModel::class);
+			$teamModel = model(FootballTeamModel::class);
+
+			$data = $fixtureModel->getTeamMonthMatches($teamId, $month, $year);
+			for($i = 0; $i < sizeOf($data); $i++){
+					
+				$data[$i]['homeName'] = $teamModel->getTeam($data[$i]['home'])[0]['name'];
+				$data[$i]['homeCode'] = $teamModel->getTeam($data[$i]['home'])[0]['code'];
+				$data[$i]['homeLogo'] = $teamModel->getTeam($data[$i]['home'])[0]['logo'];
+				$data[$i]['awayName'] = $teamModel->getTeam($data[$i]['away'])[0]['name'];
+				$data[$i]['awayLogo'] = $teamModel->getTeam($data[$i]['away'])[0]['logo'];
+				$data[$i]['awayCode'] = $teamModel->getTeam($data[$i]['away'])[0]['code'];
+			}
+			
+
+			print(json_encode($data));
+		}
+		//Get Next Matche of a Team
 		public function getNextMatch($teamId){
 			$fixtureModel = model(FootballFixtureModel::class);
 			$teamModel = model(FootballTeamModel::class);
@@ -144,5 +165,12 @@
 			print(json_encode($data));
 		}
 		
+
+		public function getMonthRaces($month, $year){
+			$eventModel = model(F1EventModel::class);
+			$data = $eventModel->getMonthRaces($month, $year);
+
+			print(json_encode($data));
+		}
 	}
 ?>

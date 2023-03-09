@@ -44,5 +44,25 @@
             return $this->where('type', 'Race')->orderBy('date', 'ASC')->findAll();
         } 
 
+        public function getMonthRaces($month, $year){
+            $date = $year."-".$month;
+            $nextMonth = $month + 1;
+            
+            if($month<=12){
+                if($month < 10){
+
+                    $where = "date >= '".$year."-".$month."-01T00:00:00' AND date < '".$year."-0".$nextMonth."-01T00:00:00'";
+                }else{
+                    $where = "date >= '".$year."-".$month."-01T00:00:00' AND date < '".$year."-".$nextMonth."-01T00:00:00'";
+                }
+            }
+            else{
+                $nextYear = $year + 1;
+                $where = "date >= '".$year."-".$month."-01T00:00:00' and date < '".$nextYear."-01-01T00:00:00'";
+            }
+            return $this->where($where)->orderBy('date', 'ASC')->findAll();
+        }
+
+
     }
 ?>

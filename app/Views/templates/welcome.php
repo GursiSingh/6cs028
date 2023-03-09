@@ -99,9 +99,9 @@
                                 <?php $counter = 1;?>
                                 <?php foreach ($constructor as $f1Team):?>
 
-                                    <tr class="table-item f1" id="<?=$f1Team['id']?>">
+                                    <tr class="table-item f1 clickable" id="<?=$f1Team['id']?>">
                                         <th scope="row"><?=$counter?></th>
-                                        <td><img class="table-logo" src="<?=$f1Team['logo']?>"><?=$f1Team['name']?></td>
+                                        <td class="left"><img class="table-logo" src="<?=$f1Team['logo']?>"><?=$f1Team['name']?></td>
                                         <td><?=$f1Team['points']?></td>
                                     </tr>
                                     <?php $counter++;?>
@@ -126,9 +126,9 @@
                                 <?php $counter = 1;?>
                                 <?php foreach ($drivers as $f1Driver):?>
 
-                                    <tr class="table-item f1 " id="<?=$f1Driver['id']?>">
+                                    <tr class="table-item f1 clickable " id="<?=$f1Driver['id']?>">
                                         <th scope="row"><?=$counter?></th>
-                                        <td class="d-flex">
+                                        <td class="d-flex left">
                                             <img class="table-logo" src="<?=$f1Driver['image']?>">
                                             <div class="full-name"><?=$f1Driver['name']?></div>
                                             <div class="abbr-name d-none"><?=$f1Driver['abbr']?></div>
@@ -173,7 +173,7 @@
                                 <?php foreach ($f1Events as $event):?>
 
                                     <tr class="table-item f1 align-center" id="<?= $event['id']?>">
-                                        <th><?=$event['type']?></th>
+                                        <td class="left"><?=$event['type']?></td>
                                         <td><?= $circuit['name']?></td>
                                         <td><?=$event['date']?></td>
                                     </tr>

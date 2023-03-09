@@ -40,9 +40,31 @@
             return $this->select('round, current')->distinct('round')->where('competitionId',$competitionId)->findAll();
         }
 
-        public function getTeamMatches($teamId){
+        public function getAllTeamMatches($teamId){
             
             return $this->where('home', $teamId)->orWhere('away', $teamId)->orderBy('date', 'ASC')->findAll();
+        }
+
+        public function getTeamMonthMatches($teamId, $month, $year){
+            $date = $year."-".$month;
+            $nextMonth = $month + 1;
+            
+            if($month<=12){
+                if($month < 10){
+
+                    $where = "date >= '".$year."-".$month."-01T00:00:00' AND date < '".$year."-0".$nextMonth."-01T00:00:00' AND home='".$teamId."' ";
+                    $orWhere = "date >= '".$year."-".$month."-01T00:00:00' AND date < '".$year."-0".$nextMonth."-01T00:00:00' AND away='".$teamId."' ";
+                }else{
+                    $where = "date >= '".$year."-".$month."-01T00:00:00' AND date < '".$year."-".$nextMonth."-01T00:00:00' AND home='".$teamId."' ";
+                    $orWhere = "date >= '".$year."-".$month."-01T00:00:00' AND date < '".$year."-".$nextMonth."-01T00:00:00' AND away='".$teamId."' ";
+                }
+            }
+            else{
+                $nextYear = $year + 1;
+                $where = "date >= '".$year."-".$month."-01T00:00:00' and date < '".$nextYear."-01-01T00:00:00' AND home='".$teamId."' ";
+                $orWhere = "date >= '".$year."-".$month."-01T00:00:00' and date < '".$nextYear."-01-01T00:00:00' AND away='".$teamId."' ";
+            }
+            return $this->where($where)->orWhere($orWhere)->orderBy('date', 'ASC')->findAll();
         }
 
         public function getNextMatch( $teamId){
@@ -51,6 +73,7 @@
             return $this->where($where)->orderBy('date','ASC')->first();
         
         }
+
     }
 
 ?>

@@ -205,9 +205,9 @@ function setFootballStanding(competitionId){
             // Copy one element of response to our HTML paragraph
             footballTableStandingEl.innerHTML += 
             `
-            <tr class="table-item football" id = "`+response[i].id+`">
+            <tr class="table-item football clickable" id = "`+response[i].id+`">
                 <th scope+"row">`+(i+1)+`</th>
-                <td ><img class="table-logo" src="`+response[i].logo+`">`+ response[i].name+`</td>
+                <td class="left"><img class="table-logo" src="`+response[i].logo+`">`+ response[i].name+`</td>
                 <td>`+response[i].points+`</td>
             </tr>
             `;
@@ -426,7 +426,189 @@ function showDriversSection(){
     driversSectionEl.classList.remove("d-none");
 }
 
-function setDriverStanding(){
+
+/*--- MY TEAM ---*/
+//Calendar
+calendarEl = document.getElementById("calendar");
+prevMonthEl = document.getElementById("prevMonth");
+nextMonthEl = document.getElementById("nextMonth");
+
+if(calendarEl){
+    var month = new Date().getMonth()+1;
+    var year = new Date().getFullYear();
+    calendarEl.addEventListener("load", createCalendar(month, year));
+    nextMonthEl.onclick = function(){ nextMonth(month)};
+    prevMonthEl.onclick = function(){  previousMonth(month)};
+}
+
+//build calendar of selected month
+function createCalendar(month, year){
+    const teamId = document.getElementById("teamFootball").getAttribute("name");
+    const f1TeamId = document.getElementById("teamF1").getAttribute("name");
+
+
+    var currentDate = new Date();
+    var currentMonth = currentDate.getMonth()+1;
+    var currentYear = currentDate.getFullYear();
+    var currentDay = 0;
+
+    if(currentMonth == month && currentYear == year){
+        currentDay= currentDate.getDate();
+    }
+
+    var numberOfDays = getNumberOfDays(month, year);
+    const yearEl = document.getElementById("year");
+    const monthEl = document.getElementById("month");
+    const daysEl = document.getElementById("days");
+
+    const f1ImgEl = document.getElementById("f1ImgEl");
+
+    date = new Date(month+"/1/"+year);
+    const monthName = date.toLocaleString('default', { month: 'long' });
+    //Clear days
+    daysEl.innerHTML = " ";
+
+    //set month and date
+    monthEl.innerText = monthName;
+    monthEl.value = month;
+    yearEl.innerText = year;
+    yearEl.value = year;
+
+    //check what weekday is the first of the month
+    firstWeekDay = date.getDay();
+
+    //Add invisible elments
+    for(let i = 1; i < firstWeekDay; i++){
+        daysEl.innerHTML += `
+            <li class="invisible">0</li>
+        `;
+    }
+
+    var footballMatches;
+    //fetch football team matches of the month
+    fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/team/'+teamId+'/month/'+month+'/year/'+year)
+        // Convert response string to json object
+        .then(response => response.json())
+        .then(response => { 
+
+            fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/event/month/'+month+'/year/'+year)
+                // Convert response string to json object
+                .then(response => response.json())
+                .then(f1Response => { 
+                    
+            
+                for(let i = 0; i < numberOfDays; i++){
+
+                    temp_day = i+1;
+                    daysEl.innerHTML += `
+                    <li id="day`+temp_day+`">`+temp_day+`</li>`;
+
+                    for(let x = 0; x < response.length; x++ ){
+                        
+                        day = response[x].date.split(" ")[0].split("-")[2];
+                        var teamLogo;
+                        
+                        if(day == temp_day){
+                            dayEl = document.getElementById("day"+temp_day);
+                            if(response[x].away == teamId){
+                                teamLogo = response[x].homeLogo;
+                                
+                            }else if(response[x].home == teamId){
+                                teamLogo = response[x].awayLogo;
+                            }
+                            if(currentDay == (i+1)){
+                                daysEl.classList.add("active");
+                            }
+
+                            dayEl.innerHTML +=`
+                                <ul class="text-center">
+                                    <div class="football-event" id="event`+temp_day+`">
+                                        <div class="logoTeam">
+                                            <img src="`+teamLogo+`" style="max-width: 55px; height: 35px;">
+                                        </div>
+                                    </div>
+
+                                </ul>
+                            `;
+                        }
+                    }
+
+                    for(let y = 0; y < f1Response.length; y++){
+
+                        day = f1Response[y].date.split(" ")[0].split("-")[2];
+                        
+                        if(day == temp_day){
+                            eventEl = document.getElementById("event"+temp_day);
+                            var eventTime = new Date(f1Response[y].date).toLocaleString('default', { hour: '2-digit', minute: '2-digit', hour12: false});
+                            console.log("Time: " + eventTime);
+                            
+                            if(f1Response[y].type === "3rd Qualifying" || f1Response[y].type === "2nd Qualifying" ){
+
+                            }else{
+
+                                if(eventEl){
+                                    eventEl.innerHTML +=`
+                                        <div class="logoTeam" title="`+f1Response[y].type+` \n`+ eventTime + `">
+                                            <img src="`+f1ImgEl.getAttribute("src")+`" style="max-width: 55px; height: 35px;">
+                                        </div>
+                                    `;
+                                }else{
+                                    
+                                    dayEl = document.getElementById("day"+temp_day);
+                                    dayEl.innerHTML +=`
+                                        <ul class="text-center">
+                                            <div class="football-event" id="event`+temp_day+`">
+                                                <div class="logoTeam" title="`+f1Response[y].type+` \n`+ eventTime + `"> 
+                                                    <img src="`+f1ImgEl.getAttribute("src")+`" style="max-width: 55px; height: 35px;">
+                                                </div>
+                                            </div>
+        
+                                        </ul>
+                                    `;
+                                }
+
+                            }
+
+                        }
+                    }
+
+                    
+                }
+            });
+        });
+
+}
+
+function nextMonth(){
+    
+    const yearEl = document.getElementById("year");
+    const monthEl = document.getElementById("month");
+    console.log(yearEl.value);
+    if(monthEl.value < 12){
+        createCalendar(monthEl.value+1, yearEl.value);
+    }else{
+        createCalendar(1, yearEl.value+1);
+    }
+}
+
+function previousMonth(){
+    const yearEl = document.getElementById("year");
+    const monthEl = document.getElementById("month");
+
+    if(monthEl.value > 1){
+        createCalendar(monthEl.value-1, yearEl.value);
+    }else{
+        createCalendar(12, yearEl.value-1);
+    }
+}
+
+//get days in a month https://natclark.com/tutorials/javascript-days-in-month/
+function getNumberOfDays(month, year){
+    return new Date(year, month, 0).getDate();
+}
+
+//check if the 1st of the month is monday
+function isMonday(month, year){
 
 }
 
