@@ -36,50 +36,58 @@
     
     <hr>
     
-    <div class="container-fluid d-flex my-3 justify-content-center" id="driversSection" >
-        <div class="card text-bg-dark border-light p-2 mx-3" style="width: 20rem;">
-            <div class="card-header"><h3>Information</h3></div>
-            <table class="table table-dark my-3 table-bordered table-striped" style="border-radius: 25px;">
-                <tr>
-                    <th scope="row">Base</th>
-                    <td><?=$team['base']?></td>
-                </tr>
-                <tr>
-                    <th scope="row">Entry</th>
-                    <td><?=$team['first_entry']?></td>
-                </tr>
-                <tr>
-                    <th scope="row">President</th>
-                    <td><?=$team['president']?></td>
-                </tr>
-                <tr>
-                    <th scope="row">Director</th>
-                    <td><?=$team['director']?></td>
-                </tr>
-                <tr>
-                    <th scope="row">World Championships</th>
-                    <td><?=$team['world_championships']?></td>
-                </tr>
-                <tr>
-                    <th scope="row">Chassis</th>
-                    <td><?=$team['chassis']?></td>
-                </tr>
-            </table>
-        </div>
-        <div class="card text-bg-dark border-light p-2 mx-3" style="width: 20rem;">
-            <div class="card-header"><h3>Drivers</h3></div>
-            <div class="d-flex">
-                <?php foreach($drivers as $driver):?>
-                    <div class="badge mx-1" data-tilt data-tilt-glare="true" id="<?=$driver['id']?>">
-                        <img class="badge-logo" src="<?=$driver['image']?>">
-                        <div class="badge-name"><?=$driver['name']?></div>
-                        <div class="badge-bottom d-flex">
-                            <div class="badge-points" title="points"><p class="center"><?=$driver['points']?></p></div>
-                            <div class="badge-number" title="number"><p class="center">#<?=$driver['number']?></p></div>
-                        </div>
+    <div class="container-fluid" id="driversSection" >
+        
+        <div class="row text-center row-cols-1 row-cols-md-4 g-4 pb-5">
+            
+            <div class="col-md-4" style="width: 20rem;">
+                <div class="card text-bg-dark border-light" style="width: 20rem;">
+                    <div class="card-header"><h3>Information</h3></div>
+                    <table class="table table-dark my-3 table-bordered table-striped" style="border-radius: 25px;">
+                        <tr>
+                            <th scope="row">Base</th>
+                            <td><?=$team['base']?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Entry</th>
+                            <td><?=$team['first_entry']?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">President</th>
+                            <td><?=$team['president']?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Director</th>
+                            <td><?=$team['director']?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">World Championships</th>
+                            <td><?=$team['world_championships']?></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Chassis</th>
+                            <td><?=$team['chassis']?></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4" style="width: 20rem;">
+                <div class="card text-bg-dark border-light" style="width: 20rem;">
+                    <div class="card-header"><h3>Drivers</h3></div>
+                    <div class="d-flex justify-content-center">
+                        <?php foreach($drivers as $driver):?>
+                            <div class="badge mx-1" data-tilt data-tilt-glare="true" id="<?=$driver['id']?>">
+                                <img class="badge-logo" src="<?=$driver['image']?>">
+                                <div class="badge-name"><?=$driver['name']?></div>
+                                <div class="badge-bottom d-flex">
+                                    <div class="badge-points" title="points"><p class="center"><?=$driver['points']?></p></div>
+                                    <div class="badge-number" title="number"><p class="center">#<?=$driver['number']?></p></div>
+                                </div>
+                            </div>
+                        
+                        <?php endforeach ?>
                     </div>
-                
-                <?php endforeach ?>
+                </div>
             </div>
         </div>
     </div>
