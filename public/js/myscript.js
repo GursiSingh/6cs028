@@ -9,6 +9,7 @@
 //Football
 const footballTableStandingEl = document.getElementById("footballStandingTable");
 const footballFixturesTable = document.getElementById("footballFixturesTable");
+const f1TableEl = document.getElementById("constructorStandingTable");
 
 //F1
 const constructorHeaderEl = document.getElementById('constructorHeader');
@@ -20,7 +21,8 @@ const driversSectionEl = document.getElementById('drivers-section');
 if(footballTableStandingEl){
     footballTableStandingEl.addEventListener("load", updateFootball(135));
     footballTableStandingEl.addEventListener("load", setFootballStanding(135));
-    footballFixturesTable.addEventListener("load", setFootballFixtures(135));
+    footballTableStandingEl.addEventListener("load", setConstructorLinks());
+    f1TableEl.addEventListener("load", setFootballFixtures(135));
 
     constructorHeaderEl.addEventListener("click", showConstructorsSection);
     driverHeaderEl.addEventListener("click", showDriversSection);
@@ -289,7 +291,7 @@ function setFootballFixtures(competitionId, round=null){
                     }else{
                         goalAway= response[i].goal_away;
                     }
-                    var timeFormat = {day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'};
+                    var timeFormat = {day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false};
                     
                     var date;
 
@@ -381,7 +383,7 @@ function setFootballFixtures(competitionId, round=null){
                         goalAway= response[i].goal_away;
                     }
 
-                    var timeFormat = {day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'};
+                    var timeFormat = {day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' , hour12: false};
                     
                     var date;
 
@@ -424,6 +426,16 @@ function showConstructorsSection(){
 function showDriversSection(){
     constructorSectionEl.classList.add("d-none");
     driversSectionEl.classList.remove("d-none");
+}
+
+function setConstructorLinks(){
+    
+    console.log("TEST" + base_url);
+    var tableItems = document.getElementsByClassName("table-item f1 clickable");
+
+    for(let i = 0; i < tableItems.length; i++) {
+        tableItems[i].onclick = function(){ window.location.href = base_url + "/f1/team/"+ tableItems[i].id;};
+    }
 }
 
 
@@ -614,7 +626,7 @@ function isMonday(month, year){
 
 
 
-/*--- TEAM PAGE ---*/
+/*--- FOOTBALL TEAM PAGE ---*/
 //FOOTBALL TEAM
 const footballSquadEl = document.getElementById("footballSquad");
 const playerHeaderEl = document.getElementById('playerHeader');
@@ -860,5 +872,99 @@ $(document).on('show.bs.dropdown','#roundGroup', function () {
     }, 0);
 });
 
+
+/*--- F1 TEAM PAGE ---*/
+var counterEl = document.getElementById("f1Counter");
+var f1SquadEl = document.getElementById("f1Squad");
+
+//on page load
+if(counterEl){
+    counterEl.addEventListener("load", nextRaceCountdown());
+    f1SquadEl.addEventListener("load", teamRaces(f1SquadEl.getAttribute("name")));
+    
+}
+
+
+//Set/Get next race
+function nextRaceCountdown(){
+
+    console.log("F1Counter");
+    var raceDateTime = document.getElementById("f1Counter").getAttribute("value");
+
+    const second = 1000,
+        minute = second * 60,
+        hour = minute * 60,
+        day = hour * 24;
+    const countDown = new Date(raceDateTime).getTime(),
+    x = setInterval(function() {    
+
+      const now = new Date().getTime(),
+            distance = countDown - now;
+            document.getElementById("daysRace").innerText = Math.floor(distance / (day)),
+            document.getElementById("hoursRace").innerText = Math.floor((distance % (day)) / (hour)),
+            document.getElementById("minutesRace").innerText = Math.floor((distance % (hour)) / (minute)),
+            document.getElementById("secondsRace").innerText = Math.floor((distance % (minute)) / second);
+
+            if (distance < 0) {
+                document.getElementById("f1Counter").classList.add("d-none");
+                clearInterval(x);
+            }
+        });
+}
+
+
+//Get All Team Races
+function teamRaces(teamId){
+    const racesEl = document.getElementById("teamRacesTable");
+    // Fetch data
+    fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/constructor/' + teamId +'/races')
+            
+    // Convert response string to json object
+    .then(response => response.json())
+    .then(response => {
+        console.log(response[0].driverPositions[0].driver_logo);
+        for(let i = 0; i < response.length; i++){
+                    
+            var goalHome;
+            var goalAway;
+
+            if(response[i].status === "Completed"){
+                racesEl.innerHTML += 
+                `
+                    <tr class="table-item race">
+                        <td>`+ response[i].circuit.country +`</td>
+                        <td><img class="table-logo" src="`+response[i].driverPositions[0].driver_logo+`"></td>
+                        <td>`+ response[i].driverPositions[0].position +`</td>
+                        <td>Completed</td>
+                    </tr>
+                `;
+
+                racesEl.innerHTML += 
+                `
+                    <tr class="table-item race">
+                        <td>`+ response[i].circuit.country +`</td>
+                        <td><img class="table-logo" src="`+ response[i].driverPositions[1].driver_logo+`"></td>
+                        <td>`+ response[i].driverPositions[1].position +`</td>
+                        <td>Completed</td>
+                    </tr>
+                `;
+
+
+            }else{
+                racesEl.innerHTML += 
+                `
+                    <tr class="table-item race">
+                        <td>`+ response[i].circuit.country +`</td>
+                        <td><img class="table-logo" src="`+ response[i].team.logo+`"></td>
+                        <td>NA</td>
+                        <td>`+response[i].date+`</td>
+                    </tr>
+                `;
+            }
+        }
+
+    });
+
+}
 //Coundown
 //https://codepen.io/AllThingsSmitty/pen/JJavZN

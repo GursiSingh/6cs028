@@ -27,7 +27,7 @@
         }
 
         public function getAllCompetitions(){
-            return $this->findAll();
+            return $this->notLike('name', 'uefa')->findAll();
         }
 
         public function setLastUpdate($competitionId){

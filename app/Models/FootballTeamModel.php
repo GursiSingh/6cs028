@@ -23,6 +23,35 @@
             return $this->upsert($data);
         }
 
+        public function setTempTeam($team, $venueId){
+
+            if($venueId != null){
+                $data = [
+                    'id' => $team->id,
+                    'name'  => $team->name,
+                    'code'  => null,
+                    'league_competition'  => null,
+                    'logo'  => $team->logo,
+                    'founded'  => null,
+                    'points'  => null,
+                    'venue'  => $venueId,
+                ];
+            }else{
+                $data = [
+                    'id' => $team->id,
+                    'name'  => $team->name,
+                    'code'  => null,
+                    'league_competition'  => null,
+                    'logo'  => $team->logo,
+                    'founded'  => null,
+                    'points'  => null,
+                    'venue'  => null,
+                ];
+            }
+            
+            return $this->upsert($data);
+        }
+
         public function getTeams($name){
             return $this->like('name', $name)->findAll();
         }

@@ -146,13 +146,32 @@
             $result = json_decode($response->getBody());
             //id, home, away, time, venue, status, goalHome, goalAway, winnerId, round, current, competitionId
             $fixtureModel = model(FootballFixtureModel::class);
-
+            print_r($result);
             for($i = 0; $i < $result->results;$i++){
 
                 $fixture = $result->response[$i];
                 $id = $fixture->fixture->id;
                 $date = $fixture->fixture->date;
                 $venueId = $fixture->fixture->venue->id;
+                //check if venue is in the database
+                $venueModel = model(FootballVenueModel::class);
+                
+                if($venueId != null){
+                    if(empty($venueModel->getVenue($venueId))){
+                        $venue = [
+                            'id' => $venueId,
+                            'name'  =>  $fixture->fixture->venue->name,
+                            'city'  =>  $fixture->fixture->venue->city,
+                        ];
+                        $venueModel->setTempVenue($venue);
+                    }
+                }else{
+                    $venueId = null;
+                }
+                
+
+                //Check if team is in the database
+
                 $status = $fixture->fixture->status->short;
                 $homeTeam = $fixture->teams->home->id;
                 $awayTeam = $fixture->teams->away->id;
@@ -171,6 +190,10 @@
                 $round = $fixture->league->round;
                 $current = false;
 
+                //Check if teams are in database
+                $this->setTempTeam($fixture->teams->home, $venueId);
+                $this->setTempTeam($fixture->teams->away, null);
+                
                 $data = [
                     'id' => $id,
                     'home'  => $homeTeam,
@@ -193,6 +216,18 @@
             }          
             $this->setCurrentRound($competitionId);
             return;
+        }
+
+
+        //Set Temporary Team
+        public function setTempTeam($team, $venue=null){
+            $id = $team->id;
+            //team Model
+            $teamModel = model(FootballTeamModel::class);
+            if(empty($teamModel->getTeam($id))){
+                $teamModel->setTempTeam($team, $venue);
+            }
+            
         }
 
         //Set Current Fixtures Round - Daily   

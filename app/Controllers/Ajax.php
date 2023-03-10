@@ -2,13 +2,16 @@
 
 	namespace App\Controllers;
 
-	use App\Models\F1Model;
 	use App\Models\FootballCompetitionModel;
 	use App\Models\FootballTeamModel;
     use App\Models\FootballPlayerModel;
     use App\Models\FootballFixtureModel;
 	
+	use App\Models\F1Model;
     use App\Models\F1EventModel;
+    use App\Models\F1CircuitModel;
+    use App\Models\F1RankingModel;
+    use App\Models\F1DriverModel;
 
 	class Ajax extends BaseController
 	{
@@ -171,6 +174,28 @@
 			$data = $eventModel->getMonthRaces($month, $year);
 
 			print(json_encode($data));
+		}
+
+
+		public function getTeamRacesPoints($teamId){
+			$constructorModel = model(F1Model::class);
+			$eventModel = model(F1EventModel::class);
+			$circuitModel = model(F1CircuitModel::class);
+			$rankingModel = model(F1RankingModel::class);
+			$driverModel = model(F1DriverModel::class);
+			$races = $eventModel->getAllRaces();
+
+			for($i = 0; $i < sizeOf($races); $i++){
+				if($races[$i]['status'] =="Completed"){
+					$races[$i]['driverPositions'] = $rankingModel->getTeamPositions($teamId, $races[$i]['id']); 
+					$races[$i]['driverPositions'][0]["driver_logo"] = $driverModel->getDriver($races[$i]['driverPositions'][0]["driver_id"])['image']; 
+					$races[$i]['driverPositions'][1]["driver_logo"] = $driverModel->getDriver($races[$i]['driverPositions'][1]["driver_id"])['image'];
+				}
+
+				$races[$i]['circuit'] = $circuitModel->getCircuit($races[$i]['circuitId']);
+				$races[$i]['team'] = $constructorModel->getTeam($teamId)[0];
+			}
+			print(json_encode($races));
 		}
 	}
 ?>

@@ -126,7 +126,7 @@
                                 <?php $counter = 1;?>
                                 <?php foreach ($drivers as $f1Driver):?>
 
-                                    <tr class="table-item f1 clickable " id="<?=$f1Driver['id']?>">
+                                    <tr class="table-item clickable " id="<?=$f1Driver['id']?>" >
                                         <th scope="row"><?=$counter?></th>
                                         <td class="d-flex left">
                                             <img class="table-logo" src="<?=$f1Driver['image']?>">
@@ -172,7 +172,7 @@
 
                                 <?php foreach ($f1Events as $event):?>
 
-                                    <tr class="table-item f1 align-center" id="<?= $event['id']?>">
+                                    <tr class="table-item align-center" id="<?= $event['id']?>">
                                         <td class="left"><?=$event['type']?></td>
                                         <td><?= $circuit['name']?></td>
                                         <td><?=$event['date']?></td>

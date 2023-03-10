@@ -324,6 +324,19 @@ ul {list-style-type: none;}
     font-size-adjust: auto;
 }
 
+.badge-points{
+    width: 35px;
+    height: 35px;
+    position: relative;
+    border-radius: 15px 25px;
+    justify-content: center;
+    text-align: center;
+
+    font-size: 0.65rem;
+    font-size-adjust: auto;
+    background-color: red;
+}
+
 /*=== Striker ===*/
 .st{
     background-color: #ff3c00;

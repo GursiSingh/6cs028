@@ -4,6 +4,7 @@
     use App\Controllers\Ajax;
     use App\Controllers\API;
     use App\Controllers\Football;
+    use App\Controllers\F1;
 
     // Create a new instance of our RouteCollection class.
     $routes = Services::routes();
@@ -57,6 +58,10 @@
     //F1
     $routes->get('/f1/searchF1Teams/(:segment)', [Ajax::class,'searchF1Teams']);
     $routes->get('/f1/event/month/(:segment)/year/(:segment)', [Ajax::class,'getMonthRaces']);
+    $routes->get('/f1/team/(:segment)', [F1::class,'displayTeam']);
+    
+    $routes->get('/f1/constructor/(:segment)/races', [Ajax::class,'getTeamRacesPoints']);
+    
 
     //Football
     $routes->get('/football/searchTeams/(:segment)', [Ajax::class,'searchFootballTeams']);

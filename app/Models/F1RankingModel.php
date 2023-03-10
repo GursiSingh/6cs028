@@ -20,5 +20,10 @@
             return $this->where('race_id', $raceId)->orderBy('position', 'DESC')->findAll();
         }
 
+        public function getTeamPositions($teamId, $raceId){
+            $position = $this->select(['position', 'driver_id'])->where('race_id', $raceId)->where('team_id', $teamId)->findAll();
+            return $position;
+        }
+
     }
 ?>

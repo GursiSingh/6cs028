@@ -21,6 +21,19 @@
             return $this->upsert($data);
         }
 
+        public function setTempVenue($venue){
+
+            $data= [
+                'id' => $venue['id'],
+                'name'  => $venue['name'],
+                'address'  => null,
+                'city'  => $venue['city'],
+                'capacity'  => null,
+                'image'  => null,
+            ];
+            return $this->upsert($data);
+        }
+
         public function getVenue($id){
             return $this->where('id', $id)->findAll();
         }
