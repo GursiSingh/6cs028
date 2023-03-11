@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <div class="row row-cols-1 row-cols-md-2 g-4 pb-5">
+    <div class="row row-cols-1 row-cols-xlg-2 g-4 pb-5">
         <div class="col">
             <div class="card pb-3 border-light text-bg-dark" style=" height: 30rem;">
                 <div class="card-header d-flex">
@@ -92,7 +92,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Home</th>  
-                                    <th scope="col">Result</th>
+                                    <th class="text-center" scope="col">Result</th>
                                     <th scope="col">Away</th>
                                     <th scope="col">Date</th>
                                 </tr>

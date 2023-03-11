@@ -16,7 +16,7 @@
                 'country'  => $competition->country,
                 'logo'  => $competition->logo,
                 'flag'  => $competition->flag,
-                'last_update'  => $now->format("d-m-Y H:i:sO"),
+                'last_update'  => $now->format("Y-m-d H:i:sO"),
             ];
 
             return $this->upsert($data);

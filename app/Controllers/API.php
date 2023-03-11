@@ -471,16 +471,16 @@
             //https://stackoverflow.com/questions/15228832/php-string-in-a-date-format-add-12-hours
             $competitionModel = model(FootballCompetitionModel::class);
             $date = new \DateTime($competitionModel->getLastUpdate($competitionId)['last_update']);
-            $date->modify("+1 minutes");
+            $date->modify("+12 hours");
             $now = new \DateTime();
             
             if($now >= $date)
             {
                 //Update Standings
                 echo "updating";
-                // $this->loadCompetition($competitionId);
-                // //Update Fixtures
-                // $this->loadFixtures($competitionId);
+                $this->loadCompetition($competitionId);
+                //Update Fixtures
+                $this->loadFixtures($competitionId);
             }
         }
     }

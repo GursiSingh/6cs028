@@ -22,8 +22,11 @@ if (footballTableStandingEl) {
     footballTableStandingEl.addEventListener("load", updateFootball(135));
     footballTableStandingEl.addEventListener("load", setFootballStanding(135));
     footballTableStandingEl.addEventListener("load", setConstructorLinks());
-    f1TableEl.addEventListener("load", setFootballFixtures(135));
+    footballTableStandingEl.addEventListener("load", setFootballFixtures(135));
 
+}
+
+if(constructorHeaderEl){
     constructorHeaderEl.addEventListener("click", showConstructorsSection);
     driverHeaderEl.addEventListener("click", showDriversSection);
 }
@@ -316,14 +319,14 @@ function setFootballFixtures(competitionId, round = null) {
                         <tr class="table-item fixture">
                             <td style="text-align: right">
                                 <p class="full-text">` + response[i].homeName + `</p>
-                                <p class="abbr-text">` + response[i].homeCode + `</p>
-                                <img class="table-logo" src="`+ response[i].homeLogo + `" style=";margin-right:0px; margin-left: 5px;">
+                                <p class="abbr-text" style="font-size: 0.8rem">` + response[i].homeCode + `</p>
+                                <img class="table-logo" src="`+ response[i].homeLogo + `" style=";margin-right:0px; margin-left: 2px;">
                             </td>
-                            <td>`+ goalHome + ` - ` + goalAway + `</td>
+                            <td class="text-center">`+ goalHome + ` - ` + goalAway + `</td>
                             <td style="text-align: left">
-                                <img class="table-logo" src="`+ response[i].awayLogo + `" style=";margin-right:0px; margin-right: 5px;">
+                                <img class="table-logo" src="`+ response[i].awayLogo + `" style=";margin-left:0px; margin-right: 2px;">
                                 <p class="full-text">` + response[i].awayName + `</p>
-                                <p class="abbr-text" >` + response[i].awayCode + `</p>
+                                <p class="abbr-text" style="font-size: 0.8rem">` + response[i].awayCode + `</p>
                             </td>
                             <td>
                                 <p class="full-text">` + date + `</p>
@@ -427,14 +430,14 @@ function setFootballFixtures(competitionId, round = null) {
                         <tr class="table-item fixture">
                             <td style="text-align: right">
                                 <p class="full-text">` + response[i].homeName + `</p>
-                                <p class="abbr-text">` + response[i].homeCode + `</p>
-                                <img class="table-logo" src="`+ response[i].homeLogo + `" style=";margin-right:0px; margin-left: 5px;">
+                                <p class="abbr-text" style="font-size: 0.8rem">` + response[i].homeCode + `</p>
+                                <img class="table-logo" src="`+ response[i].homeLogo + `" style=";margin-right:0px; margin-left: 2px;">
                             </td>
-                            <td>`+ goalHome + ` - ` + goalAway + `</td>
+                            <td class="text-center">`+ goalHome + ` - ` + goalAway + `</td>
                             <td style="text-align: left">
-                                <img class="table-logo" src="`+ response[i].awayLogo + `" style=";margin-right:0px; margin-right: 5px;">
+                                <img class="table-logo" src="`+ response[i].awayLogo + `" style=";margin-left:0px; margin-right: 2px;">
                                 <p class="full-text">` + response[i].awayName + `</p>
-                                <p class="abbr-text">` + response[i].awayCode + `</p>
+                                <p class="abbr-text" style="font-size: 0.8rem">` + response[i].awayCode + `</p>
                             </td>
                             <td>
                                 <p class="full-text">` + date + `</p>
@@ -464,7 +467,6 @@ function showDriversSection() {
 
 function setConstructorLinks() {
 
-    console.log("TEST" + base_url);
     var tableItems = document.getElementsByClassName("table-item f1 clickable");
 
     for (let i = 0; i < tableItems.length; i++) {
