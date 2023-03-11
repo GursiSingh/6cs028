@@ -923,6 +923,7 @@ function getSquadByPosition(teamId, position){
         });
 }
 
+//Search Filter players
 function setFilterPlayers(teamId){
     var items = document.getElementsByClassName("dropdown-item position");
 
