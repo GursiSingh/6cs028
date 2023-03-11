@@ -245,6 +245,7 @@
             $result = json_decode($response->getBody());
             //id, home, away, time, venue, status, goalHome, goalAway, winnerId, round, current, competitionId
             $fixtureModel = model(FootballFixtureModel::class);
+            
             $fixtureModel->setCurrentRound($competitionId, $result->response[0]);
             return;
                     
@@ -473,7 +474,7 @@
             $date = new \DateTime($competitionModel->getLastUpdate($competitionId)['last_update']);
             $date->modify("+12 hours");
             $now = new \DateTime();
-            
+            print_r($date);
             if($now >= $date)
             {
                 //Update Standings

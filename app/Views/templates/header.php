@@ -19,6 +19,9 @@
         <!-- SET GLOBAL BASE URL -->
         <script>var base_url = '<?php echo base_url() ?>';</script>
 
+        <!-- Bootrap Icons -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+
         
         <!-- CSS -->
         <link rel="stylesheet" href="<?= base_url('/css/mystyles.css');?>" />      

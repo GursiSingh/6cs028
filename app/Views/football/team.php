@@ -63,26 +63,35 @@
     </div>
 
     <div id="playersSection" >
-        <div class="input-group mt-5">
-            <input type="text" class="form-control" aria-label="Text input with segmented dropdown button">
-            <select class="form-select hidden" id="inputGroupSelect01">
-                <option selected>Choose Position...</option>
-                <option value="1">Striker</option>
-                <option value="2">Midfielder</option>
-                <option value="3">Defender</option>
-                <option value="4">Goalkeeper</option>
-            </select>
-            <button type="button" class="btn btn-outline-light">Search</button>
-            <button type="button" class="btn btn-outline-light dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                <span class="visually-hidden">Search</span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#">Name</a></li>
-                <li><a class="dropdown-item" href="#">Number</a></li>
-                <li><a class="dropdown-item" href="#">Position</a></li>
-            </ul>
-        </div>
+        <div class="row mt-2 justify-content-between">
+            <div class="col-auto">
 
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Player" id="searchPlayer" onkeyup="searchPlayerInTeam(<?=$team['id']?>)"style="max-width: 7rem;font-size: 0.9rem;">
+                    <select class="form-select" aria-label="Default select example" id="filterPlayer" style="max-width: 6rem; font-size: 0.8rem;">
+                        <option selected>Filter</option>
+                        <option value="name">Name</option>
+                        <option value="number">Number</option>
+                        <option value="position">Position</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-funnel"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item position" name="any">Any</li>
+                        <li class="dropdown-item position" name="Attacker">Attacker</li>
+                        <li class="dropdown-item position" name="Midfielder">Midfielder</li>
+                        <li class="dropdown-item position" name="Defender">Defender</li>
+                        <li class="dropdown-item position" name="Goalkeeper">Goalkeeper</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
         <div class="text-center" id="players-container">
             
 

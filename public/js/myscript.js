@@ -465,6 +465,7 @@ function showDriversSection() {
     driversSectionEl.classList.remove("d-none");
 }
 
+//Add Links to Constructor Standings
 function setConstructorLinks() {
 
     var tableItems = document.getElementsByClassName("table-item f1 clickable");
@@ -627,6 +628,7 @@ function createCalendar(month, year) {
 
 }
 
+//Go to next month
 function nextMonth() {
 
     const yearEl = document.getElementById("year");
@@ -639,6 +641,7 @@ function nextMonth() {
     }
 }
 
+//Go to previous month
 function previousMonth() {
     const yearEl = document.getElementById("year");
     const monthEl = document.getElementById("month");
@@ -653,11 +656,6 @@ function previousMonth() {
 //get days in a month https://natclark.com/tutorials/javascript-days-in-month/
 function getNumberOfDays(month, year) {
     return new Date(year, month, 0).getDate();
-}
-
-//check if the 1st of the month is monday
-function isMonday(month, year) {
-
 }
 
 
@@ -679,24 +677,27 @@ const matchesSectionEl = document.getElementById('matchesSection');
 if (footballSquadEl) {
     let teamId = footballSquadEl.getAttribute("name");
     let competitionId = footballSquadEl.getAttribute("title");
-    footballSquadEl.addEventListener("load", getTeamSquad(teamId));
+    footballSquadEl.addEventListener("load", getTeamSquad(teamId, null));
     footballSquadEl.addEventListener("load", getTeamMatches(teamId));
     footballSquadEl.addEventListener("load", getNextMatch(competitionId, teamId));
 
     playerHeaderEl.addEventListener("click", showPlayersSection);
+    playerHeaderEl.addEventListener("load", setFilterPlayers(teamId));
     infoHeaderEl.addEventListener("click", showInfoSection);
     matchesHeaderEl.addEventListener("click", showMatchesSection);
 }
 
 //Get Players of a team from the database
-function getTeamSquad(teamId) {
+function getTeamSquad(teamId, filter) {
     const playersEl = document.getElementById("players-container");
     // Fetch data
-    fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/team/' + teamId + '/players')
+    fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/team/' + teamId + '/players/filter/'+filter)
 
         // Convert response string to json object
         .then(response => response.json())
         .then(response => {
+            
+            playersEl.innerHTML = "";
 
             for (let i = 0; i < response.length; i++) {
                 // Copy one element of response to our HTML paragraph
@@ -758,11 +759,187 @@ function getTeamSquad(teamId) {
             // Display errors in console    
             console.log(err);
             fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/load/player/' + teamId)
-                .then(getTeamSquad(teamId))
+                .then(getTeamSquad(teamId, filter))
                 .catch(err => {
                 });
         });
 }
+
+//SEARCH PLAYER AND FILTER
+
+//Search Player in team 
+function searchPlayerInTeam(teamId){
+    
+    var name = document.getElementById("searchPlayer").value;
+    
+    if(name.length == 0){
+        getTeamSquad(teamId, filter);
+    }
+    if(name.length > 0){
+        var filter = document.getElementById("filterPlayer").value;
+        console.log(filter);
+        const playersEl = document.getElementById("players-container");
+        playersEl.innerHTML = "";
+        // Fetch data
+        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/team/' + teamId + '/players/'+name+'/filter/'+filter)
+    
+            // Convert response string to json object
+            .then(response => response.json())
+            .then(response => {
+                for (let i = 0; i < response.length; i++) {
+                    // Copy one element of response to our HTML paragraph
+                    var number;
+                    var position;
+                    var name;
+                    if (!response[i].number)
+                        number = "NA";
+                    else {
+                        number = "#" + response[i].number;
+                    }
+    
+                    switch (response[i].position) {
+                        case "Attacker":
+                            position = "st";
+                            break;
+                        case "Midfielder":
+                            position = "m";
+                            break;
+                        case "Defender":
+                            position = "d";
+                            break;
+                        default:
+                            position = "gk";
+    
+                    }
+    
+                    if (response[i].name.length >= 16) {
+                        name = response[i].name.split(" ").reverse()[1] + " " + response[i].name.split(" ").reverse()[0];
+                        if (name.length >= 16) {
+                            name = response[i].name.split(" ").reverse()[0];
+                        }
+                    } else {
+                        name = response[i].name;
+                    }
+    
+                    playersEl.innerHTML +=
+                        `
+                            <div class="badge" data-tilt data-tilt-glare="true" id="`+ response[i].id + `">
+                                <img class="badge-logo" src="`+ response[i].image + `">
+                                <div class="badge-name">`+ name + `</div>
+                                
+                                <div class="badge-bottom d-flex">
+                                    <div class="badge-position `+ position + `"><p class="center">` + position.toUpperCase() + `</p></div>
+                                    <div class="badge-number"><p class="center">`+ number + `</p></div>
+                                </div>
+                            </div>
+                        `;
+    
+                }
+
+            })
+            .catch(err => {
+
+                // Display errors in console    
+                console.log(err);
+            });
+    }
+}
+
+
+function getSquadByPosition(teamId, position){
+    const playersEl = document.getElementById("players-container");
+    // Fetch data
+    fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/team/' + teamId + '/players/position/'+position)
+
+        // Convert response string to json object
+        .then(response => response.json())
+        .then(response => {
+            
+            playersEl.innerHTML = "";
+
+            for (let i = 0; i < response.length; i++) {
+                // Copy one element of response to our HTML paragraph
+                var number;
+                var position;
+                var name;
+                if (!response[i].number)
+                    number = "NA";
+                else {
+                    number = "#" + response[i].number;
+                }
+
+                switch (response[i].position) {
+                    case "Attacker":
+                        position = "st";
+                        break;
+                    case "Midfielder":
+                        position = "m";
+                        break;
+                    case "Defender":
+                        position = "d";
+                        break;
+                    default:
+                        position = "gk";
+
+                }
+
+                if (response[i].name.length >= 16) {
+                    name = response[i].name.split(" ").reverse()[1] + " " + response[i].name.split(" ").reverse()[0];
+                    if (name.length >= 16) {
+                        name = response[i].name.split(" ").reverse()[0];
+                    }
+                } else {
+                    name = response[i].name;
+                }
+
+                playersEl.innerHTML +=
+                    `
+                    <div class="badge" data-tilt data-tilt-glare="true" id="`+ response[i].id + `">
+                        <img class="badge-logo" src="`+ response[i].image + `">
+                        <div class="badge-name">`+ name + `</div>
+                        
+                        <div class="badge-bottom d-flex">
+                            <div class="badge-position `+ position + `"><p class="center">` + position.toUpperCase() + `</p></div>
+                            <div class="badge-number"><p class="center">`+ number + `</p></div>
+                        </div>
+                    </div>
+                    `;
+
+            }
+
+            //Refresh Tilt.js Script
+            var badges = document.querySelectorAll(".badge");
+            VanillaTilt.init(badges);
+
+        })
+        .catch(err => {
+
+            // Display errors in console    
+            console.log(err);
+            fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/load/player/' + teamId)
+                .then(getTeamSquad(teamId, filter))
+                .catch(err => {
+                });
+        });
+}
+
+function setFilterPlayers(teamId){
+    var items = document.getElementsByClassName("dropdown-item position");
+
+    for (let i = 0; i < items.length; i++) {
+
+        items[i].onclick = function () {
+                if(items[i].getAttribute("name") == "any"){
+                    getTeamSquad(teamId, null);
+                }else{
+                    
+                    getSquadByPosition(teamId, items[i].getAttribute("name"));
+                }
+            
+            };
+    
+    }
+} 
 
 //Get All Team Matches
 function getTeamMatches(teamId) {
@@ -857,6 +1034,7 @@ function getNextMatch(competitionId, teamId) {
         });
 }
 
+//Countdown to next Match
 function countDownToNextMatch(matchDateTime) {
 
     const second = 1000,
@@ -900,6 +1078,7 @@ function showInfoSection() {
     matchesSectionEl.classList.add("d-none");
     playersSectionEl.classList.add("d-none");
 }
+
 
 //Focus on the selected item in the dropdown -- NOT WORKING  
 $(document).on('show.bs.dropdown', '#roundGroup', function () {

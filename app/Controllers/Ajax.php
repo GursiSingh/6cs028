@@ -16,8 +16,7 @@
 	class Ajax extends BaseController
 	{
 		//Get all F1 teams based on the name entered by the user
-		public function searchF1Teams($name = null)
-		{
+		public function searchF1Teams($name = null){
 			$model = model(F1Model::class);
 			$data = $model->getTeams($name);
 
@@ -94,14 +93,20 @@
 		}
 
 		//Get players based on the teams Id
-		public function getTeamSquad($teamId){
+		public function getTeamSquad($teamId, $filter=null){
 			$playerModel = model(FootballPlayerModel::class);
-			$order = "(CASE position
-            WHEN 'Goalkeeper' THEN 0
-            WHEN 'Defender' THEN 1
-            WHEN 'Midfielder' THEN 2
-            WHEN 'Attacker' THEN 3 END)
-            ";
+			if($filter == "name"){
+				$order= "name ASC";
+			}else if($filter == "number"){
+				$order= "number ASC";
+			}else{
+				$order = "(CASE position
+				WHEN 'Goalkeeper' THEN 0
+				WHEN 'Defender' THEN 1
+				WHEN 'Midfielder' THEN 2
+				WHEN 'Attacker' THEN 3 END)
+				";
+			}
 			$data = $playerModel->getSquad($teamId, $order);
 
 			if($data == null){
@@ -112,6 +117,41 @@
 			print(json_encode($data));
 		}
 
+		//Search Player in a Team
+		public function searchPlayersInTeam($teamId, $playerName, $filter=null){
+
+			if($filter == "name"){
+
+				$order= "name ASC";
+
+			}else if($filter == "number"){
+
+				$order= "number ASC";
+
+			}else{
+				$order = "(CASE position
+				WHEN 'Goalkeeper' THEN 0
+				WHEN 'Defender' THEN 1
+				WHEN 'Midfielder' THEN 2
+				WHEN 'Attacker' THEN 3 END)
+				";
+			}
+			
+			$playerModel = model(FootballPlayerModel::class);
+			$data = $playerModel->searchPlayersInTeam($teamId, $playerName, $order);
+
+
+			print(json_encode($data));
+
+
+		}
+
+		public function getSquadByPosition($teamId, $position){
+			$playerModel = model(FootballPlayerModel::class);
+			$data = $playerModel->getSquadByPosition($teamId, $position);
+			print(json_encode($data));
+			
+		}
 		//Get all Matches of a Team
 		public function getAllTeamMatches($teamId){
 			$fixtureModel = model(FootballFixtureModel::class);

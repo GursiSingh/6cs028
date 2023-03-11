@@ -26,5 +26,10 @@
             return $this->where('team', $teamId)->orderBy($order)->findAll();
         }
 
+        function getSquadByPosition($teamId, $position){
+            
+            return $this->where('team', $teamId)->where('position', $position)->orderBy('name', 'ASC')->findAll();
+        }
+
     }
 ?>
