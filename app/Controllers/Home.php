@@ -78,7 +78,7 @@
                     . view('templates/welcome', $data)
                     . view('templates/footer');
             }else{
-                
+                //Display My Team page with users favorite teams
                 $user = $header['user'];
                 $data['team'] = $teamModel->getTeam($user['football_team'])[0];
                 $data['position'] = $teamModel->getTeamPosition($data['team']['league_competition'], $user['football_team']);
