@@ -773,11 +773,14 @@ function searchPlayerInTeam(teamId){
     var name = document.getElementById("searchPlayer").value;
     
     if(name.length == 0){
-        getTeamSquad(teamId, filter);
+        getTeamSquad(teamId, null);
     }
     if(name.length > 0){
         var filter = document.getElementById("filterPlayer").value;
         console.log(filter);
+        if(filter === "Filter"){
+            filter = null;
+        }
         const playersEl = document.getElementById("players-container");
         playersEl.innerHTML = "";
         // Fetch data
@@ -916,10 +919,6 @@ function getSquadByPosition(teamId, position){
 
             // Display errors in console    
             console.log(err);
-            fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/load/player/' + teamId)
-                .then(getTeamSquad(teamId, filter))
-                .catch(err => {
-                });
         });
 }
 
