@@ -41,6 +41,7 @@
                     for($x= 0; $x < sizeOf($data['constructor']); $x++){
                         if($data['constructor'][$x]['id'] == $teamId){
                             $drivers[$i]['teamName'] = $data['constructor'][$x]['name'];
+                            $drivers[$i]['teamLogo'] = $data['constructor'][$x]['logo'];
                         }
                     }
                 }

@@ -64,6 +64,7 @@
     
 
     //Football
+    $routes->get('/football', [Football::class,'index']);
     $routes->get('/football/searchTeams/(:segment)', [Ajax::class,'searchFootballTeams']);
     $routes->get('/football/standing/(:segment)', [Ajax::class,'getCompetitionStandings']);
     $routes->get('/football/team/(:segment)', [Football::class,'displayTeam']);

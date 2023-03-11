@@ -11,12 +11,12 @@
         <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
             <ul class=" navbar-nav mb-2 mb-lg-0 ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#" role="button">
+                    <a class="nav-link text-white" href="<?=base_url('/football')?>" role="button">
                         Football
                     </a>
                     
                     <li class="nav-item ">
-                        <a class="nav-link text-white" href="#" role="button" >
+                        <a class="nav-link text-white" href="<?=base_url('/f1')?>" role="button" >
                             Formula 1
                         </a>
                     </li>

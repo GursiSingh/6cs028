@@ -6,7 +6,7 @@
         </main>
         
     </div>
-    <div class="row row-cols-1 row-cols-md-2 g-4 pb-5">
+    <div class="row row-cols-1 row-cols-lg-2 g-4 pb-5">
         <div class="col">
             <div class="card pb-3 border-light text-bg-dark" style=" height: 30rem;">
                 <div class="card-header d-flex">
@@ -130,10 +130,15 @@
                                         <th scope="row"><?=$counter?></th>
                                         <td class="d-flex left">
                                             <img class="table-logo" src="<?=$f1Driver['image']?>">
-                                            <div class="full-name"><?=$f1Driver['name']?></div>
-                                            <div class="abbr-name d-none"><?=$f1Driver['abbr']?></div>
+                                            <div class="full-text"><?=$f1Driver['name']?></div>
+                                            <div class="abbr-text"><?=$f1Driver['abbr']?></div>
                                         </td>
-                                        <td><?=$f1Driver['teamName']?></td>
+                                        <td>
+                                            <div class="full-text"><?=$f1Driver['teamName']?></div>
+                                            <div class="abbr-text">
+                                                <img class="table-logo" src="<?=$f1Driver['teamLogo']?>" title="<?=$f1Driver['teamName']?>" alt="<?=$f1Driver['teamName']?>"/>
+                                            </div>
+                                        </td>
                                         <td><?=$f1Driver['points']?></td>
                                     </tr>
                                     <?php $counter++;?>
@@ -157,7 +162,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body overflow-auto">
                 
                     <div class="table-responsive " id="circuit-section">
                         <table class="table table-dark table-striped table-hover">

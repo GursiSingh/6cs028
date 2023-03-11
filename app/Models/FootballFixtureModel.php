@@ -45,6 +45,12 @@
             return $this->where('home', $teamId)->orWhere('away', $teamId)->orderBy('date', 'ASC')->findAll();
         }
 
+        public function getTodaysFixtures(){
+            $now = (new \DateTime())->format('Y-m-d');
+            $where = "date >= '".$now."T00:00:00' AND date < '".$now."T24:00:00'";
+            return $this->where($where)->orderBy('date', 'ASC')->findAll();
+        }
+
         public function getTeamMonthMatches($teamId, $month, $year){
             $date = $year."-".$month;
             $nextMonth = $month + 1;

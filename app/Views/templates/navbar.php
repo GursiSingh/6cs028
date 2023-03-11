@@ -15,37 +15,10 @@
                         Football
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark">
-                        <div class="accordion accordion-flush bg-dark" id="accordionFlushFootball">
-                            <div class="accordion-item">
-                                <div class="accordion-header bg-dark" id="flush-headingOne">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                        Club
-                                    </button>
-                                    <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushFootball">
-                                        <div class="accordion-body">
-                                            <a class="dropdown-item" href="#">My Club</a>
-                                            <a class="dropdown-item" href="#">Club Standings</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <div class="accordion-header bg-dark" id="flush-headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
-                                        Nation
-                                    </button>
-                                    <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushFootball">
-                                        <div class="accordion-body">
-                                            <a class="dropdown-item" href="#">My Nation</a>
-                                            <a class="dropdown-item" href="#">Nation Standings</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                        <div class="accordion-body">
+                            <li><a class="dropdown-item" href="<?=base_url('/football/team/'.$user['football_team'])?>">My Club</a></li>
+                            <li><a class="dropdown-item" href="<?=base_url('/football')?>">Football</a></li>
                         </div>
-
-
                     </ul>
 
                     <li class="nav-item dropdown">

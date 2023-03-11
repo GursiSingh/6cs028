@@ -368,6 +368,18 @@ ul {list-style-type: none;}
 
 
 /* Media */
+@media only screen and (min-width: 850px){
+
+
+    .full-text{
+        display: inline-block;
+    }
+
+    .abbr-text{
+        display: none;
+    }
+}
+
 @media only screen and (max-width: 850px){
 
 
@@ -377,6 +389,14 @@ ul {list-style-type: none;}
     }
 
     .venue-info{
+        display: none;
+    }
+
+    .full-text{
+        display: inline-block;
+    }
+
+    .abbr-text{
         display: none;
     }
 }
@@ -392,6 +412,14 @@ ul {list-style-type: none;}
         max-height: 100px;
     }
 
+    .full-text{
+        display: none;
+    }
+
+    .abbr-text{
+        display: inline-block;
+    }
+
 }
 
 
@@ -401,11 +429,11 @@ ul {list-style-type: none;}
     .weekdays li, .days li {width: 12.8%;}
   }
   
-  @media screen and (max-width: 420px) {
-    .weekdays li, .days li {width: 12.5%;}
-    .days li .active {padding: 2px;}
-  }
-  
-  @media screen and (max-width: 290px) {
-    .weekdays li, .days li {width: 12.2%;}
-  }
+@media screen and (max-width: 420px) {
+.weekdays li, .days li {width: 12.5%;}
+.days li .active {padding: 2px;}
+}
+
+@media screen and (max-width: 290px) {
+.weekdays li, .days li {width: 12.2%;}
+}
