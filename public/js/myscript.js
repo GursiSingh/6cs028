@@ -1096,10 +1096,21 @@ function getTeamMatches(teamId) {
                 matchesEl.innerHTML +=
                     `
                 <tr class="table-item fixture">
-                    <td><img class="table-logo" src="`+ response[i].homeLogo + `">` + response[i].homeName + `</td>
-                    <td>`+ goalHome + ` - ` + goalAway + `</td>
-                    <td><img class="table-logo" src="`+ response[i].awayLogo + `">` + response[i].awayName + `</td>
-                    <td>`+ response[i].round + `</td>
+                    <td style="text-align: right">
+                        <p class="full-text">` + response[i].homeName + `</p>
+                        <p class="abbr-text" style="font-size: 0.8rem">` + response[i].homeCode + `</p>
+                        <img class="table-logo" src="`+ response[i].homeLogo + `" style=";margin-right:0px; margin-left: 2px;">
+                    </td>
+                    <td class="text-center">`+ goalHome + ` - ` + goalAway + `</td>
+                    <td style="text-align: left">
+                        <img class="table-logo" src="`+ response[i].awayLogo + `" style=";margin-left:0px; margin-right: 2px;">
+                        <p class="full-text">` + response[i].awayName + `</p>
+                        <p class="abbr-text" style="font-size: 0.8rem">` + response[i].awayCode + `</p>
+                    </td>
+                    <td>
+                        <p class="full-text">` + response[i].compName + `</p>
+                        <img class="table-logo abbr-text" src="`+ response[i].compLogo + `">
+                    </td>
                 </tr>
             `;
 
@@ -1120,9 +1131,15 @@ function getNextMatch(competitionId, teamId) {
             const resultEl = document.getElementById("matchResult");
             const awayEl = document.getElementById("matchAway");
             const competitionEl = document.getElementById("matchCompetition");
+            
+            //Mobile
+            const homeMobileEl = document.getElementById("matchHomeMobile");
+            const resultMobileEl = document.getElementById("matchResultMobile");
+            const awayMobileEl = document.getElementById("matchAwayMobile");
+            const competitionMobileEl = document.getElementById("matchCompetitionMobile");
+            
             var goalHome;
             var goalAway;
-
             if (response.goal_home == null) {
                 goalHome = "";
             } else {
@@ -1145,14 +1162,31 @@ function getNextMatch(competitionId, teamId) {
 
             resultEl.innerText = goalHome + " - " + goalAway;
 
-            fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/competition/' + competitionId)
+            //Small Screens
+            homeMobileEl.innerHTML = `
+                    <img src="`+ response.homeLogo + `">` + response.homeCode + `
+                `;
+
+            awayMobileEl.innerHTML = `
+                    <img src="`+ response.awayLogo + `">` + response.awayCode + `
+                `;
+
+            resultMobileEl.innerText = goalHome + " - " + goalAway;
+
+            fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/competition/' + response.competitionId)
                 .then(response => response.json())
                 .then(response => {
                     competitionEl.innerHTML = `
                             <img class="logo-competition" id="compFootballLogo" src="`+ response[0].logo + `">
                         `;
-
+                    
                     competitionEl.title = response[0].name;
+                    //Small Screens
+                    competitionMobileEl.innerHTML = `
+                            <img src="`+ response[0].logo + `">
+                        `;
+                    
+                    competitionMobileEl.title = response[0].name;
                 });
             countDownToNextMatch(response.date);
 
@@ -1171,13 +1205,21 @@ function countDownToNextMatch(matchDateTime) {
 
             const now = new Date().getTime(),
                 distance = countDown - now;
-            document.getElementById("daysMatch").innerText = Math.floor(distance / (day)),
+                document.getElementById("daysMatch").innerText = Math.floor(distance / (day)),
                 document.getElementById("hoursMatch").innerText = Math.floor((distance % (day)) / (hour)),
                 document.getElementById("minutesMatch").innerText = Math.floor((distance % (hour)) / (minute)),
                 document.getElementById("secondsMatch").innerText = Math.floor((distance % (minute)) / second);
 
+                if(!infoSectionEl.classList.contains("d-none"))
+                {
+                    document.getElementById("daysMatchMobile").innerText = Math.floor(distance / (day)),
+                    document.getElementById("hoursMatchMobile").innerText = Math.floor((distance % (day)) / (hour)),
+                    document.getElementById("minutesMatchMobile").innerText = Math.floor((distance % (hour)) / (minute)),
+                    document.getElementById("secondsMatchMobile").innerText = Math.floor((distance % (minute)) / second);
+                }
             if (distance < 0) {
-                document.getElementById("counter").classList.add("d-none");
+                document.getElementById("counter").innerHTML = `<h3>Playing</h3>`;
+                document.getElementById("counter-mobile").innerHTML = `<h3>Playing</h3>`;
                 clearInterval(x);
             }
         });

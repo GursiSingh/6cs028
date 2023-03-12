@@ -54,8 +54,8 @@
         <input type="radio" class="btn-check " name="btnradio" id="playerHeader" autocomplete="off" checked>
         <label class="btn btn-outline-light" for="playerHeader">Players</label>
 
-        <input type="radio" class="btn-check" name="btnradio" id="infoHeader" autocomplete="off">
-        <label class="btn btn-outline-light" for="infoHeader">Information</label>
+        <input type="radio" class="btn-check abbr-text" name="btnradio" id="infoHeader" autocomplete="off">
+        <label class="btn btn-outline-light abbr-text" for="infoHeader">Information</label>
 
         <input type="radio" class="btn-check" name="btnradio" id="matchesHeader" autocomplete="off">
         <label class="btn btn-outline-light" for="matchesHeader">Matches</label>
@@ -99,7 +99,41 @@
     </div>
     
     <div class="d-none" id="infoSection">
-
+        <div class="info-comp mx-auto align-items-center">
+            <div class="next-match text-center" id="counter-mobile">
+                <h3> Next match in: </h3>
+                <div class="counter" >
+                    <ul>
+                        <li><span id="daysMatchMobile"></span>DAYS</li>
+                        <li><span id="hoursMatchMobile"></span>HRS</li>
+                        <li><span id="minutesMatchMobile"></span>MINS</li>
+                        <li><span id="secondsMatchMobile"></span>SECS</li>
+                    </ul>
+                </div>
+                <div class="btn-group" role="group">
+                    <button class="btn btn-outline-light" id="matchHomeMobile">
+                        
+                    </button>
+                    <button class="btn btn-outline-light " id="matchResultMobile"> - </button>
+                    <button class="btn btn-outline-light" id="matchAwayMobile">
+                    </button>
+                    <button class="btn btn-light" id="matchCompetitionMobile">
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+        <hr>
+        <div class="info-venue">
+            <h4>Stadium</h4>
+            <?php if(!empty($venue)):?>
+                <div id="venueFootballName"><?=$venue['name']?></div>
+                <img class="logo-team" id="venueFootballLogo" src="<?=$venue['image']?>">
+                <div id="venueFootballCapacity">Capacity: <?=$venue['capacity']?></div>
+            <?php else: ?>
+                <img class="logo-team" id="compFootballFlag" src="<?=$competition['flag']?>"> 
+            <?php endif ?>
+        </div>
     </div>
     
     <div class="d-none" id="matchesSection">

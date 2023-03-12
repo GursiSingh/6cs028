@@ -157,17 +157,24 @@
 		public function getAllTeamMatches($teamId){
 			$fixtureModel = model(FootballFixtureModel::class);
 			$teamModel = model(FootballTeamModel::class);
+			$competitionModel = model(FootballCompetitionModel::class);
+			
 
 			$data = $fixtureModel->getAllTeamMatches($teamId);
 
 			for($i = 0; $i < sizeOf($data); $i++){
-					
-				$data[$i]['homeName'] = $teamModel->getTeam($data[$i]['home'])[0]['name'];
-				$data[$i]['homeCode'] = $teamModel->getTeam($data[$i]['home'])[0]['code'];
-				$data[$i]['homeLogo'] = $teamModel->getTeam($data[$i]['home'])[0]['logo'];
-				$data[$i]['awayName'] = $teamModel->getTeam($data[$i]['away'])[0]['name'];
-				$data[$i]['awayLogo'] = $teamModel->getTeam($data[$i]['away'])[0]['logo'];
-				$data[$i]['awayCode'] = $teamModel->getTeam($data[$i]['away'])[0]['code'];
+				$homeTeam= $teamModel->getTeam($data[$i]['home'])[0];
+				$awayTeam= $teamModel->getTeam($data[$i]['away'])[0];
+				$comp = $competitionModel->getCompetition($data[$i]['competitionId'])[0];
+
+				$data[$i]['homeName'] = $homeTeam['name'];
+				$data[$i]['homeCode'] = $homeTeam['code'];
+				$data[$i]['homeLogo'] = $homeTeam['logo'];
+				$data[$i]['awayName'] = $awayTeam['name'];
+				$data[$i]['awayLogo'] = $awayTeam['logo'];
+				$data[$i]['awayCode'] = $awayTeam['code'];
+				$data[$i]['compName'] = $comp['name'];
+				$data[$i]['compLogo'] = $comp['logo'];
 			}
 
 			print(json_encode($data));

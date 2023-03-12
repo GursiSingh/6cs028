@@ -236,16 +236,22 @@ ul {list-style-type: none;}
     font-size: 1.5em;
 }
 
-#matchHome{
+#matchHome, #matchHomeMobile{
     align-items: center;
     
 }
-#matchHome img, #matchAway img{
+#matchHome img, #matchAway img, #matchHomeMobile img, #matchAwayMobile img, #matchCompetitionMobile img{
     max-width: 15px;
     max-height: 15px; 
     object-fit: cover;
     object-position: 0% -10%;
 }
+
+.logo-competition-mobile{
+    width: 15px;
+    object-fit: contain;
+}
+
 
 
 /* VENUE */
