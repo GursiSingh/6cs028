@@ -1267,7 +1267,7 @@ if (counterEl) {
 }
 
 
-//Set/Get next race
+//Set-Get next race
 function nextRaceCountdown() {
 
     console.log("F1Counter");
@@ -1294,6 +1294,131 @@ function nextRaceCountdown() {
         });
 }
 
+//On load f1 Race Ranking
+const raceTableEl = document.getElementById("raceTable");
+if(raceTableEl){
+    raceTableEl.addEventListener("load", getRacesRanking(null));
+}
+
+//Get Races Ranking
+function getRacesRanking(raceId= null){
+
+    const racesDropDownEl = document.getElementById("racesList");
+    const racesHeaderEl = document.getElementById("f1RaceHeader");
+    racesDropDownEl.innerText = "";
+    if(raceId == null){
+        // Fetch data
+        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/races/ranking')
+
+            // Convert response string to json object
+            .then(response => response.json())
+            .then(response => {
+                
+                //Set Event in the header
+                var currentRaceId = response.lastRaceId;
+                for(let i = 0; i< response.raceStanding.length; i++){
+                    var race = response.raceStanding[i];
+                    if(race[0].race_id == currentRaceId){
+                        f1EventHeaderEl.innerText = race.circuitCountry;
+                        racesHeaderEl.innerText = race.circuitCountry;
+                        racesDropDownEl.innerHTML += `
+                            <li><a class="dropdown-item race" name="`+ race[0].race_id + `" id="selected">` + race.circuitCountry + `</a></li>
+                        `;
+                    }else{
+                        racesDropDownEl.innerHTML += `
+                            <li><a class="dropdown-item race" name="`+ race[0].race_id + `">` + race.circuitCountry + `</a></li>
+                        `;
+                    }
+                }
+
+                var raceItems = document.getElementsByClassName("dropdown-item race");
+
+                for (let i = 0; i < raceItems.length; i++) {
+                    raceItems[i].onclick = function () { getRacesRanking(raceItems[i].name) };
+                }
+            })
+            .catch(err => {
+
+                // Display errors in console    
+                console.log(err);
+            });
+        }else{
+            // Fetch data
+        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/races/ranking')
+
+        // Convert response string to json object
+        .then(response => response.json())
+        .then(response => {
+            
+            raceTableEl.innerHTML += "";
+            //Set Event in the header
+            var currentRaceId = response.lastRaceId;
+            for(let i = 0; i< response.raceStanding.length; i++){
+                var race = response.raceStanding[i];
+                console.log(race[0]);
+                if(race[0].race_id == raceId){
+                    f1EventHeaderEl.innerText = race.circuitCountry;
+                    racesHeaderEl.innerText = race.circuitCountry;
+                    racesDropDownEl.innerHTML += `
+                        <li><a class="dropdown-item active" name="`+ race[0].race_id + `" id="selected">` + race.circuitCountry + `</a></li>
+                    `;
+                    
+
+                    for(let x = 0; x < race.length; x++){
+
+                        raceTableEl.innerHTML += `
+
+                        <tr class="table-item align-center" id="`+ race[x].race_id+`">
+                            <td class="left">`+ race[x].position+`</td>
+                            <td>
+                                <img class="table-logo" src="`+ race[x].driverLogo+`">
+                                <div class="full-text">`+ race[x].driverName+`</div>
+                                <div class="abbr-text">`+ race[x].driverAbbr+`</div>
+                            </td>
+                            <td>
+                                <div class="full-text">`+ race[x].teamName+`</div>
+                                <div class="abbr-text">
+                                    <img class="table-logo" src="`+ race[x].teamLogo+`" title="`+ race[x].teamName+`" alt="`+ race[x].teamName+`"/>
+                                </div>
+                            </td>
+                            <td class="full-table text-center">`+ race[x].grip+`</td>
+                            <td class="full-table text-center">`+ race[x].pits+`</td>
+                            <td class="full-table text-center">`+ race[x].time+`</td>
+                        </tr>
+                    
+                    `;
+
+
+                    }
+                    
+
+
+                }else if(race[0].race_id == currentRaceId){
+                    f1EventHeaderEl.innerText = race.circuitCountry;
+                    racesDropDownEl.innerHTML += `
+                        <li><a class="dropdown-item race text-bg-secondary mb-3" name="`+ race[0].race_id + `" id="selected">` + race.circuitCountry + `</a></li>
+                    `;
+                }else{
+                    racesDropDownEl.innerHTML += `
+                        <li><a class="dropdown-item race" name="`+ race[0].race_id + `">` + race.circuitCountry + `</a></li>
+                    `;
+                }
+            }
+
+            var raceItems = document.getElementsByClassName("dropdown-item race");
+
+            for (let i = 0; i < raceItems.length; i++) {
+                raceItems[i].onclick = function () { getRacesRanking(raceItems[i].name) };
+            }
+        })
+        .catch(err => {
+
+            // Display errors in console    
+            console.log(err);
+        });
+        }
+}
+
 
 //Get All Team Races
 function teamRaces(teamId) {
@@ -1304,11 +1429,9 @@ function teamRaces(teamId) {
         // Convert response string to json object
         .then(response => response.json())
         .then(response => {
-            console.log(response[0].driverPositions[0].driver_logo);
+            
             for (let i = 0; i < response.length; i++) {
 
-                var goalHome;
-                var goalAway;
 
                 if (response[i].status === "Completed") {
                     racesEl.innerHTML +=

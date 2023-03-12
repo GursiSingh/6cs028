@@ -60,6 +60,7 @@
     $routes->get('/f1/searchF1Teams/(:segment)', [Ajax::class,'searchF1Teams']);
     $routes->get('/f1/constructor/(:segment)/races', [Ajax::class,'getTeamRacesPosition']);
     $routes->get('/f1/team/(:segment)', [F1::class,'displayTeam']);
+    $routes->get('/f1/races/ranking', [Ajax::class,'getRacesRanking']);
     
     $routes->get('/f1/event/month/(:segment)/year/(:segment)', [Ajax::class,'getMonthRaces']);
     $routes->get('/f1/events/', [Ajax::class,'getAllEvents']);

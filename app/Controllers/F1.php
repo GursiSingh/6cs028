@@ -55,6 +55,7 @@
                         }
                     }
                 }
+                $data['circuitCountry'] = $circuitModel->getCircuit($completedRaces[$i]['circuitId'])['country'];
             }   
             
             //get Last race

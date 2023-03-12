@@ -88,12 +88,12 @@
     <!-- Race Standings -->
     <div class="card pb-3 border-light text-bg-dark w-100" style="height: 30rem;">
         <div class="card-header d-flex">
-            <h1 class="title-card" id="f1RaceHeader">Race Standing</h1>
-            <div class="btn-group" id="eventGroup">
+            <h1 class="title-card">Race Standing</h1>
+            <div class="btn-group" id="raceGroup">
                 <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Races
                 </button>
-                <ul class="dropdown-menu overflow-auto" style="height:25rem;"id="racesList">
+                <ul class="dropdown-menu overflow-auto" style="max-height:25rem;"id="racesList">
                 </ul>
             </div>
         </div>
@@ -111,8 +111,8 @@
                             <th class="full-table text-center" scope="col">Grid</th>
                         </tr>
                     </thead>
+                    <h4 id="f1RaceHeader"><?= $circuitCountry?></h4>
                     <tbody id="raceTable">
-                        <h4><?= $circuit['country']?></h4>
                         <?php for($i = 0; $i < (sizeOf($lastRace)); $i++):?>
                             <tr class="table-item align-center" id="<?= $lastRace[$i]['id']?>">
                                 <td class="left"><?=$lastRace[$i]['position']?></td>
@@ -124,7 +124,7 @@
                                 <td>
                                     <div class="full-text"><?=$lastRace[$i]['teamName']?></div>
                                     <div class="abbr-text">
-                                        <img class="table-logo" src="<?=$lastRace[$i]['teamLogo']?>" title="<?=$f1Driver['teamName']?>" alt="<?=$f1Driver['teamName']?>"/>
+                                        <img class="table-logo" src="<?=$lastRace[$i]['teamLogo']?>" title="<?=$lastRace[$i]['teamName']?>" alt="<?=$lastRace[$i]['teamName']?>"/>
                                     </div>
                                 </td>
                                 <td class="full-table text-center"><?=$lastRace[$i]['grid']?></td>
