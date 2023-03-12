@@ -34,7 +34,7 @@
         }
 
         //Get next scheduled F1 Event by circuit id from the database
-        public function getNextEventsByCircuit($circuitId){
+        public function getEventsByCircuit($circuitId){
             return $this->where('circuitId', $circuitId)->orderBy('date', 'ASC')->findAll();
             
         }
@@ -44,6 +44,7 @@
             return $this->where('type', 'Race')->orderBy('date', 'ASC')->findAll();
         } 
 
+        //get all events in a month 
         public function getMonthRaces($month, $year){
             $date = $year."-".$month;
             $nextMonth = $month + 1;
@@ -62,6 +63,8 @@
             }
             return $this->where($where)->orderBy('date', 'ASC')->findAll();
         }
+
+        
 
 
     }

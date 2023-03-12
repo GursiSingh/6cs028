@@ -152,6 +152,7 @@
 			print(json_encode($data));
 			
 		}
+
 		//Get all Matches of a Team
 		public function getAllTeamMatches($teamId){
 			$fixtureModel = model(FootballFixtureModel::class);
@@ -207,8 +208,50 @@
 
 			print(json_encode($data));
 		}
-		
 
+		//get all f1 races - therefore all event circuitIds
+		public function getAllEvents(){
+			
+			$eventModel = model(F1EventModel::class);
+			$data['races'] = $eventModel->getAllRaces();
+			$data['currentCircuitId'] = $eventModel->getNextEventCircuitid()['circuitId'];
+			
+            $circuitModel = model(F1CircuitModel::class);
+			
+			for($i = 0; $i < sizeOf($data['races']);$i++){
+				$circuit = $circuitModel->getCircuit($data['races'][$i]['circuitId']);
+				$data['races'][$i]['circuit'] = $circuit;
+				$eventCountry[$i]['id'] = $circuit['id'];
+				$eventCountry[$i]['number'] = $i +1;
+				$eventCountry[$i]['country'] = $circuit['country'];
+			}
+			$data['eventList'] = $eventCountry;
+			
+			print(json_encode($data));
+		}
+
+		//Get F1 Event
+		public function getF1Event($circuitId){
+			$eventModel = model(F1EventModel::class);
+            $circuitModel = model(F1CircuitModel::class);
+			$circuit = $circuitModel->getCircuit($circuitId);
+			$racesList = $eventModel->getAllRaces();
+			$event = $eventModel->getEventsByCircuit($circuitId);
+
+			//Get Event Number
+			for($i= 0; $i < sizeOf($racesList); $i++){
+
+				if($racesList[$i]['circuitId'] == $circuitId){
+					$data['eventNumber'] = $i +1;
+					
+				}
+			}
+			$data['f1Events'] = $event;
+			$data['circuit'] = $circuit;
+			print(json_encode($data));
+		}
+		
+		//Get F1 Events In a Month
 		public function getMonthRaces($month, $year){
 			$eventModel = model(F1EventModel::class);
 			$data = $eventModel->getMonthRaces($month, $year);
@@ -216,8 +259,8 @@
 			print(json_encode($data));
 		}
 
-
-		public function getTeamRacesPoints($teamId){
+		//Get Team Races Position 
+		public function getTeamRacesPosition($teamId){
 			$constructorModel = model(F1Model::class);
 			$eventModel = model(F1EventModel::class);
 			$circuitModel = model(F1CircuitModel::class);

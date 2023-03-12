@@ -16,6 +16,9 @@ const constructorHeaderEl = document.getElementById('constructorHeader');
 const driverHeaderEl = document.getElementById('driverHeader');
 const constructorSectionEl = document.getElementById('constructor-section');
 const driversSectionEl = document.getElementById('drivers-section');
+const eventTableEl = document.getElementById('eventTable');
+const f1EventHeaderEl = document.getElementById('f1EventHeader');
+const eventListEl = document.getElementById('eventList');
 
 
 if (footballTableStandingEl) {
@@ -293,8 +296,6 @@ function setFootballFixtures(competitionId, round = null) {
                     } else {
                         goalAway = response[i].goal_away;
                     }
-                    var timeFormat = { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
-
                     var date;
 
                     var matchTime = new Date(response[i].date).getTime();
@@ -474,6 +475,130 @@ function setConstructorLinks() {
         tableItems[i].onclick = function () { window.location.href = base_url + "/f1/team/" + tableItems[i].id; };
     }
 }
+
+//on event list load
+if(f1EventHeaderEl){
+    f1EventHeaderEl.addEventListener("load", setF1Events(null));
+}
+
+//Set/Get F1 Events
+function setF1Events(circuitId = null){
+    
+    //if circuit null set next event
+    if(circuitId == null){
+        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/events')
+            // Convert response string to json object
+            .then(response => response.json())
+            .then(response => {
+                
+                //Set Event in the header
+                var currentCircuitId = response.currentCircuitId;
+                for(let i = 0; i< response.eventList.length; i++){
+                    var event = response.eventList[i];
+                    if(event.id == currentCircuitId){
+                        f1EventHeaderEl.innerText = "Event "+ event.number + ": "+ event.country;
+                        eventListEl.innerHTML += `
+                            <li><a class="dropdown-item active" name="`+ event.id + `" id="selected">` + event.country + `</a></li>
+                        `;
+                    }else{
+                        eventListEl.innerHTML += `
+                            <li><a class="dropdown-item event" name="`+ event.id + `">` + event.country + `</a></li>
+                        `;
+                    }
+                }
+
+                var eventItems = document.getElementsByClassName("dropdown-item event");
+
+                for (let i = 0; i < eventItems.length; i++) {
+                    eventItems[i].onclick = function () { setF1Events(eventItems[i].name) };
+                }
+
+            })
+            .catch(err => {
+
+                // Display errors in console    
+                console.log(err);
+            });
+    }else{
+        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/events')
+            // Convert response string to json object
+            .then(response => response.json())
+            .then(response => {
+                
+                
+                eventListEl.innerHTML = "";
+                //Set Event in the header
+                var currentCircuitId = response.currentCircuitId;
+                for(let i = 0; i< response.eventList.length; i++){
+                    var event = response.eventList[i];
+
+                    if(event.id == circuitId){
+                        f1EventHeaderEl.innerText = "Event "+ event.number + ": "+ event.country;
+                        eventListEl.innerHTML += `
+                            <li><a class="dropdown-item active" name="`+ event.id + `" id="selected">` + event.country + `</a></li>
+                        `;
+                        
+                    }else if(event.id == currentCircuitId){
+                        eventListEl.innerHTML += `
+                            <li><a class="dropdown-item event text-bg-secondary mb-3" name="`+ event.id + `" id="selected">` + event.country + `</a></li>
+                        `;
+                    }else{
+                        eventListEl.innerHTML += `
+                            <li><a class="dropdown-item event" name="`+ event.id + `">` + event.country + `</a></li>
+                        `;
+                    }
+                }
+
+                var eventItems = document.getElementsByClassName("dropdown-item event");
+
+                for (let i = 0; i < eventItems.length; i++) {
+                    eventItems[i].onclick = function () { setF1Events(eventItems[i].name) };
+                }
+
+            })
+            .catch(err => {
+
+                // Display errors in console    
+                console.log(err);
+            });
+
+            fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/events/circuit/'+ circuitId)
+                // Convert response string to json object
+                .then(response => response.json())
+                .then(response => {
+                    eventTableEl.innerHTML = "";
+                    console.log(response.f1Events);
+                    for(let i = 0; i < response.f1Events.length; i++){
+                        if(response.f1Events[i].status == "Completed")
+                            date = "Completed";
+                        else{
+                            var timeFormat = { day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
+                            date = new Date(response.f1Events[i].date).toLocaleString("en-GB", timeFormat);
+
+                            var abbrTimeFormat = { day: 'numeric', month: 'numeric', year: 'numeric'};
+                            abbrDate = new Date(response.f1Events[i].date).toLocaleString("en-GB", abbrTimeFormat);
+                        }
+                        eventTableEl.innerHTML += `
+                            <tr class="table-item align-center" id="`+ response.f1Events[i].id +`">
+                                <td class="left">`+ response.f1Events[i].type +`</td>
+                                <td>`+ response.circuit.name +`</td>
+                                
+                                <td> 
+                                    <p class="full-text">` + date + `</p>
+                                    <p class="abbr-text" style="font-size: 0.7rem">` + abbrDate + `</p>
+                                </td>
+                            </tr>
+                        `;
+                    }
+
+                })
+                .catch(err => {
+
+                    // Display errors in console    
+                    console.log(err);
+                });
+    }
+} 
 
 
 /*--- MY TEAM ---*/

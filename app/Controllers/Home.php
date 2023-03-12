@@ -55,7 +55,14 @@
                 
                 $data['circuit'] = $circuit;
                 //Get all events in that circuit
-                $event = $eventModel->getNextEventsByCircuit($circuitId);
+                $event = $eventModel->getEventsByCircuit($circuitId);
+
+
+                for($i= 0; $i < sizeOf($event); $i++){
+                    $eventDate = new \DateTime($event[$i]['date']);
+                    $eventDate = $eventDate->format("d/m/Y, H:i");
+                    $event[$i]['date'] = $eventDate;
+                }
                 
 
                 //Get list of all races in the Event

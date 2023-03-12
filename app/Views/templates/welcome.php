@@ -182,7 +182,6 @@
                                         <td><?= $circuit['name']?></td>
                                         <td><?=$event['date']?></td>
                                     </tr>
-                                    <?php $counter++;?>
                                 <?php endforeach ?> 
                             </tbody>
 
