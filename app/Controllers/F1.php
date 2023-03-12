@@ -36,7 +36,10 @@
                     }
                 }
             }
+            //Driver Data
             $data['drivers'] = $drivers;
+
+            //Get Races Standings
             for($i= 0; $i < sizeOf($completedRaces); $i++){
                 $id = $completedRaces[$i]['id'];
                 $data['raceStanding'][$id] = $raceRankingModel->getRaceRanking($id);
@@ -54,12 +57,13 @@
                 }
             }   
             
-            //get last race
+            //get Last race
             $data['lastRace'] = end($data['raceStanding']);
-            print_r($data['lastRace'][0]['driverName']);
+
             //Get next Event Circuit Id
             $circuitId  = $eventModel->getNextEventCircuitid()['circuitId'];
 
+            //Get Circuit
             $circuit = $circuitModel->getCircuit($circuitId);
             
             $data['circuit'] = $circuit;
