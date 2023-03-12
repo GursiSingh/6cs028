@@ -29,7 +29,7 @@
 
         //Get next scheduled F1 Event circuit id from the database
         public function getNextEventCircuitid(){
-            return $this->select('circuitId')->where('status', 'scheduled')->first();
+            return $this->select('circuitId')->where('status', 'Scheduled')->first();
             
         }
 
@@ -64,8 +64,9 @@
             return $this->where($where)->orderBy('date', 'ASC')->findAll();
         }
 
-        
-
-
+        //Get completed Races
+        public function getCompletedRaces(){
+            return $this->where('type', 'Race')->where('status', 'Completed')->orderBy('date', 'ASC')->findAll();
+        }
     }
 ?>

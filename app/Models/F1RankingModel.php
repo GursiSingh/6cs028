@@ -17,7 +17,7 @@
 
         //Get Ranking of a race
         public function getRaceRanking($raceId){
-            return $this->where('race_id', $raceId)->orderBy('position', 'DESC')->findAll();
+            return $this->where('race_id', $raceId)->orderBy('position', 'ASC')->findAll();
         }
 
         public function getTeamPositions($teamId, $raceId){

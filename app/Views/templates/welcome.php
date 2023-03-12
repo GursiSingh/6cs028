@@ -180,7 +180,10 @@
                                     <tr class="table-item align-center" id="<?= $event['id']?>">
                                         <td class="left"><?=$event['type']?></td>
                                         <td><?= $circuit['name']?></td>
-                                        <td><?=$event['date']?></td>
+                                        <td> 
+                                            <p class="full-text"><?=$event['date']?></p>
+                                            <p class="abbr-text" style="font-size: 0.7rem"><?=$event['date']?></p>
+                                        </td>
                                     </tr>
                                 <?php endforeach ?> 
                             </tbody>

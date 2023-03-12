@@ -56,6 +56,7 @@
     $routes->get('/logout', 'User::logout');
 
     //F1
+    $routes->get('/f1', [F1::class,'index']);
     $routes->get('/f1/searchF1Teams/(:segment)', [Ajax::class,'searchF1Teams']);
     $routes->get('/f1/constructor/(:segment)/races', [Ajax::class,'getTeamRacesPosition']);
     $routes->get('/f1/team/(:segment)', [F1::class,'displayTeam']);

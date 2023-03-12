@@ -10,6 +10,90 @@
 
     class F1 extends BaseController{
 
+        public function index(){
+            $session = session();
+            $header['title']='F1 Home';
+            $header['user']=$session->get('user');
+
+            //F1 Model
+            $constructorModel = model(F1Model::class);
+            $driverModel = model(F1DriverModel::class);
+            $eventModel = model(F1EventModel::class);
+            $circuitModel = model(F1CircuitModel::class);
+            $raceRankingModel = model(F1RankingModel::class);
+
+            $drivers = $driverModel->getStanding();
+            $data['constructor'] = $constructorModel->getStanding();
+            $completedRaces = $eventModel->getCompletedRaces();
+
+            for($i= 0; $i < sizeOf($drivers); $i++){
+                
+                $teamId = $drivers[$i]['team'];
+                for($x= 0; $x < sizeOf($data['constructor']); $x++){
+                    if($data['constructor'][$x]['id'] == $teamId){
+                        $drivers[$i]['teamName'] = $data['constructor'][$x]['name'];
+                        $drivers[$i]['teamLogo'] = $data['constructor'][$x]['logo'];
+                    }
+                }
+            }
+            $data['drivers'] = $drivers;
+            for($i= 0; $i < sizeOf($completedRaces); $i++){
+                $id = $completedRaces[$i]['id'];
+                $data['raceStanding'][$id] = $raceRankingModel->getRaceRanking($id);
+                for($x = 0; $x < (sizeOf($data['raceStanding'][$id])); $x++){
+                    $driverId = $data['raceStanding'][$id][$x]['driver_id'];
+                    for($y= 0; $y < sizeOf($drivers); $y++){
+                        if($drivers[$y]['id'] == $driverId){
+                            $data['raceStanding'][$id][$x]['driverName'] = $drivers[$y]['name'];
+                            $data['raceStanding'][$id][$x]['driverLogo'] = $drivers[$y]['image'];
+                            $data['raceStanding'][$id][$x]['driverAbbr'] = $drivers[$y]['abbr'];
+                            $data['raceStanding'][$id][$x]['teamName'] = $drivers[$y]['teamName'];
+                            $data['raceStanding'][$id][$x]['teamLogo'] = $drivers[$y]['teamLogo'];
+                        }
+                    }
+                }
+            }   
+            
+            //get last race
+            $data['lastRace'] = end($data['raceStanding']);
+            print_r($data['lastRace'][0]['driverName']);
+            //Get next Event Circuit Id
+            $circuitId  = $eventModel->getNextEventCircuitid()['circuitId'];
+
+            $circuit = $circuitModel->getCircuit($circuitId);
+            
+            $data['circuit'] = $circuit;
+            //Get all events in that circuit
+            $event = $eventModel->getEventsByCircuit($circuitId);
+
+
+            for($i= 0; $i < sizeOf($event); $i++){
+                $eventDate = new \DateTime($event[$i]['date']);
+                $eventDate = $eventDate->format("d/m/Y, H:i");
+                $event[$i]['date'] = $eventDate;
+            }
+            
+
+            //Get list of all races in the Event
+            $racesList = $eventModel->getAllRaces();
+            
+
+            //Get Event Number
+            for($i= 0; $i < sizeOf($racesList); $i++){
+
+                if($racesList[$i]['circuitId'] == $circuitId){
+                    $data['eventNumber'] = $i +1;
+                }
+            }
+
+            //Set Events Item
+            $data['f1Events'] = $event;
+
+            return view('templates/header', $header)
+                . view('f1/index', $data)
+                . view('templates/footer');
+        }
+
         public function displayTeam($id){
 
             $session = session();

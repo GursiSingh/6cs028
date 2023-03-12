@@ -381,6 +381,10 @@ ul {list-style-type: none;}
         display: inline-block;
     }
 
+    .full-table{
+        display: flexbox;
+    }
+
     .abbr-text{
         display: none;
     }
@@ -419,6 +423,10 @@ ul {list-style-type: none;}
     }
 
     .full-text{
+        display: none;
+    }
+
+    .full-table{
         display: none;
     }
 
