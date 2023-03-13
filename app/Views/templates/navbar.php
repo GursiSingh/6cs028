@@ -2,7 +2,7 @@
 <nav class ="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="<?=base_url()?>">
-            <img src="#"/>
+            <img src="<?php echo base_url('/favicon.ico'); ?>"/>
             My Sports
         </a>
         <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

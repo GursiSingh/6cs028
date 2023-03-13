@@ -27,7 +27,6 @@ function setCompetition(position){
     geocoder.geocode({ 'latLng': currentLoc }, function (results, status) {
         var loc = results[0].address_components;
         var locItemCount = loc.length;
-        console.log(results);
         var locCountryName = loc[locItemCount-2].long_name;
         if(locCountryName == "United Kingdom"){
             locCountryName = loc[locItemCount-3].long_name;
@@ -79,7 +78,7 @@ function setCompetitionNyUserCountry(){
 
 if (footballTableStandingEl) {
     var compId = footballTableStandingEl.getAttribute("name");
-    console.log("id:" + compId);
+    
     if(compId == null || !compId){
         setCompetitionNyUserCountry();
     }else{
@@ -104,6 +103,7 @@ function updateFootball(competitionId) {
         .catch(err => {
         });
 }
+
 
 //Display Element
 function displayHints(el) {
@@ -166,7 +166,6 @@ function setTeam(selectedEl, inputEl, listEl, type) {
     id = selectedEl.attributes["value"].value;
     inputEl.title = name;
     inputEl.value = id;
-    console.log(inputEl.value);
     hideHints(listEl);
 }
 
@@ -630,7 +629,6 @@ function setF1Events(circuitId = null){
                 .then(response => response.json())
                 .then(response => {
                     eventTableEl.innerHTML = "";
-                    console.log(response.f1Events);
                     for(let i = 0; i < response.f1Events.length; i++){
                         if(response.f1Events[i].status == "Completed")
                             date = "Completed";
@@ -732,19 +730,23 @@ function createCalendar(month, year) {
                 // Convert response string to json object
                 .then(response => response.json())
                 .then(f1Response => {
-
+                    
 
                     for (let i = 0; i < numberOfDays; i++) {
 
                         temp_day = i + 1;
                         daysEl.innerHTML += `
-                    <li id="day`+ temp_day + `">` + temp_day + `</li>`;
+                            <li id="day`+ temp_day + `"><div class="day"><p>` + temp_day + `</p></div></li>`;
 
                         for (let x = 0; x < response.length; x++) {
 
                             day = response[x].date.split(" ")[0].split("-")[2];
                             var teamLogo;
-
+                            if (currentDay == (i + 1)) {
+                                    console.log(currentDay);
+                                    document.getElementById("day"+ temp_day).classList.add("active");
+                                    
+                                }
                             if (day == temp_day) {
                                 dayEl = document.getElementById("day" + temp_day);
                                 if (response[x].away == teamId) {
@@ -753,20 +755,17 @@ function createCalendar(month, year) {
                                 } else if (response[x].home == teamId) {
                                     teamLogo = response[x].awayLogo;
                                 }
-                                if (currentDay == (i + 1)) {
-                                    daysEl.classList.add("active");
-                                }
-
+                                
                                 dayEl.innerHTML += `
-                                <ul class="text-center">
+                                <ul class="text-center mx-auto">
                                     <div class="football-event" id="event`+ temp_day + `">
                                         <div class="logoTeam">
-                                            <img src="`+ teamLogo + `" style="max-width: 55px; height: 35px;">
+                                            <img class="calendar-image" src="`+ teamLogo + `" >
                                         </div>
                                     </div>
 
                                 </ul>
-                            `;
+                                `;
                             }
                         }
 
@@ -777,7 +776,6 @@ function createCalendar(month, year) {
                             if (day == temp_day) {
                                 eventEl = document.getElementById("event" + temp_day);
                                 var eventTime = new Date(f1Response[y].date).toLocaleString('default', { hour: '2-digit', minute: '2-digit', hour12: false });
-                                console.log("Time: " + eventTime);
 
                                 if (f1Response[y].type === "3rd Qualifying" || f1Response[y].type === "2nd Qualifying") {
 
@@ -786,17 +784,17 @@ function createCalendar(month, year) {
                                     if (eventEl) {
                                         eventEl.innerHTML += `
                                         <div class="logoTeam" title="`+ f1Response[y].type + ` \n` + eventTime + `">
-                                            <img src="`+ f1ImgEl.getAttribute("src") + `" style="max-width: 55px; height: 35px;">
+                                            <img class="calendar-image" src="`+ f1ImgEl.getAttribute("src") + `" >
                                         </div>
                                     `;
                                     } else {
 
                                         dayEl = document.getElementById("day" + temp_day);
                                         dayEl.innerHTML += `
-                                        <ul class="text-center">
+                                        <ul class="text-cente mx-auto">
                                             <div class="football-event" id="event`+ temp_day + `">
                                                 <div class="logoTeam" title="`+ f1Response[y].type + ` \n` + eventTime + `"> 
-                                                    <img src="`+ f1ImgEl.getAttribute("src") + `" style="max-width: 55px; height: 35px;">
+                                                    <img class="calendar-image" src="`+ f1ImgEl.getAttribute("src") + `">
                                                 </div>
                                             </div>
         
@@ -821,7 +819,6 @@ function nextMonth() {
 
     const yearEl = document.getElementById("year");
     const monthEl = document.getElementById("month");
-    console.log(yearEl.value);
     if (monthEl.value < 12) {
         createCalendar(monthEl.value + 1, yearEl.value);
     } else {
@@ -1333,7 +1330,6 @@ if (counterEl) {
 //Set-Get next race
 function nextRaceCountdown() {
 
-    console.log("F1Counter");
     var raceDateTime = document.getElementById("f1Counter").getAttribute("value");
 
     const second = 1000,
@@ -1406,79 +1402,88 @@ function getRacesRanking(raceId= null){
                 console.log(err);
             });
         }else{
-            // Fetch data
-        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/races/ranking')
+            //Check if data is up to date
+            fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public//f1/load/race/'+ raceId+'/ranking')
 
-        // Convert response string to json object
-        .then(response => response.json())
-        .then(response => {
-            
-            raceTableEl.innerHTML += "";
-            //Set Event in the header
-            var currentRaceId = response.lastRaceId;
-            for(let i = 0; i< response.raceStanding.length; i++){
-                var race = response.raceStanding[i];
-                console.log(race[0]);
-                if(race[0].race_id == raceId){
-                    f1EventHeaderEl.innerText = race.circuitCountry;
-                    racesHeaderEl.innerText = race.circuitCountry;
-                    racesDropDownEl.innerHTML += `
-                        <li><a class="dropdown-item active" name="`+ race[0].race_id + `" id="selected">` + race.circuitCountry + `</a></li>
-                    `;
+             // Convert response string to json object
+                .then(response => response.json())
+                .then(response => {
+
+                // Fetch data
+                fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/races/ranking')
+
+                // Convert response string to json object
+                .then(response => response.json())
+                .then(response => {
                     
+                    raceTableEl.innerHTML += "";
+                    //Set Event in the header
+                    var currentRaceId = response.lastRaceId;
+                    for(let i = 0; i< response.raceStanding.length; i++){
+                        var race = response.raceStanding[i];
+                        if(race[0].race_id == raceId){
+                            f1EventHeaderEl.innerText = race.circuitCountry;
+                            racesHeaderEl.innerText = race.circuitCountry;
+                            racesDropDownEl.innerHTML += `
+                                <li><a class="dropdown-item active" name="`+ race[0].race_id + `" id="selected">` + race.circuitCountry + `</a></li>
+                            `;
+                            
 
-                    for(let x = 0; x < race.length; x++){
+                            for(let x = 0; x < race.length; x++){
 
-                        raceTableEl.innerHTML += `
+                                raceTableEl.innerHTML += `
 
-                        <tr class="table-item align-center" id="`+ race[x].race_id+`">
-                            <td class="left">`+ race[x].position+`</td>
-                            <td>
-                                <img class="table-logo" src="`+ race[x].driverLogo+`">
-                                <div class="full-text">`+ race[x].driverName+`</div>
-                                <div class="abbr-text">`+ race[x].driverAbbr+`</div>
-                            </td>
-                            <td>
-                                <div class="full-text">`+ race[x].teamName+`</div>
-                                <div class="abbr-text">
-                                    <img class="table-logo" src="`+ race[x].teamLogo+`" title="`+ race[x].teamName+`" alt="`+ race[x].teamName+`"/>
-                                </div>
-                            </td>
-                            <td class="full-table text-center">`+ race[x].grip+`</td>
-                            <td class="full-table text-center">`+ race[x].pits+`</td>
-                            <td class="full-table text-center">`+ race[x].time+`</td>
-                        </tr>
-                    
-                    `;
+                                <tr class="table-item align-center" id="`+ race[x].race_id+`">
+                                    <td class="left">`+ race[x].position+`</td>
+                                    <td>
+                                        <img class="table-logo" src="`+ race[x].driverLogo+`">
+                                        <div class="full-text">`+ race[x].driverName+`</div>
+                                        <div class="abbr-text">`+ race[x].driverAbbr+`</div>
+                                    </td>
+                                    <td>
+                                        <div class="full-text">`+ race[x].teamName+`</div>
+                                        <div class="abbr-text">
+                                            <img class="table-logo" src="`+ race[x].teamLogo+`" title="`+ race[x].teamName+`" alt="`+ race[x].teamName+`"/>
+                                        </div>
+                                    </td>
+                                    <td class="full-table text-center">`+ race[x].grip+`</td>
+                                    <td class="full-table text-center">`+ race[x].pits+`</td>
+                                    <td class="full-table text-center">`+ race[x].time+`</td>
+                                </tr>
+                            
+                            `;
 
 
+                            }
+                            
+
+
+                        }else if(race[0].race_id == currentRaceId){
+                            f1EventHeaderEl.innerText = race.circuitCountry;
+                            racesDropDownEl.innerHTML += `
+                                <li><a class="dropdown-item race text-bg-secondary mb-3" name="`+ race[0].race_id + `" id="selected">` + race.circuitCountry + `</a></li>
+                            `;
+                        }else{
+                            racesDropDownEl.innerHTML += `
+                                <li><a class="dropdown-item race" name="`+ race[0].race_id + `">` + race.circuitCountry + `</a></li>
+                            `;
+                        }
                     }
-                    
 
+                    var raceItems = document.getElementsByClassName("dropdown-item race");
 
-                }else if(race[0].race_id == currentRaceId){
-                    f1EventHeaderEl.innerText = race.circuitCountry;
-                    racesDropDownEl.innerHTML += `
-                        <li><a class="dropdown-item race text-bg-secondary mb-3" name="`+ race[0].race_id + `" id="selected">` + race.circuitCountry + `</a></li>
-                    `;
-                }else{
-                    racesDropDownEl.innerHTML += `
-                        <li><a class="dropdown-item race" name="`+ race[0].race_id + `">` + race.circuitCountry + `</a></li>
-                    `;
-                }
-            }
+                    for (let i = 0; i < raceItems.length; i++) {
+                        raceItems[i].onclick = function () { getRacesRanking(raceItems[i].name) };
+                    }
+                })
+                .catch(err => {
 
-            var raceItems = document.getElementsByClassName("dropdown-item race");
+                    // Display errors in console    
+                    console.log(err);
+                });
+            });
 
-            for (let i = 0; i < raceItems.length; i++) {
-                raceItems[i].onclick = function () { getRacesRanking(raceItems[i].name) };
-            }
-        })
-        .catch(err => {
-
-            // Display errors in console    
-            console.log(err);
-        });
+        
         }
 }
 

@@ -272,12 +272,12 @@
 
                 $id = $result->response[$i]->team->id;
                 $f1Team = $model->getTeam($id);
+                $points = $result->response[$i]->points;
                 
                 if(!empty($f1Team)){
 
                     $name = $result->response[$i]->team->name;
                     $logo = $result->response[$i]->team->logo;
-                    $points = $result->response[$i]->points;
 
                     $teamResponse = $client->request('GET', 'https://v1.formula-1.api-sports.io/teams?id='.$id, [
                         'headers' => [
@@ -312,6 +312,8 @@
                     ];
                     $model->setTeam($team);
 
+                }else{
+                    $model->updatePoints($id, $points);
                 }
                 
 
@@ -412,59 +414,64 @@
 
         // Load Rankings of a F1 Race 
         public function loadF1RaceRanking($raceId){
-            $client = \Config\Services::curlrequest();
-
-            $response = $client->request('GET', 'https://v1.formula-1.api-sports.io/rankings/races?race='.$raceId, [
-                'headers' => [
-                    'x-rapidapi-key' => ' c6e2eba6888143bbe4a8e8ae1160a59a',
-                    'x-rapidapi-host' => 'v1.formula-1.api-sports.io',
-                ]
-            ]);
-            $result = json_decode($response->getBody());
-
+            
             $rankingModel = model(F1RankingModel::class);
-            $driverModel = model(F1DriverModel::class);
-            for($i = 0; $i < $result->results; $i++){
+            $raceRanking = $rankingModel->getRaceRanking($raceId);
 
-                $response = $result->response[$i];
-                $driverId = $response->driver->id;
+            if(empty($raceRanking)){
+                $client = \Config\Services::curlrequest();
 
-                //Check if driver is stored
-                $driver = $driverModel->getDriver($driverId);
-                if(empty($driver)){
-                    
-                    $driver = [
-                        'id'    =>  $response->driver->id,
-                        'name'  =>  $response->driver->name,
-                        'abbr'  =>  $response->driver->abbr,
-                        'image'   =>  $response->driver->image,
-                        'number'  =>  $response->driver->number,
-                        'team'    => $response->team->id,
-                        'points'    =>  0,
-    
+                $response = $client->request('GET', 'https://v1.formula-1.api-sports.io/rankings/races?race='.$raceId, [
+                    'headers' => [
+                        'x-rapidapi-key' => ' c6e2eba6888143bbe4a8e8ae1160a59a',
+                        'x-rapidapi-host' => 'v1.formula-1.api-sports.io',
+                    ]
+                ]);
+                $result = json_decode($response->getBody());
+
+                $driverModel = model(F1DriverModel::class);
+                for($i = 0; $i < $result->results; $i++){
+
+                    $response = $result->response[$i];
+                    $driverId = $response->driver->id;
+
+                    //Check if driver is stored
+                    $driver = $driverModel->getDriver($driverId);
+                    if(empty($driver)){
+                        
+                        $driver = [
+                            'id'    =>  $response->driver->id,
+                            'name'  =>  $response->driver->name,
+                            'abbr'  =>  $response->driver->abbr,
+                            'image'   =>  $response->driver->image,
+                            'number'  =>  $response->driver->number,
+                            'team'    => $response->team->id,
+                            'points'    =>  0,
+        
+                        ];
+
+                        $driverModel->setDriver($driver);
+                    }
+
+                    $rank = [
+
+                        'race_id'    =>  $response->race->id,
+                        'driver_id'  =>  $response->driver->id,
+                        'team_id'  =>  $response->team->id,
+                        'position'   =>  $response->position,
+                        'time'  =>  $response->time,
+                        'laps'    => $response->laps,
+                        'pits'    =>  $response->pits,
+                        'grid'    =>  $response->grid,
                     ];
 
-                    $driverModel->setDriver($driver);
+                    $rankingModel->setRanking($rank);
+
                 }
-
-                $rank = [
-
-                    'race_id'    =>  $response->race->id,
-                    'driver_id'  =>  $response->driver->id,
-                    'team_id'  =>  $response->team->id,
-                    'position'   =>  $response->position,
-                    'time'  =>  $response->time,
-                    'laps'    => $response->laps,
-                    'pits'    =>  $response->pits,
-                    'grid'    =>  $response->grid,
-                ];
-
-                $rankingModel->setRanking($rank);
-
             }
-
-
+            
         }
+
 
         /***** UPDATE *****/
         //Update the competition if more than 12 hours has passed from the last update
@@ -478,10 +485,14 @@
             if($now >= $date)
             {
                 //Update Standings
-                echo "updating";
                 $this->loadCompetition($competitionId);
                 //Update Fixtures
                 $this->loadFixtures($competitionId);
+
+                //Update F1 Teams
+                $this->loadF1Teams();
+                //Update F1 Races
+                $this->loadF1Races();
             }
         }
     }

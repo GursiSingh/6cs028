@@ -9,6 +9,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="keywords" content="sport, football, soccer, formula 1, f1, soccer">
+
+        <!-- Icon -->
+        <link rel="icon" href="<?php echo base_url('/favicon.ico'); ?>" type="image/gif">
         
         <!--Bootstrap CSS-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
@@ -16,6 +19,7 @@
         <!-- JQUERY -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
+        <!-- Google Maps -->
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaPNhMdEHw8BklQYjECBPYW6kqT2eQFU8"></script>   
 
         <!-- SET GLOBAL BASE URL -->

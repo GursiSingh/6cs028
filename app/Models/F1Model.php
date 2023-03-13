@@ -28,5 +28,9 @@
         public function getTeam($id){
             return $this->where('id', $id)->findAll();
         }
+
+        public function updatePoints($id, $points){
+            return $this->set(['points', $points])->where('id', $id)->update();
+        }
     }
 ?>

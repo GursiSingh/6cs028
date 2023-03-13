@@ -119,9 +119,9 @@ ul {list-style-type: none;}
 }
 
 .my-logo{
-    width: 200px;
+    width: 150px;
     height: 150px;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 /* ----- CALENDAR ----- */
@@ -132,81 +132,96 @@ ul {list-style-type: none;}
     width: 100%;
     background: #1abc9c;
     text-align: center;
-  }
-  
-  .month ul {
+}
+
+.month ul {
     margin: 0;
     padding: 0;
-  }
-  
-  .month ul li {
+}
+
+.month ul li {
     color: white;
     font-size: 20px;
     text-transform: uppercase;
     letter-spacing: 3px;
-  }
-  
-  .month .prev {
+}
+
+.month .prev {
     float: left;
     padding-top: 10px;
     cursor: pointer;
-  }
-  
-  .month .next {
+}
+
+.month .next {
     float: right;
     padding-top: 10px;
     cursor: pointer;
-  }
+}
 
-  
-  
-  .weekdays {
+
+
+.weekdays {
     margin: 0;
     padding:  0;
     background-color: #282626;
-  }
-  
-  .weekdays li {
+}
+
+.weekdays li {
     display: inline-block;
     width: 13.6%;
     color: white;
     text-align: center;
-  }
-  
-  .days {
-    padding: 10px 0px;
+}
+
+.days {
+    padding: 10px 5px;
     background: #393939;
     margin: 0;
-  }
-  
-  .days li {
+}
+
+.days li {
     list-style-type: none;
-    display: inline-block;
+    display: inline-flex;
     width: 13.6%;
     height: 100px;
     text-align: center;
     margin-bottom: 5px;
+    margin-top: 0;
     font-size:12px;
-    
+
     color: white;
-  }
+    border: 1px solid white;
+}
 
-  .days li ul{
+.day p{
+    padding: 2px;
+    border: 0.5px dotted white;
+}
+
+.days li ul{
     text-align: center;
-    width: 100%;
+    width: 90%;
     padding: 10px 0;
-  }
+}
 
-  .football-event{
+.football-event{
+    position: relative;
     display: flex;
+    left: -10px;
+    margin-top: 25px;
     justify-content: center;
-  }
-  
-  .days .active {
-    padding: 5px;
+}
+
+.days .active {
     background: #1abc9c;
     color: white !important
-  }
+}
+
+.calendar-image{
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
 
 /* FOOTBALL TEAM */
 
@@ -435,6 +450,18 @@ ul {list-style-type: none;}
     .arrow{
         transform: rotate(0deg);
     }
+
+    .my-card{
+        width: 20rem; 
+        height: 15rem;
+        font-size: 1rem;
+    }
+
+    .my-logo{
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+    }
 }
 
 @media only screen and (max-width: 850px){
@@ -459,6 +486,18 @@ ul {list-style-type: none;}
 
     .arrow{
         transform: rotate(180deg);
+    }
+
+    .my-card{
+        width: 15rem; 
+        height: 10rem;
+        font-size: 0.9rem;
+    }
+
+    .my-logo{
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
     }
 }
 
@@ -485,6 +524,18 @@ ul {list-style-type: none;}
         display: inline-block;
     }
 
+    .my-card{
+        width: 120px;
+        height: 150px;
+        font-size: 0.55rem;
+    }
+
+    .my-logo{
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+    }
+
 }
 
 
@@ -492,13 +543,32 @@ ul {list-style-type: none;}
 /* Add media queries for smaller screens */
 @media screen and (max-width:720px) {
     .weekdays li, .days li {width: 12.8%;}
-  }
+    .football-event{
+        position: relative;
+        display: block;
+        margin-top: 10px;
+        justify-content: center;
+    }
+    .calendar-image{
+        width: 45px;
+        height: 45px;
+        object-fit: contain;
+    }
+     
+}
   
 @media screen and (max-width: 420px) {
-.weekdays li, .days li {width: 12.5%;}
-.days li .active {padding: 2px;}
+    .weekdays li, .days li {width: 12.5%;}
+    .days li .active {padding: 2px;}
+    
+    .calendar-image{
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+    }
 }
 
 @media screen and (max-width: 290px) {
-.weekdays li, .days li {width: 12.2%;}
+    .weekdays li, .days li {width: 12.2%;}
+
 }

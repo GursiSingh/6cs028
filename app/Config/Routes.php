@@ -49,7 +49,6 @@
     $routes->match(['get', 'post'], '/f1/load/race/(:segment)/ranking', [API::class, 'loadF1RaceRanking']);
     
 
-
     //USER
     $routes->match(['get', 'post'],'/login', 'User::login');
     $routes->match(['get', 'post'], '/signUp', 'User::signUp');

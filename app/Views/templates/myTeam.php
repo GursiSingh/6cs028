@@ -1,8 +1,8 @@
 <?php if(!empty($user)):?>
     <div class="container-fluid text-bg-dark mx-auto my-3" style="max-width: 1200px">
-        <div class="row text-center row-cols-1 row-cols-md-4 g-4 pb-5">
-            <div class="col-md-4 mx-auto" style="width: 20rem;">
-                <div class="card border-light text-bg-dark my-card" >
+        <div class="d-flex justify-content-between">
+            <div class="col-auto" style="max-width: 20rem;">
+                <div class="card border-light text-bg-dark my-card" style="max-width: 20rem;">
                     <div class="card-header text-bg-light">
 
                         <div class="team-name" id="teamFootball" name="<?=$team['id']?>"><?=$team['name']?></div>
@@ -19,8 +19,8 @@
                 </div>
             </div>
 
-            <div class="col-md-4 mx-auto" style="width: 20rem;">
-                <div class="card border-light text-bg-dark my-card" >
+            <div class="col-auto" style="max-width: 20rem;">
+                <div class="card border-light text-bg-dark my-card" style="max-width: 20rem;">
                     <div class="card-header text-bg-light">
                         <div class="f1-name" id="teamF1" name="<?=$f1Team['id']?>"><?=$f1Team['name']?></div>
                     </div>
@@ -38,7 +38,7 @@
         </div>
 
         <hr>
-        <div class="calendar-container" id="calendar">
+        <div class="calendar-container my-5" id="calendar">
             <h2>Calendar</h2>
             <div class="month">      
                 <ul>
