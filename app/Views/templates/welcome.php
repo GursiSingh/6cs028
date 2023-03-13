@@ -2,7 +2,11 @@
     <div class="position-relative m-auto" style="height:100%">
         <main class="position-absolute top-50 start-50 translate-middle">
             <h1 class="fs-1 fw-bolder">Welcome!</h1>
-            <p class="lead">Welcome on this website, where you can follow your favorite football and f1 teams.</p>    
+            <p class="lead">Welcome on this website, where you can follow your favorite football and f1 teams.</p>
+            <div class="arrow">
+                <span></span>
+                <span></span>
+            </div>
         </main>
         
     </div>

@@ -18,6 +18,11 @@ ul {list-style-type: none;}
     cursor: pointer;
 }
 
+.team-logo{
+    max-width: 55px;
+    object-fit: cover;
+}
+
 /* SIGN UP */
 .dropList{
     position: absolute;
@@ -66,6 +71,45 @@ ul {list-style-type: none;}
     height: 25px;
     object-fit: scale-down;
     border-radius: 10px 12px;
+}
+
+
+/* ARROW ANIMATION */
+.arrow {
+    position: absolute;
+    top: 300px;
+    left: 50%;
+    transform: translate(-80%, -50%);
+    
+    cursor: pointer;
+}
+
+.arrow span {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-bottom: 5px solid white;
+    border-right: 5px solid white;
+    margin: -10px;
+    animation: animate 2s infinite;
+}
+
+.arrow span:nth-child(2) {
+    animation-delay: -0.2s;
+}
+
+@keyframes animate {
+    0% {
+        opacity: 0;
+        transform: rotate(45deg) translate(-20px, -20px);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: rotate(45deg) translate(20px, 20px);
+    }
 }
 
 /* MY TEAM */
@@ -388,6 +432,9 @@ ul {list-style-type: none;}
     .abbr-text{
         display: none;
     }
+    .arrow{
+        transform: rotate(0deg);
+    }
 }
 
 @media only screen and (max-width: 850px){
@@ -408,6 +455,10 @@ ul {list-style-type: none;}
 
     .abbr-text{
         display: none;
+    }
+
+    .arrow{
+        transform: rotate(180deg);
     }
 }
 

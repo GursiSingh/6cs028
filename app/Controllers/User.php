@@ -2,8 +2,66 @@
 
 namespace App\Controllers;
 
+use App\Models\UserModel;
+use App\Models\F1Model;
+use App\Models\FootballTeamModel;
+
 class User extends BaseController
 {
+
+    public function index(){
+        helper('form');
+        $session = session();
+        $header['user']=$session->get('user');
+        $header['title']='Account';      
+
+        if(empty($header['user'])){
+            return redirect('/login');
+        }else{
+            $constructorModel = model(F1Model::class);
+            $teamModel = model(FootballTeamModel::class);
+            $userModel = model(UserModel::class);
+
+            $footballTeam = $teamModel->getTeam($header['user']['football_team'])[0];
+            $f1Team = $constructorModel->getTeam($header['user']['f1_team'])[0];
+
+            $data['userName'] = $header['user']['username'];
+            $data['userEmail'] = $header['user']['email'];
+            $data['userFootballTeamId'] = $header['user']['football_team'];
+            $data['userFootballTeamName'] = $footballTeam['name'];
+            $data['userFootballTeamLogo'] = $footballTeam['logo'];
+            $data['userF1TeamId'] = $header['user']['f1_team'];
+            $data['userF1TeamName'] = $f1Team['name'];
+            $data['userF1TeamLogo'] = $f1Team['logo'];
+
+            
+            // Checks whether the form is submitted.
+            if (!$this->request->is('post')) {
+                                            
+                return view('templates/header', $header)
+                    . view('user/index', $data)
+                    . view('templates/footer');
+            }
+            //Get Data form the form
+            $updateInput =$this->request->getPost(['footballTeamId','f1TeamId']);
+            $newFootballTeamId = $updateInput['footballTeamId'];
+            $newF1TeamId = $updateInput['f1TeamId'];
+            if(!empty($newFootballTeamId)){
+                //Football Team Id
+                $userModel->editUserFootballTeam($data['userName'], $newFootballTeamId);
+            }
+
+            if(!empty($newF1TeamId)){
+                $userModel->editUserF1Team($data['userName'], $newF1TeamId);
+            }
+
+            $user = $userModel->getUser($data['userName']);
+            $session->set('user',$user);
+
+            return redirect('account');
+        }
+    }
+
     public function login(){
         helper('form');
         $session = session();

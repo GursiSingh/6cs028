@@ -12,7 +12,6 @@ class UserModel extends Model
     protected $allowedFields = ['username', 'email', 'password','football_team', 'f1_team', 'last_login'];
 
     public function setUser($user, $pass){
-        echo "SETTING USER";
         $data = [
             'username' => $user['username'],
             'email'  => $user['email'],
@@ -27,7 +26,7 @@ class UserModel extends Model
     
     public function getUser($username)
     {
-        
+        $this->set('last_login', new RawSql('CURRENT_TIMESTAMP()'))->where('username', $username)->update();
         return $this->where(['username' => $username])->first();
     }
 
@@ -41,9 +40,14 @@ class UserModel extends Model
     }
 
 
-    public function editUser($username, $user){
-        return $this->set($user)
-                ->where(['username' => $username])->update();
+    public function editUserFootballTeam($username, $team){
+        return $this->set(['football_team' => $team])
+                ->where('username', $username)->update();
+    }
+
+    public function editUserF1Team($username, $team){
+        return $this->set(['f1_team' => $team])
+                ->where('username', $username)->update();
     }
     
 }

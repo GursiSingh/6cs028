@@ -165,8 +165,8 @@ function setTeam(selectedEl, inputEl, listEl, type) {
     name = selectedEl.attributes["name"].value;
     id = selectedEl.attributes["value"].value;
     inputEl.title = name;
-
     inputEl.value = id;
+    console.log(inputEl.value);
     hideHints(listEl);
 }
 

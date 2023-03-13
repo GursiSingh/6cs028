@@ -50,9 +50,10 @@
     
 
 
-    //Login Route
+    //USER
     $routes->match(['get', 'post'],'/login', 'User::login');
     $routes->match(['get', 'post'], '/signUp', 'User::signUp');
+    $routes->match(['get', 'post'], '/account', 'User::index');
     $routes->get('/logout', 'User::logout');
 
     //F1
@@ -86,6 +87,7 @@
     $routes->get('/football/competition/(:segment)/round', [Ajax::class,'getFootballRound']);
     $routes->get('/football/competition/(:segment)/round/(:segment)', [Ajax::class,'getFootballRound']);
     $routes->get('/football/competition/(:segment)/round/name/all', [Ajax::class,'getAllFootballRounds']);
+
 
     /*
     * --------------------------------------------------------------------
