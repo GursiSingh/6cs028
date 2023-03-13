@@ -130,7 +130,7 @@
             
             $data['circuit'] = $circuit;
             //Get all events in that circuit
-            $event = $eventModel->getNextEventsByCircuit($circuitId);
+            $event = $eventModel->getEventsByCircuit($circuitId);
             
 
             //Get list of all races in the Event

@@ -26,6 +26,10 @@
             return $this->where('id', $id)->findAll();
         }
 
+        public function getCompetitionIdByCountry($country){
+            return $this->select('id')->where('country', $country)->first();
+        }
+
         public function getAllCompetitions(){
             return $this->notLike('name', 'uefa')->findAll();
         }

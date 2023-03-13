@@ -40,6 +40,14 @@
 			print(json_encode($data));
 		}
 
+		//Get competition by Country
+		public function getCompetitionByCountry($country){
+			$model = model(FootballCompetitionModel::class);
+			$data = $model->getCompetitionIdByCountry($country);
+
+			print(json_encode($data));
+		}
+
 		//get all competitions
 		public function getAllCompetitions(){
 			$model = model(FootballCompetitionModel::class);

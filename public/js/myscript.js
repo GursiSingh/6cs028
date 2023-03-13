@@ -5,7 +5,6 @@
 //inputF1El.addEventListener ("keyup", getSearchDataF1(inputF1El.textContent), false);
 
 /*++++ HOME ++++*/
-
 //Football
 const footballTableStandingEl = document.getElementById("footballStandingTable");
 const footballFixturesTable = document.getElementById("footballFixturesTable");
@@ -20,12 +19,76 @@ const eventTableEl = document.getElementById('eventTable');
 const f1EventHeaderEl = document.getElementById('f1EventHeader');
 const eventListEl = document.getElementById('eventList');
 
+function setCompetition(position){
+    var currentLoc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+    //Get User Country
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ 'latLng': currentLoc }, function (results, status) {
+        var loc = results[0].address_components;
+        var locItemCount = loc.length;
+        console.log(results);
+        var locCountryName = loc[locItemCount-2].long_name;
+        if(locCountryName == "United Kingdom"){
+            locCountryName = loc[locItemCount-3].long_name;
+        }
+        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/competition/country/' + locCountryName)
+            .then(response => response.json())
+            .then(response => {
+                compId = response.id;
+                footballTableStandingEl.addEventListener("load", updateFootball(compId));
+                footballTableStandingEl.addEventListener("load", setFootballStanding(compId));
+                footballTableStandingEl.addEventListener("load", setConstructorLinks());
+                footballTableStandingEl.addEventListener("load", setFootballFixtures(compId));
+
+            })
+            .catch(err => {
+        });
+
+
+});
+        
+}
+
+function onNavigatorFailed(){
+    console.log("Location Failed");
+    compId = 135;
+    footballTableStandingEl.addEventListener("load", updateFootball(compId));
+    footballTableStandingEl.addEventListener("load", setFootballStanding(compId));
+    footballTableStandingEl.addEventListener("load", setConstructorLinks());
+    footballTableStandingEl.addEventListener("load", setFootballFixtures(compId));
+}
+
+//Get User locatioin to display the correct competition
+function setCompetitionNyUserCountry(){
+    if (!navigator.geolocation) {
+        compId = 135;
+        console.log("Geolocation is not supported by your browser");
+        footballTableStandingEl.addEventListener("load", updateFootball(compId));
+        footballTableStandingEl.addEventListener("load", setFootballStanding(compId));
+        footballTableStandingEl.addEventListener("load", setConstructorLinks());
+        footballTableStandingEl.addEventListener("load", setFootballFixtures(compId));
+
+    } else {
+        console.log("Locating…");
+        navigator.geolocation.getCurrentPosition(setCompetition,onNavigatorFailed);
+    }
+}
+
+
 
 if (footballTableStandingEl) {
-    footballTableStandingEl.addEventListener("load", updateFootball(135));
-    footballTableStandingEl.addEventListener("load", setFootballStanding(135));
-    footballTableStandingEl.addEventListener("load", setConstructorLinks());
-    footballTableStandingEl.addEventListener("load", setFootballFixtures(135));
+    var compId = footballTableStandingEl.getAttribute("name");
+    console.log("id:" + compId);
+    if(compId == null || !compId){
+        setCompetitionNyUserCountry();
+    }else{
+        
+        footballTableStandingEl.addEventListener("load", updateFootball(compId));
+        footballTableStandingEl.addEventListener("load", setFootballStanding(compId));
+        footballTableStandingEl.addEventListener("load", setConstructorLinks());
+        footballTableStandingEl.addEventListener("load", setFootballFixtures(compId));
+    }
 
 }
 

@@ -30,6 +30,8 @@
             $header['user']=$session->get('user');
             $data['constructor'] = $constructorModel->getStanding();
 
+
+
             if(empty($header['user'])){
 
                 
@@ -79,6 +81,7 @@
 
                 //Set Events Item
                 $data['f1Events'] = $event;
+                
 
                 //if user is not logged in
                 return view('templates/header', $header)

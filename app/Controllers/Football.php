@@ -12,10 +12,19 @@
 
             $header['title']='Fooball Home';
             $header['user']=$session->get('user');
-
             $teamModel = model(FootballTeamModel::class);
             $competitionModel = model(FootballCompetitionModel::class);
             $fixtureModel = model(FootballFixtureModel::class);
+            
+            if(!empty($header['user'])){
+                $team = $teamModel->getTeam($header['user']['football_team']);
+                $competition = $competitionModel->getCompetition($team['league_competition'])[0];
+                $data['competitionId']= $competition['id'];
+            }else{
+                
+                $data['competitionId']= null;
+            }
+
 
             $todayMatches = $fixtureModel->getTodaysFixtures();
 

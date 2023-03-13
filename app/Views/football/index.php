@@ -8,7 +8,7 @@
             <div class="table-responsive text-center">
                 <table class="table table-dark table-striped table-hover">
                     
-                    <tbody id="footballTodaysFixturesTable">
+                    <tbody id="footballTodaysFixturesTable" >
                         <?php if(!empty($todayFixtures)):?>
                             <?php foreach($todayFixtures as $match):?>
                                 <tr class="table-item todayFootball">
@@ -65,7 +65,7 @@
                                     <th scope="col">Points</th>
                                 </tr>
                             </thead>
-                            <tbody id="footballStandingTable">
+                            <tbody id="footballStandingTable" name="<?=$competitionId?>">
                                 
                             </tbody>
 

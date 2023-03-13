@@ -81,6 +81,7 @@
     $routes->get('/football/team/(:segment)/month/(:segment)/year/(:segment)', [Ajax::class,'getTeamMonthMatches']);
     $routes->get('/football/team/(:segment)/next', [Ajax::class,'getNextMatch']);
     $routes->get('/football/competition/(:segment)', [Ajax::class,'getCompetition']);
+    $routes->get('/football/competition/country/(:segment)', [Ajax::class,'getCompetitionByCountry']);
     $routes->get('/football/competition', 'Ajax::getAllCompetitions');
     $routes->get('/football/competition/(:segment)/round', [Ajax::class,'getFootballRound']);
     $routes->get('/football/competition/(:segment)/round/(:segment)', [Ajax::class,'getFootballRound']);
