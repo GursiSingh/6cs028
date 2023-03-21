@@ -25,5 +25,10 @@
             return $position;
         }
 
+        public function getNumberOfRaces(){
+            $races = $this->select('race_id')->distinct('race_id')->countAllResults();
+            return $races;
+        }
+
     }
 ?>

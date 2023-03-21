@@ -1381,16 +1381,16 @@ function getRacesRanking(raceId= null){
                         f1EventHeaderEl.innerText = race.circuitCountry;
                         racesHeaderEl.innerText = race.circuitCountry;
                         racesDropDownEl.innerHTML += `
-                            <li><a class="dropdown-item race" name="`+ race[0].race_id + `" id="selected">` + race.circuitCountry + `</a></li>
+                            <li><a class="dropdown-item active" name="`+ race[0].race_id + `" id="selected">` + race.circuitCountry + `</a></li>
                         `;
                     }else{
                         racesDropDownEl.innerHTML += `
-                            <li><a class="dropdown-item race" name="`+ race[0].race_id + `">` + race.circuitCountry + `</a></li>
+                            <li><a class="dropdown-item race-name" name="`+ race[0].race_id + `">` + race.circuitCountry + `</a></li>
                         `;
                     }
                 }
 
-                var raceItems = document.getElementsByClassName("dropdown-item race");
+                var raceItems = document.getElementsByClassName("dropdown-item race-name");
 
                 for (let i = 0; i < raceItems.length; i++) {
                     raceItems[i].onclick = function () { getRacesRanking(raceItems[i].name) };
@@ -1403,74 +1403,65 @@ function getRacesRanking(raceId= null){
             });
         }else{
             //Check if data is up to date
-            fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public//f1/load/race/'+ raceId+'/ranking')
+            fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/race/'+ raceId+'/ranking')
 
              // Convert response string to json object
                 .then(response => response.json())
                 .then(response => {
-
-                // Fetch data
-                fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/f1/races/ranking')
-
-                // Convert response string to json object
-                .then(response => response.json())
-                .then(response => {
-                    
-                    raceTableEl.innerHTML += "";
+                    console.log(response);
+                    raceTableEl.innerHTML = "";
                     //Set Event in the header
                     var currentRaceId = response.lastRaceId;
-                    for(let i = 0; i< response.raceStanding.length; i++){
-                        var race = response.raceStanding[i];
-                        if(race[0].race_id == raceId){
-                            f1EventHeaderEl.innerText = race.circuitCountry;
-                            racesHeaderEl.innerText = race.circuitCountry;
+                    for(let i = 0; i< response.race.length; i++){
+                        var race = response.race[i];
+                        if(race.raceId== raceId){
+                            f1EventHeaderEl.innerText = race.raceCountry;
+                            racesHeaderEl.innerText = race.raceCountry;
                             racesDropDownEl.innerHTML += `
-                                <li><a class="dropdown-item active" name="`+ race[0].race_id + `" id="selected">` + race.circuitCountry + `</a></li>
-                            `;
-                            
-
-                            for(let x = 0; x < race.length; x++){
-
-                                raceTableEl.innerHTML += `
-
-                                <tr class="table-item align-center" id="`+ race[x].race_id+`">
-                                    <td class="left">`+ race[x].position+`</td>
-                                    <td>
-                                        <img class="table-logo" src="`+ race[x].driverLogo+`">
-                                        <div class="full-text">`+ race[x].driverName+`</div>
-                                        <div class="abbr-text">`+ race[x].driverAbbr+`</div>
-                                    </td>
-                                    <td>
-                                        <div class="full-text">`+ race[x].teamName+`</div>
-                                        <div class="abbr-text">
-                                            <img class="table-logo" src="`+ race[x].teamLogo+`" title="`+ race[x].teamName+`" alt="`+ race[x].teamName+`"/>
-                                        </div>
-                                    </td>
-                                    <td class="full-table text-center">`+ race[x].grip+`</td>
-                                    <td class="full-table text-center">`+ race[x].pits+`</td>
-                                    <td class="full-table text-center">`+ race[x].time+`</td>
-                                </tr>
-                            
+                                <li><a class="dropdown-item active" name="`+ race.raceId + `" id="selected">` + race.raceCountry + `</a></li>
                             `;
 
-
-                            }
-                            
-
-
-                        }else if(race[0].race_id == currentRaceId){
-                            f1EventHeaderEl.innerText = race.circuitCountry;
+                        }else if(race.raceId == currentRaceId){
+                            f1EventHeaderEl.innerText = race.raceCountry;
                             racesDropDownEl.innerHTML += `
-                                <li><a class="dropdown-item race text-bg-secondary mb-3" name="`+ race[0].race_id + `" id="selected">` + race.circuitCountry + `</a></li>
+                                <li><a class="dropdown-item race-name text-bg-secondary mb-3" name="`+ race.raceId + `" id="selected">` + race.raceCountry + `</a></li>
                             `;
                         }else{
                             racesDropDownEl.innerHTML += `
-                                <li><a class="dropdown-item race" name="`+ race[0].race_id + `">` + race.circuitCountry + `</a></li>
+                                <li><a class="dropdown-item race-name" name="`+ race.raceId + `">` + race.raceCountry + `</a></li>
                             `;
                         }
                     }
 
-                    var raceItems = document.getElementsByClassName("dropdown-item race");
+                    const raceStanding = response.raceStanding;
+                    for(let x = 0; x < raceStanding.length; x++){
+                        console.log(raceStanding[x].pits);
+                        raceTableEl.innerHTML += `
+
+                        <tr class="table-item align-center" id="`+ raceStanding[x].race_id+`">
+                            <td class="left">`+ raceStanding[x].position+`</td>
+                            <td>
+                                <img class="table-logo" src="`+ raceStanding[x].driverLogo+`">
+                                <div class="full-text">`+ raceStanding[x].driverName+`</div>
+                                <div class="abbr-text">`+ raceStanding[x].driverAbbr+`</div>
+                            </td>
+                            <td>
+                                <div class="full-text">`+ raceStanding[x].teamName+`</div>
+                                <div class="abbr-text">
+                                    <img class="table-logo" src="`+ raceStanding[x].teamLogo+`" title="`+ raceStanding[x].teamName+`" alt="`+ raceStanding[x].teamName+`"/>
+                                </div>
+                            </td>
+                            <td class="full-table text-center">`+ raceStanding[x].pits+`</td>
+                            <td class="full-table text-center">`+ raceStanding[x].grid +`</td>
+                            <td class="full-table text-center">`+ raceStanding[x].time +`</td>
+                        </tr>
+                    
+                    `;
+
+
+                    }
+
+                    var raceItems = document.getElementsByClassName("dropdown-item race-name");
 
                     for (let i = 0; i < raceItems.length; i++) {
                         raceItems[i].onclick = function () { getRacesRanking(raceItems[i].name) };
@@ -1481,7 +1472,6 @@ function getRacesRanking(raceId= null){
                     // Display errors in console    
                     console.log(err);
                 });
-            });
 
         
         }

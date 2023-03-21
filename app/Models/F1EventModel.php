@@ -68,5 +68,10 @@
         public function getCompletedRaces(){
             return $this->where('type', 'Race')->where('status', 'Completed')->orderBy('date', 'ASC')->findAll();
         }
+
+        //Get completed Races
+        public function getLastRace(){
+            return $this->where('type', 'Race')->where('status', 'Completed')->orderBy('date', 'DESC')->first();
+        }
     }
 ?>

@@ -296,8 +296,8 @@
 			print(json_encode($races));
 		}
 
-		//Get all races Rankings
-		public function getRacesRanking(){
+		//Get last race Rankings
+		public function getLastRaceRanking(){
 			
             $constructorModel = model(F1Model::class);
             $driverModel = model(F1DriverModel::class);
@@ -308,6 +308,7 @@
 			$drivers = $driverModel->getStanding();
 			$constructors = $constructorModel->getStanding();
 			$completedRaces = $eventModel->getCompletedRaces();
+
 
 			for($i= 0; $i < sizeOf($drivers); $i++){
                 
@@ -342,6 +343,64 @@
             }
 			
 			$data['lastRaceId'] = end($data['raceStanding'])[0]['race_id'];
+			
+			print(json_encode($data));
+		}
+
+		//Get  races Rankings
+		public function getRankingById($raceId){
+			
+            $constructorModel = model(F1Model::class);
+            $driverModel = model(F1DriverModel::class);
+			$eventModel = model(F1EventModel::class);
+			$circuitModel = model(F1CircuitModel::class);
+            $raceRankingModel = model(F1RankingModel::class);
+
+			$drivers = $driverModel->getStanding();
+			$constructors = $constructorModel->getStanding();
+			$completedRaces = $eventModel->getCompletedRaces();
+
+			for($i= 0; $i < sizeOf($completedRaces); $i++){
+                
+                if($raceId == $completedRaces[$i]['id']){
+					$data['raceStanding']['circuitCountry'] = $circuitModel->getCircuit($completedRaces[$i]['circuitId'])['country'];
+                }
+
+				$data['race'][$i]['raceCountry'] = $circuitModel->getCircuit($completedRaces[$i]['circuitId'])['country'];
+				$data['race'][$i]['raceId'] = $completedRaces[$i]['id'];
+            }
+
+
+			for($i= 0; $i < sizeOf($drivers); $i++){
+                
+                $teamId = $drivers[$i]['team'];
+                for($x= 0; $x < sizeOf($constructors); $x++){
+                    if($constructors[$x]['id'] == $teamId){
+                        $drivers[$i]['teamName'] = $constructors[$x]['name'];
+                        $drivers[$i]['teamLogo'] = $constructors[$x]['logo'];
+                    }
+                }
+            }
+
+			$data['raceStanding'] = $raceRankingModel->getRaceRanking($raceId);
+			
+			
+			for($x = 0; $x < (sizeOf($data['raceStanding'])); $x++){
+				$driverId = $data['raceStanding'][$x]['driver_id'];
+				for($y= 0; $y < sizeOf($drivers); $y++){
+					if($drivers[$y]['id'] == $driverId){
+						$data['raceStanding'][$x]['driverName'] = $drivers[$y]['name'];
+						$data['raceStanding'][$x]['driverLogo'] = $drivers[$y]['image'];
+						$data['raceStanding'][$x]['driverAbbr'] = $drivers[$y]['abbr'];
+						$data['raceStanding'][$x]['teamName'] = $drivers[$y]['teamName'];
+						$data['raceStanding'][$x]['teamLogo'] = $drivers[$y]['teamLogo'];
+					}
+				}
+			}
+
+
+			$data['lastRaceId'] = $eventModel->getLastRace()['id'];
+			
 			
 			print(json_encode($data));
 		}

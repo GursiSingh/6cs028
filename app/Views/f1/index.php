@@ -107,8 +107,8 @@
                             <th scope="col">Name</th>  
                             <th scope="col">Team</th>
                             <th class="full-table text-center" scope="col">Pits</th>
-                            <th class="full-table text-center" scope="col">Time</th>  
-                            <th class="full-table text-center" scope="col">Grid</th>
+                            <th class="full-table text-center" scope="col">Grid</th>  
+                            <th class="full-table text-center" scope="col">Time</th>
                         </tr>
                     </thead>
                     <h4 id="f1RaceHeader"><?= $circuitCountry?></h4>
@@ -127,8 +127,8 @@
                                         <img class="table-logo" src="<?=$lastRace[$i]['teamLogo']?>" title="<?=$lastRace[$i]['teamName']?>" alt="<?=$lastRace[$i]['teamName']?>"/>
                                     </div>
                                 </td>
-                                <td class="full-table text-center"><?=$lastRace[$i]['grid']?></td>
                                 <td class="full-table text-center"><?=$lastRace[$i]['pits']?></td>
+                                <td class="full-table text-center"><?=$lastRace[$i]['grid']?></td>
                                 <td class="full-table text-center"><?=$lastRace[$i]['time']?></td>
                             </tr>
 

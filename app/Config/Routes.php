@@ -47,6 +47,7 @@
     $routes->match(['get', 'post'], '/f1/load/drivers', [API::class, 'loadF1Drivers']);
     $routes->match(['get', 'post'], '/f1/load/races', [API::class, 'loadF1Races']);
     $routes->match(['get', 'post'], '/f1/load/race/(:segment)/ranking', [API::class, 'loadF1RaceRanking']);
+    $routes->match(['get', 'post'], '/f1/update', [API::class, 'updateF1']);
     
 
     //USER
@@ -60,7 +61,8 @@
     $routes->get('/f1/searchF1Teams/(:segment)', [Ajax::class,'searchF1Teams']);
     $routes->get('/f1/constructor/(:segment)/races', [Ajax::class,'getTeamRacesPosition']);
     $routes->get('/f1/team/(:segment)', [F1::class,'displayTeam']);
-    $routes->get('/f1/races/ranking', [Ajax::class,'getRacesRanking']);
+    $routes->get('/f1/races/ranking', [Ajax::class,'getLastRaceRanking']);
+    $routes->get('/f1/race/(:segment)/ranking', [Ajax::class,'getRankingById']);
     
     $routes->get('/f1/event/month/(:segment)/year/(:segment)', [Ajax::class,'getMonthRaces']);
     $routes->get('/f1/events/', [Ajax::class,'getAllEvents']);

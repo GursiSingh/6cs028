@@ -268,7 +268,7 @@
             //id //name //logo //points
             
             $model = model(F1Model::class);
-            for($i = 0; $i <= $result->results; $i++){
+            for($i = 0; $i <= ($result->results -1); $i++){
 
                 $id = $result->response[$i]->team->id;
                 $f1Team = $model->getTeam($id);
@@ -488,12 +488,34 @@
                 $this->loadCompetition($competitionId);
                 //Update Fixtures
                 $this->loadFixtures($competitionId);
-
-                //Update F1 Teams
-                $this->loadF1Teams();
                 //Update F1 Races
                 $this->loadF1Races();
+
             }
+        }
+
+        public function updateF1(){
+            
+            
+
+            $eventModel = model(F1EventModel::class);
+            $raceRankingModel = model(F1RankingModel::class);
+
+            $completedRaces = $eventModel->getCompletedRaces();
+
+            $num = $raceRankingModel->getNumberOfRaces();
+            if(sizeOf($completedRaces) != $num){
+
+                //Get Races Standings
+                for($i= 0; $i < sizeOf($completedRaces); $i++){
+                    $id = $completedRaces[$i]['id'];
+                    $this->loadF1RaceRanking($id);
+                    //Update F1 Teams
+                }
+                $this->loadF1Teams();
+            }
+
+            
         }
     }
 ?>
