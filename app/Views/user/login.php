@@ -13,7 +13,6 @@
                 <div class="error text-danger">
                     ERROR: <?=$error?>
                 </div>
-            
             <?php endif ?>
             <form class="row g-3 needs-validation" action="<?= base_url('/login')?>" method="post">
                 <?= csrf_field() ?>
