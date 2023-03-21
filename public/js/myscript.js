@@ -20,32 +20,37 @@ const f1EventHeaderEl = document.getElementById('f1EventHeader');
 const eventListEl = document.getElementById('eventList');
 
 function setCompetition(position){
-    var currentLoc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    try{
+        var currentLoc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
-    //Get User Country
-    var geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ 'latLng': currentLoc }, function (results, status) {
-        var loc = results[0].address_components;
-        var locItemCount = loc.length;
-        var locCountryName = loc[locItemCount-2].long_name;
-        if(locCountryName == "United Kingdom"){
-            locCountryName = loc[locItemCount-3].long_name;
-        }
-        fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/competition/country/' + locCountryName)
-            .then(response => response.json())
-            .then(response => {
-                compId = response.id;
-                footballTableStandingEl.addEventListener("load", updateFootball(compId));
-                footballTableStandingEl.addEventListener("load", setFootballStanding(compId));
-                footballTableStandingEl.addEventListener("load", setConstructorLinks());
-                footballTableStandingEl.addEventListener("load", setFootballFixtures(compId));
+        //Get User Country
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': currentLoc }, function (results, status) {
+            var loc = results[0].address_components;
+            var locItemCount = loc.length;
+            var locCountryName = loc[locItemCount-2].long_name;
+            if(locCountryName == "United Kingdom"){
+                locCountryName = loc[locItemCount-3].long_name;
+            }
+            console.log(locCountryName);
+            fetch('https://mi-linux.wlv.ac.uk/~2042387/6cs028/ci-mySports/public/football/competition/country/' + locCountryName)
+                .then(response => response.json())
+                .then(response => {
+                    compId = response.id;
+                    footballTableStandingEl.addEventListener("load", updateFootball(compId));
+                    footballTableStandingEl.addEventListener("load", setFootballStanding(compId));
+                    footballTableStandingEl.addEventListener("load", setConstructorLinks());
+                    footballTableStandingEl.addEventListener("load", setFootballFixtures(compId));
 
-            })
-            .catch(err => {
+                })
+                .catch(err => {
+            });
         });
+        }catch(error){
+            onNavigatorFailed();
+        }
 
 
-});
         
 }
 

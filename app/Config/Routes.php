@@ -54,6 +54,7 @@
     $routes->match(['get', 'post'],'/login', 'User::login');
     $routes->match(['get', 'post'], '/signUp', 'User::signUp');
     $routes->match(['get', 'post'], '/account', 'User::index');
+    $routes->get('/account/delete', 'User::delete');
     $routes->get('/logout', 'User::logout');
 
     //F1

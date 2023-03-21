@@ -38,7 +38,7 @@
     
     <div class="container-fluid" id="driversSection" >
         
-        <div class="row text-center row-cols-1 row-cols-md-4 g-4 pb-5">
+        <div class="row text-center row-cols-1 row-cols-md-4 g-4 pb-5 justify-content-around">
             
             <div class="col-md-4" style="width: 20rem;">
                 <div class="card text-bg-dark border-light" style="width: 20rem;">

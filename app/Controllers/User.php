@@ -67,13 +67,15 @@ class User extends BaseController
         $session = session();
 
         $header['title']='Login';      
-        $header['user']= null;      
+        $header['user']= null;
+        
+        $data['error'] = null;
 
         // Checks whether the form is submitted.
         if (!$this->request->is('post')) {
             // The form is not submitted, so returns the form.
             return view('templates/header', $header)
-                . view('user/login')
+                . view('user/login', $data)
                 . view('templates/footer');
         }
 
@@ -84,20 +86,25 @@ class User extends BaseController
         $model = model(UserModel::class);
         //Check if the userName is present in the database
         $user = $model->getUser($userInput['username']);
-        
-        print_r($user);
+
         if(!empty($user)){
             if($this->encryptPassword($userInput) == $user['password']){
                 //log in
                 
                 $session->set('user',$user);
                 return redirect('/');
+            }else{
+                // invalid password
+                $data['error'] = "Invalid Password";
             }
             
+        }else{
+            // User does not exist 
+            $data['error'] = "User does not exist";
         }
 
         return view('templates/header', $header)
-                . view('user/login')
+                . view('user/login', $data)
                 . view('templates/footer');
     }
 
@@ -126,6 +133,8 @@ class User extends BaseController
         $isValid = True;
 
         $model = model(UserModel::class);
+        $footballModel = model(FootballTeamModel::class);
+        $f1Model = model(F1Model::class);
 
 
         //Check if all fields are compiled
@@ -133,19 +142,19 @@ class User extends BaseController
             $isValid = False;
             $data['error'] =  "NULL:\n";
             if( $user['f1_team'] == null ){
-                $data['error'] =  $data['error']." F1 Team is null\n";
+                $data['error'] =  $data['error']." |F1 Team is null| ";
             }
             if( $user['football_team'] == null ){
-                $data['error'] = $data['error']. " Football Team is null\n";
+                $data['error'] = $data['error']. " |Football Team is null| ";
             }
             if( $user['username'] == null ){
-                $data['error'] = $data['error']. " username is null\n";
+                $data['error'] = $data['error']. " |Username is null| ";
             }
             if( $user['email'] == null ){
-                $data['error'] = $data['error']. " Email is null\n";
+                $data['error'] = $data['error']. " |Email is null| ";
             }
             if( $user['password'] == null ){
-                $data['error'] = $data['error']. " password is null\n";
+                $data['error'] = $data['error']. " |Password is null| ";
             }
 
         }else if($user['password'] != $user['password1']){
@@ -153,16 +162,29 @@ class User extends BaseController
             $isValid = False;
             $data['error']=  'Password does not match';
         }
+
+        
+        $footballTeam = $footballModel->getTeam($user['football_team']);
+        $f1Team = $f1Model->getTeam($user['f1_team'] );
+        if(sizeOf($footballTeam) == 0){
+            $isValid = False;
+            $data['error']=  "|Invalid Football Team!| ";
+
+            if(sizeOf($f1Team) == 0 ){
+                $isValid = False;
+                $data['error']= $data['error']. "|Invalid F1 Team!| ";
+            }
+        }
         
         //Check if the userName is present in the database
         if($model->getUser($user['username']) != null){
             $isValid = False;
-            $data['error']=  'User exists!';
+            $data['error']=  ' |User exists!| ';
         }
 
         if($model->checkEmail($user['email']) > 0){
             $isValid = False;
-            $data['error']=  'Email exists!';
+            $data['error']=  ' |Email exists!| ';
             return view('templates/header', $header)
                 . view('user/signup', $data)
                 . view('templates/footer');
@@ -199,4 +221,18 @@ class User extends BaseController
         $pass = crypt($user['password'], $salt);
         return $pass;
     }
+
+    public function delete(){
+        $session = session();
+        $header['user']=$session->get('user');
+
+        $userModel = model(UserModel::class);
+
+        $userModel->deleteUser($header['user']['username']);
+
+        return redirect('logout');
+
+    }
+
+
 }

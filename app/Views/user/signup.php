@@ -4,12 +4,7 @@
 
 <div class="container mx-auto" style="max-width: 800px">
 
-    <?php if($error != null):?>
-        <div class="error">
-            ERROR: <?=$error?>
-        </div>
     
-    <?php endif ?>
     <div class="card my-4 bg-dark text-white">  
 
         <div class="card-header">
@@ -17,6 +12,12 @@
         </div>
 
         <div class="card-body">
+        <?php if($error != null):?>
+            <div class="error text-danger">
+                ERROR: <?=$error?>
+            </div>
+        
+        <?php endif ?>
 
         <form class="row g-3 " action="<?= base_url('/signUp')?>" method="post">
             <?= csrf_field() ?>

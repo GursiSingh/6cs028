@@ -9,12 +9,18 @@
         </div>
 
         <div class="card-body ">
-            <form class="row g-3" action="<?= base_url('/login')?>" method="post">
+            <?php if($error != null):?>
+                <div class="error text-danger">
+                    ERROR: <?=$error?>
+                </div>
+            
+            <?php endif ?>
+            <form class="row g-3 needs-validation" action="<?= base_url('/login')?>" method="post">
                 <?= csrf_field() ?>
                 <div class="input-group has-validation pb-2 text-bg-dark">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="floatingInputGroup2" placeholder="Username" name="username" value="<?= set_value('username')?>" required>
-                        <label class="text-dark" for="floatingInputGroup2">Username</label>
+                        <input type="text" class="form-control" id="loginUsername" placeholder="Username" name="username" value="<?= set_value('username')?>" required>
+                        <label class="text-dark" for="loginUsername">Username</label>
                     </div>
                     <div class="invalid-feedback">
                         Invalid username.
@@ -22,8 +28,8 @@
                 </div>
                 <div class="input-group has-validation pb-2">
                     <div class="form-floating">
-                        <input type="password" class="form-control" id="floatingInputGroup2" placeholder="Password" name="password" value="<?= set_value('password')?>"required>
-                        <label class="text-dark" for="floatingInputGroup2">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" placeholder="Password" name="password" value="<?= set_value('password')?>"required>
+                        <label class="text-dark" for="loginPassword">Password</label>
                     </div>
                     <div class="invalid-feedback">
                         Invalid password.

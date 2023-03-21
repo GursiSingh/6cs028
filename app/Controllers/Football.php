@@ -17,7 +17,7 @@
             $fixtureModel = model(FootballFixtureModel::class);
             
             if(!empty($header['user'])){
-                $team = $teamModel->getTeam($header['user']['football_team']);
+                $team = $teamModel->getTeam($header['user']['football_team'])[0];
                 $competition = $competitionModel->getCompetition($team['league_competition'])[0];
                 $data['competitionId']= $competition['id'];
             }else{

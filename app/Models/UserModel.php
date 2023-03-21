@@ -49,6 +49,7 @@ class UserModel extends Model
         return $this->set(['f1_team' => $team])
                 ->where('username', $username)->update();
     }
+
     
 }
 

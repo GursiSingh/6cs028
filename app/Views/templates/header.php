@@ -18,9 +18,7 @@
 
         <!-- JQUERY -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-        <!-- Google Maps -->
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaPNhMdEHw8BklQYjECBPYW6kqT2eQFU8"></script>   
+ 
 
         <!-- SET GLOBAL BASE URL -->
         <script>var base_url = '<?php echo base_url() ?>';</script>

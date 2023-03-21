@@ -69,7 +69,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Player" id="searchPlayer" onkeyup="searchPlayerInTeam(<?=$team['id']?>)"style="max-width: 7rem;font-size: 0.9rem;">
                     <select class="form-select" aria-label="Default select example" id="filterPlayer" style="max-width: 6rem; font-size: 0.8rem;">
-                        <option selected>Filter</option>
+                        <option selected>Sort</option>
                         <option value="name">Name</option>
                         <option value="number">Number</option>
                         <option value="position">Position</option>
