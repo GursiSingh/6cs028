@@ -18,20 +18,14 @@
 
         <!-- JQUERY -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
- 
-
         <!-- SET GLOBAL BASE URL -->
         <script>var base_url = '<?php echo base_url() ?>';</script>
 
         <!-- Bootrap Icons -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+        <link defer rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
-        
         <!-- CSS -->
-        <link rel="stylesheet" href="<?= base_url('/css/mystyles.css');?>" />      
-
-        <!--GOOGLE FONTS-->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link rel="stylesheet" href="<?= base_url('/css/mystyles.css');?>" />
 
         <!--Page Title-->
         <title><?= esc($title) ?></title>

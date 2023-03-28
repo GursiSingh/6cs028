@@ -105,7 +105,7 @@
 
                                     <tr class="table-item f1 clickable" id="<?=$f1Team['id']?>">
                                         <th scope="row"><?=$counter?></th>
-                                        <td class="left"><img class="table-logo" src="<?=$f1Team['logo']?>"><?=$f1Team['name']?></td>
+                                        <td class="left"><img class="table-logo" loading="lazy" src="<?=$f1Team['logo']?>"><?=$f1Team['name']?></td>
                                         <td><?=$f1Team['points']?></td>
                                     </tr>
                                     <?php $counter++;?>
@@ -133,14 +133,14 @@
                                     <tr class="table-item clickable " id="<?=$f1Driver['id']?>" >
                                         <th scope="row"><?=$counter?></th>
                                         <td class="d-flex left">
-                                            <img class="table-logo" src="<?=$f1Driver['image']?>">
+                                            <img class="table-logo" loading="lazy" src="<?=$f1Driver['image']?>">
                                             <div class="full-text"><?=$f1Driver['name']?></div>
                                             <div class="abbr-text"><?=$f1Driver['abbr']?></div>
                                         </td>
                                         <td>
                                             <div class="full-text"><?=$f1Driver['teamName']?></div>
                                             <div class="abbr-text">
-                                                <img class="table-logo" src="<?=$f1Driver['teamLogo']?>" title="<?=$f1Driver['teamName']?>" alt="<?=$f1Driver['teamName']?>"/>
+                                                <img class="table-logo" loading="lazy" src="<?=$f1Driver['teamLogo']?>" title="<?=$f1Driver['teamName']?>" alt="<?=$f1Driver['teamName']?>"/>
                                             </div>
                                         </td>
                                         <td><?=$f1Driver['points']?></td>

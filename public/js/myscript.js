@@ -63,6 +63,8 @@ function onNavigatorFailed(){
     footballTableStandingEl.addEventListener("load", setFootballFixtures(compId));
 }
 
+
+
 //Get User locatioin to display the correct competition
 function setCompetitionNyUserCountry(){
     if (!navigator.geolocation) {
@@ -78,7 +80,6 @@ function setCompetitionNyUserCountry(){
         navigator.geolocation.getCurrentPosition(setCompetition,onNavigatorFailed);
     }
 }
-
 
 
 if (footballTableStandingEl) {
@@ -99,6 +100,25 @@ if (footballTableStandingEl) {
 if(constructorHeaderEl){
     constructorHeaderEl.addEventListener("click", showConstructorsSection);
     driverHeaderEl.addEventListener("click", showDriversSection);
+}
+
+// Login Element
+const  showPassEl = document.getElementById("showPassword");
+
+if(showPassEl){
+    console.log("PASS");
+    showPassEl.addEventListener("click", showPassword);
+}
+// Show-Hide Password
+function showPassword(){
+    const loginPasswordEl = document.getElementById("loginPassword");
+    if(loginPasswordEl.type === "password"){
+        loginPasswordEl.type = "text";
+    }else {
+
+        loginPasswordEl.type = "password";
+    }
+
 }
 
 //Update the details of the competition
@@ -143,7 +163,7 @@ function getSearchDataF1(inputEl) {
                     f1TeamList.innerHTML +=
                         `
                 <div class="dropList-item f1" value="`+ response[i].id + `" name="` + response[i].name + `">
-                    <img src="`+ response[i].logo + `"/>` + response[i].name + `
+                    <img src="`+ response[i].logo + `" loading="lazy"/>` + response[i].name + `
                 </div>
                 `;
                 }
@@ -193,7 +213,7 @@ function getSearchDataFootball(inputEl) {
                     footballTeamList.innerHTML +=
                         `
                 <div class="dropList-item football" value="`+ response[i].id + `" name="` + response[i].name + `">
-                    <img src="`+ response[i].logo + `"/>` + response[i].name + `
+                    <img src="`+ response[i].logo + `" loading="lazy"/>` + response[i].name + `
                 </div>
                 `;
                 }
@@ -388,11 +408,11 @@ function setFootballFixtures(competitionId, round = null) {
                             <td style="text-align: right">
                                 <p class="full-text">` + response[i].homeName + `</p>
                                 <p class="abbr-text" style="font-size: 0.8rem">` + response[i].homeCode + `</p>
-                                <img class="table-logo" src="`+ response[i].homeLogo + `" style=";margin-right:0px; margin-left: 2px;">
+                                <img class="table-logo" src="`+ response[i].homeLogo + `" loading="lazy" style=";margin-right:0px; margin-left: 2px;">
                             </td>
                             <td class="text-center">`+ goalHome + ` - ` + goalAway + `</td>
                             <td style="text-align: left">
-                                <img class="table-logo" src="`+ response[i].awayLogo + `" style=";margin-left:0px; margin-right: 2px;">
+                                <img class="table-logo" src="`+ response[i].awayLogo + `" loading="lazy" style=";margin-left:0px; margin-right: 2px;">
                                 <p class="full-text">` + response[i].awayName + `</p>
                                 <p class="abbr-text" style="font-size: 0.8rem">` + response[i].awayCode + `</p>
                             </td>
@@ -499,11 +519,11 @@ function setFootballFixtures(competitionId, round = null) {
                             <td style="text-align: right">
                                 <p class="full-text">` + response[i].homeName + `</p>
                                 <p class="abbr-text" style="font-size: 0.8rem">` + response[i].homeCode + `</p>
-                                <img class="table-logo" src="`+ response[i].homeLogo + `" style=";margin-right:0px; margin-left: 2px;">
+                                <img class="table-logo" src="`+ response[i].homeLogo + `" loading="lazy" style=";margin-right:0px; margin-left: 2px;">
                             </td>
                             <td class="text-center">`+ goalHome + ` - ` + goalAway + `</td>
                             <td style="text-align: left">
-                                <img class="table-logo" src="`+ response[i].awayLogo + `" style=";margin-left:0px; margin-right: 2px;">
+                                <img class="table-logo" src="`+ response[i].awayLogo + `" loading="lazy" style=";margin-left:0px; margin-right: 2px;">
                                 <p class="full-text">` + response[i].awayName + `</p>
                                 <p class="abbr-text" style="font-size: 0.8rem">` + response[i].awayCode + `</p>
                             </td>
